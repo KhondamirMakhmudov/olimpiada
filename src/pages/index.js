@@ -1,114 +1,80 @@
+import Brand from "@/components/brand";
+import SynchronizedAreaChart from "@/components/charts/area-chart";
+import PieChartComponent from "@/components/charts/pie-chart";
+import Dashboard from "@/components/dashboard";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <Dashboard>
+      <div
+        className={
+          "bg-[#EBF3FE] p-[30px] my-[30px] rounded-[12px]  relative h-[200px] "
+        }
+      >
+        <div className={"space-y-[60px]"}>
+          <div className={"flex gap-x-[12px] items-center"}>
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={"/images/user-welcome.png"}
+              alt={"welcome"}
+              width={40}
+              height={40}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+            <p className={"text-[18px] font-semibold"}>Welcome back Natalia!</p>
+          </div>
+
+          <button
+            className={
+              " py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
+            }
           >
-            Read our docs
-          </a>
+            Telegram bot orqali ro&apos;yhatdan o&apos;ting
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+
+        <div className={"absolute right-0 bottom-0"}>
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src={"/icons/welcome-bg.svg"}
+            alt={"welcome"}
+            width={326}
+            height={96}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-[30px]">
+        <div className={"col-span-3 shadow-lg rounded-[12px] p-[30px]"}>
+          <div>
+            <h1 className={"text-lg font-semibold"}>Savollar</h1>
+          </div>
+          <PieChartComponent />
+
+          <div className={"flex items-end gap-x-[12px]"}>
+            <div className={"bg-[#ECF2FF] p-[10px] rounded-[8px] inline-block"}>
+              <Image
+                src={"/icons/grid.svg"}
+                alt={"grid"}
+                width={24}
+                height={24}
+              />
+            </div>
+
+            <div>
+              <h4 className={"text-[21px] text-[#2A3547] font-semibold"}>
+                $63,489.50
+              </h4>
+              <p className={"text-sm text-[#7C8FAC]"}>Total Earnings</p>
+            </div>
+          </div>
+        </div>
+
+        <div className={"col-span-9"}>
+          <div className={"shadow-lg p-[30px] text-sm rounded-[12px]"}>
+            <SynchronizedAreaChart />
+          </div>
+        </div>
+      </div>
+    </Dashboard>
   );
 }

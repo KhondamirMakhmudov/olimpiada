@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,5 +19,50 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.custom-phone-input {
+  border: 2px solid #5d87ff; /* Example border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Add some padding */
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input {
+  display: none;
+}
+
+/* Create a custom checkbox */
+.custom-checkbox .checkmark {
+  width: 25px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+}
+
+/* Style the checkmark when the checkbox is checked */
+.custom-checkbox input:checked + .checkmark {
+  background-color: #5d87ff;
+}
+
+.custom-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  top: 4px;
+  left: 8px;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* Show the checkmark when the checkbox is checked */
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
 }
