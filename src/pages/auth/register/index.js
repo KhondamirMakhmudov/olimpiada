@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Brand from "@/components/Brand";
+import Brand from "@/components/brand";
 
 import { useState } from "react";
 import usePostQuery from "@/hooks/api/usePostQuery";
