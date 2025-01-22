@@ -14,15 +14,13 @@ export default function App({
 }) {
   const [queryClient] = useState(() => reactQueryClient);
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps?.dehydratedState}>
-          <Component {...pageProps} />
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps?.dehydratedState}>
+        <Component {...pageProps} />
 
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Toaster />
-        </Hydrate>
-      </QueryClientProvider>
-    </SessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
+      </Hydrate>
+    </QueryClientProvider>
   );
 }

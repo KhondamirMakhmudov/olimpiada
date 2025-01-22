@@ -4,11 +4,51 @@ import Link from "next/link";
 import { useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
+import { useForm } from "react-hook-form";
+import usePostQuery from "@/hooks/api/usePostQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Login = () => {
+  const router = useRouter();
   const [tab, setTab] = useState("login");
   const [phone, setPhone] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate: loginRequest, isLoading } = usePostQuery({
+    listKeyId: KEYS.login,
+  });
+
+  const onSubmit = ({ phone, password }) => {
+    let formData = new FormData();
+    const formattedPhone = phone.replace(/[^0-9]/g, "");
+    formData.append("phone", formattedPhone);
+    formData.append("password", password);
+    loginRequest(
+      {
+        url: URLS.login,
+        attributes: formData,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          toast.success("Logged in successfully");
+          router.push("/");
+        },
+        onError: (error) => {
+          console.log(error);
+          toast.error("Error logging in");
+        },
+      }
+    );
+  };
 
   const handleTab = (tab) => {
     setTab(tab);
@@ -17,6 +57,7 @@ const Login = () => {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+
   return (
     <div>
       <div
@@ -35,18 +76,24 @@ const Login = () => {
           <div className="w-full">
             <div className="flex">
               <button
-                onClick={() => handleTab("login")}
+                onClick={() => {
+                  handleTab("login");
+                  router.push("/auth/login");
+                }}
                 className={`py-[8px] px-[16px]  w-1/3  ${
                   tab === "login"
                     ? "bg-[#5D87FF] text-white"
                     : "text-[#5A6A85] bg-transparent"
-                } rounded-[4px] active:scale-90 scale-100 transition-all duration-300`}
+                } rounded-[4px] text-lg active:scale-90 scale-100 transition-all duration-300`}
               >
                 Kirish
               </button>
 
               <button
-                onClick={() => handleTab("register")}
+                onClick={() => {
+                  handleTab("register");
+                  router.push("/auth/register");
+                }}
                 className={`py-[8px] px-[16px]  w-2/3  ${
                   tab === "register"
                     ? "bg-[#5D87FF] text-white"
@@ -58,7 +105,10 @@ const Login = () => {
             </div>
 
             <div className="w-full mt-[30px]">
-              <form className="space-y-[20px] border p-[16px] rounded-[4px]">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-[20px] border p-[16px] rounded-[4px]"
+              >
                 <div>
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
                     Telefon raqam
@@ -66,6 +116,7 @@ const Login = () => {
                   <PhoneInput
                     defaultCountry="uz"
                     value={phone}
+                    {...register("phone", { required: true })}
                     onChange={(phone) => setPhone(phone)}
                   />
                 </div>
@@ -77,12 +128,13 @@ const Login = () => {
 
                   <input
                     type="password"
+                    {...register("password", { required: true })}
                     className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
                   />
                 </div>
 
                 <div className="mt-[20px] flex justify-between">
-                  <label class="custom-checkbox flex gap-x-[10px] items-center">
+                  <label className="custom-checkbox flex gap-x-[10px] items-center">
                     <input
                       type="checkbox"
                       checked={isChecked}
