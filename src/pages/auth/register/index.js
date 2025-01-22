@@ -37,8 +37,23 @@ const Register = () => {
 
   const options = ["Litsey", "Maktab"];
 
-  const handleOpenCourseSelect = (option) => {
-    setSelectedOptionCourse(option);
+  const optionsCourse = [
+    { id: 1, name: "1-kurs" },
+    { id: 2, name: "2-kurs" },
+    { id: 3, name: "3-kurs" },
+    { id: 4, name: "10-sinf" },
+    { id: 5, name: "11-sinf" },
+  ];
+
+  const filteredCourses =
+    selectedOption === "Litsey"
+      ? optionsCourse.slice(0, 3) // First three objects
+      : selectedOption === "Maktab"
+      ? optionsCourse.slice(3, 5) // Last two objects
+      : [];
+
+  const handleCourseSelect = (course) => {
+    setSelectedOptionCourse(course.name);
     setDropdownOpenCourse(false);
   };
 
@@ -107,7 +122,7 @@ const Register = () => {
     formData.append("address", address);
     formData.append("brithday", brithday);
     formData.append("academy_or_school", selectedOption);
-    formData.append("class_name", class_name);
+    formData.append("class_name", selectedOptionCourse);
 
     registerRequest(
       {
@@ -118,7 +133,7 @@ const Register = () => {
         onSuccess: (data) => {
           console.log(data);
           toast.success("Logged in successfully");
-          router.push("/");
+          router.push("/recieve-code");
         },
         onError: (error) => {
           console.log(error);
@@ -131,10 +146,10 @@ const Register = () => {
   return (
     <div>
       <div
-        className={" min-h-screen bg-center bg-cover"}
+        className={" min-h-screen bg-center bg-cover bg-no-repeat"}
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
-        <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
+        <div className="w-[436px] h-screen bg-white mx-auto rounded-[8px] p-[30px] ">
           <div className="translate-x-1/4 mb-[30px]">
             <Brand />
           </div>
@@ -347,7 +362,7 @@ const Register = () => {
                   onClick={() => setDropdownOpenCourse((prev) => !prev)}
                   className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
                 >
-                  <span>{selectedOption}</span>
+                  <span>{selectedOptionCourse}</span>
                   <svg
                     className={`w-5 h-5 transform ${
                       dropdownOpenCourse ? "rotate-180" : ""
@@ -369,13 +384,13 @@ const Register = () => {
                 {/* Dropdown options */}
                 {dropdownOpenCourse && (
                   <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
-                    {options.map((option, index) => (
+                    {filteredCourses.map((option, index) => (
                       <li
                         key={index}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleOpenCourseSelect(option)}
+                        onClick={() => handleCourseSelect(option)}
                       >
-                        {option}
+                        {option.name}
                       </li>
                     ))}
                   </ul>
