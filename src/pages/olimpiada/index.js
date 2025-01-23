@@ -36,7 +36,7 @@ const Index = () => {
                   height={90}
                 />
 
-                <p className="text-xl font-semibold mt-[30px]">
+                <p className="text-xl font-semibold dark:text-white text-black mt-[30px]">
                   {get(item, "name", "")}
                 </p>
               </div>
@@ -46,7 +46,7 @@ const Index = () => {
                   <div className="w-[10px] h-[10px] rounded-full bg-[#539BFF]"></div>
                   <div>
                     <h3 className="text-[#868EAB] text-sm">Bajarish vaqti</h3>
-                    <p className="font-semibold text-lg ">
+                    <p className="font-semibold text-lg dark:text-white text-black ">
                       {get(item, "duration_in_minutes", "")} minut
                     </p>
                   </div>
@@ -55,10 +55,10 @@ const Index = () => {
                 <div className="col-span-1 flex items-baseline gap-x-[12px]">
                   <div className="w-[10px] h-[10px] rounded-full bg-[#12DEB9]"></div>
                   <div>
-                    <h3 className="text-[#868EAB] text-sm">
+                    <h3 className="text-[#868EAB] text-sm ">
                       Boshlangan sanasi
                     </h3>
-                    <p className="font-semibold text-lg ">
+                    <p className="font-semibold text-lg dark:text-white text-black">
                       {dayjs(get(item, "start_date", "")).format("DD.MM.YYYY")}{" "}
                     </p>
                   </div>
@@ -70,7 +70,7 @@ const Index = () => {
                     <h3 className="text-[#868EAB] text-sm">
                       Tugaydigan sanasi
                     </h3>
-                    <p className="font-semibold text-lg ">
+                    <p className="font-semibold text-lg dark:text-white text-black">
                       {dayjs(get(item, "end_date", "")).format("DD.MM.YYYY")}{" "}
                     </p>
                   </div>
