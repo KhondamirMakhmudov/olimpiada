@@ -15,10 +15,8 @@ const DashboardNav = ({ children }) => {
     setTab(tab);
   };
   return (
-    <div
-      className={`p-[30px] border-b  border-b-[#EAEFF4] dark:border-b-[#2A3447FF]`}
-    >
-      <SidebarTitle>DASHBOARDS</SidebarTitle>
+    <div className={`p-[30px]`}>
+      <SidebarTitle>Boshqaruv paneli</SidebarTitle>
       <ul className={"mt-[12px]"}>
         <li
           onClick={() => {

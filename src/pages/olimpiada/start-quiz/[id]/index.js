@@ -37,7 +37,7 @@ const Index = () => {
     // Prepare the payload
     const answers = Object.entries(selectedAnswers).map(
       ([questionIndex, answer]) => ({
-        quiz_id: parseInt(questionIndex) + 1, // Assuming questionIndex starts at 0
+        quiz_id: parseInt(questionIndex), // Assuming questionIndex starts at 0
         answer,
       })
     );
@@ -51,18 +51,28 @@ const Index = () => {
     setIsSubmitting(true);
 
     // Send the post request
-    submitAnswers({
-      url: URLS.submitAnswers,
-      attributes: payload,
-      onSuccess: () => {
-        setIsSubmitting(false);
-        console.log("Answers submitted successfully!");
+    submitAnswers(
+      {
+        url: URLS.submitAnswers,
+        attributes: payload,
+        config: {
+          headers: {
+            Authorization: `Bearer ${storage.get("authToken")}`,
+          },
+        },
       },
-      onError: (error) => {
-        setIsSubmitting(false);
-        console.error("Error submitting answers:", error);
-      },
-    });
+      {
+        onSuccess: () => {
+          setIsSubmitting(false);
+          router.push("/results");
+          console.log("Answers submitted successfully!");
+        },
+        onError: (error) => {
+          setIsSubmitting(false);
+          console.error("Error submitting answers:", error);
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -107,12 +117,12 @@ const Index = () => {
                       <li
                         key={option}
                         className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
-                          selectedAnswers[index] === option
+                          selectedAnswers[get(item, "id")] === option
                             ? "bg-blue-500 text-white"
                             : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                         }
 `}
-                        onClick={() => handleAnswer(index, option)}
+                        onClick={() => handleAnswer(get(item, "id"), option)}
                       >
                         <div>{parse(get(item, option, ""))}</div>
                       </li>

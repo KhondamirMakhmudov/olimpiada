@@ -49,7 +49,7 @@ const Index = () => {
       </div>
 
       <div className="my-[30px]  grid grid-cols-12 gap-x-[30px]">
-        <div className="col-span-9 bg-[#EBF3FE] dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
+        <div className="col-span-9 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
           <div className="flex justify-between items-center p-[30px]">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
               tafsilotlar

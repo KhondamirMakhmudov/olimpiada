@@ -1,7 +1,7 @@
 import Dashboard from "@/components/dashboard";
 
 const Index = () => {
-  return <Dashboard>hello</Dashboard>;
+  return <Dashboard></Dashboard>;
 };
 
 export default Index;
