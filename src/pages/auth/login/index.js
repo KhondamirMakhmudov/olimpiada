@@ -10,6 +10,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const Login = () => {
 
   const onSubmit = ({ phone, password }) => {
     let formData = new FormData();
-    const formattedPhone = phone.replace(/[^0-9]/g, "");
+    const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
     formData.append("phone", formattedPhone);
     formData.append("password", password);
     loginRequest(
@@ -115,12 +116,29 @@ const Login = () => {
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
                     Telefon raqam
                   </p>
-                  <PhoneInput
+
+                  <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
+                    <Image
+                      src={"/icons/uzb-flag.svg"}
+                      alt="flag"
+                      width={30}
+                      height={30}
+                    />
+
+                    <div className="w-[1px] h-[40px] bg-[#EAEFF4]  "></div>
+                    <span className="text-gray-700 text-sm">+998</span>
+                    <input
+                      type="tel"
+                      {...register("phone", { required: true })}
+                      className="  w-full text-sm py-[9px] pl-[5px]"
+                    />
+                  </div>
+                  {/* <PhoneInput
                     defaultCountry="uz"
                     value={phone}
                     {...register("phone", { required: true })}
                     onChange={(phone) => setPhone(phone)}
-                  />
+                  /> */}
                 </div>
 
                 <div className="">

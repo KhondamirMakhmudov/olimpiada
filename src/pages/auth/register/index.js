@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Brand from "@/components/brand";
-
+import Image from "next/image";
 import { useState } from "react";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import toast from "react-hot-toast";
@@ -103,16 +103,9 @@ const Register = () => {
     listKeyId: KEYS.register,
   });
 
-  const onSubmit = ({
-    full_name,
-    email,
-    phone,
-    address,
-    brithday,
-    class_name,
-  }) => {
+  const onSubmit = ({ full_name, email, phone, address, brithday }) => {
     let formData = new FormData();
-    const formattedPhone = phone.replace(/[^0-9]/g, "");
+    const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
 
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -133,7 +126,7 @@ const Register = () => {
         onSuccess: (data) => {
           console.log(data);
           toast.success("Logged in successfully");
-          router.push("/recieve-code");
+          router.push("/auth/recieve-code");
         },
         onError: (error) => {
           console.log(error);
@@ -144,12 +137,12 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <div
-        className={" min-h-screen bg-center bg-cover bg-no-repeat"}
+        className={"  bg-center bg-cover bg-no-repeat"}
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
-        <div className="w-[436px] h-screen bg-white mx-auto rounded-[8px] p-[30px] ">
+        <div className="w-[436px] min-h-screen bg-white mx-auto rounded-[8px] p-[30px] ">
           <div className="translate-x-1/4 mb-[30px]">
             <Brand />
           </div>
@@ -215,15 +208,32 @@ const Register = () => {
               </div>
               {/* Telefon raqam */}
               <div>
-                <p className="mb-[8px] text-lg text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
                   Telefon raqam
                 </p>
-                <PhoneInput
-                  defaultCountry="uz"
-                  value={phone}
-                  {...register("phone", { required: true })}
-                  onChange={(phone) => setPhone(phone)}
-                />
+
+                <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
+                  <Image
+                    src={"/icons/uzb-flag.svg"}
+                    alt="flag"
+                    width={30}
+                    height={30}
+                  />
+
+                  <div className="w-[1px] h-[40px] bg-[#EAEFF4]  "></div>
+                  <span className="text-gray-700 text-sm">+998</span>
+                  <input
+                    type="tel"
+                    {...register("phone", { required: true })}
+                    className="  w-full text-sm py-[9px] pl-[5px]"
+                  />
+                </div>
+                {/* <PhoneInput
+                    defaultCountry="uz"
+                    value={phone}
+                    {...register("phone", { required: true })}
+                    onChange={(phone) => setPhone(phone)}
+                  /> */}
               </div>
               {/* Birthday */}
               <div className="">
@@ -245,12 +255,28 @@ const Register = () => {
                   </p>
                   <div
                     onClick={() => setRegionDropdownOpen((prev) => !prev)}
-                    className="w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white"
+                    className="w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white cursor-pointer flex justify-between items-center"
                   >
-                    {selectedRegionName}
+                    <p>{selectedRegionName}</p>
+                    <svg
+                      className={`w-5 h-5 transform duration-200 ${
+                        regionDropdownOpen ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
                   {regionDropdownOpen && (
-                    <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md">
+                    <div className="absolute z-50 -top-[370px] mt-1 w-full bg-white border h-[400px] overflow-y-scroll rounded-md shadow-md">
                       {regions.map((region) => (
                         <div
                           key={region.id}
@@ -270,12 +296,28 @@ const Register = () => {
                   </p>
                   <div
                     onClick={toggleDistrictDropdown}
-                    className={`w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white ${
+                    className={`w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
                       !filteredDistricts.length ? "cursor-not-allowed" : ""
                     }`}
                     disabled={!filteredDistricts.length}
                   >
-                    {selectedDistrictName}
+                    <p>{selectedDistrictName}</p>
+                    <svg
+                      className={`w-5 h-5 transform duration-200 ${
+                        districtDropdownOpen ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
                   {districtDropdownOpen && (
                     <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
@@ -383,7 +425,7 @@ const Register = () => {
 
                 {/* Dropdown options */}
                 {dropdownOpenCourse && (
-                  <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
+                  <ul className="absolute w-full -top-[90px] bg-white border border-gray-300 rounded-md shadow-md z-50">
                     {filteredCourses.map((option, index) => (
                       <li
                         key={index}

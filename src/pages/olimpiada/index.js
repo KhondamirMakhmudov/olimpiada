@@ -19,7 +19,7 @@ const Index = () => {
     <Dashboard>
       <div className="grid grid-cols-12 my-[30px]">
         {get(data, "data", []).map((item) => (
-          <div className="col-span-3 p-[30px] shadow-lg rounded-[8px]  ">
+          <div className="col-span-4 p-[30px] shadow-lg rounded-[8px]  ">
             <div>
               <div className="flex flex-col items-center justify-center">
                 <Image

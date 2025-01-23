@@ -7,7 +7,9 @@ const Dashboard = ({ children }) => {
   return (
     <div className={"grid grid-cols-12"}>
       <Sidebar>
-        <Brand />
+        <div className="p-[30px] border-b">
+          <Brand />
+        </div>
 
         <DashboardNav />
       </Sidebar>
