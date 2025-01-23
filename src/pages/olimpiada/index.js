@@ -23,9 +23,7 @@ const Index = () => {
         {get(data, "data", []).map((item) => (
           <div
             key={get(item, "id")}
-            className={`col-span-6 ${
-              theme === "light" ? "bg-white" : "bg-[#26334AFF]"
-            } p-[30px] shadow-lg rounded-[8px]  `}
+            className={`col-span-6 bg-white dark:bg-[#26334AFF]  p-[30px] shadow-lg rounded-[8px]  `}
           >
             <div>
               <div className="flex flex-col items-center justify-center">

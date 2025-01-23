@@ -62,11 +62,7 @@ const Index = () => {
           <div className="col-span-8 space-y-[30px]">
             {get(data, "data", []).map((item, index) => (
               <div
-                className={`border p-[30px] shadow-md rounded-[8px] ${
-                  theme === "light"
-                    ? "bg-white border-[#EAEFF4]"
-                    : "bg-[#26334AFF] border-[#2A3447FF]"
-                }`}
+                className={`border p-[30px] shadow-md  rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
                 key={index}
               >
                 <div className="text-xl mb-[8px]">
@@ -79,13 +75,12 @@ const Index = () => {
                     {["A", "B", "C", "D"].map((option) => (
                       <li
                         key={option}
-                        className={`border cursor-pointer transform duration-200 p-[16px] rounded-md ${
+                        className={`border cursor-pointer transform duration-200 p-[16px] rounded-md bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF] ${
                           selectedAnswers[index] === option
                             ? "bg-blue-500 text-white"
-                            : theme === "light"
-                            ? "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6]"
-                            : "border-transparent bg-[#232f42] hover:bg-[#20335DFF]"
-                        }`}
+                            : ""
+                        }
+`}
                         onClick={() => handleAnswer(index, option)}
                       >
                         <div>{parse(get(item, option, ""))}</div>
@@ -98,7 +93,7 @@ const Index = () => {
           </div>
 
           <div
-            className={`col-span-4 rounded-md self-start h-[450px] p-[30px] ${
+            className={`col-span-4 rounded-md self-start h-[450px] p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] ${
               theme === "light"
                 ? "bg-white border-[#EAEFF4] border"
                 : "bg-[#26334AFF] border-[#2A3447FF] border"
