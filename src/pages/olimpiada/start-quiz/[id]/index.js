@@ -66,8 +66,10 @@ const Index = () => {
                 key={index}
               >
                 <div className="text-xl mb-[8px]">
-                  <p className="mb-[15px]">Savol {index + 1}:</p>
-                  <div className="text-xl font-semibold mt-[30px]">
+                  <p className="mb-[15px] dark:text-white text-black">
+                    Savol {index + 1}:
+                  </p>
+                  <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
                     {parse(get(item, "question", ""))}
                   </div>
                   {/* Quizzes */}
@@ -75,10 +77,10 @@ const Index = () => {
                     {["A", "B", "C", "D"].map((option) => (
                       <li
                         key={option}
-                        className={`border cursor-pointer transform duration-200 p-[16px] rounded-md bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF] ${
+                        className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
                           selectedAnswers[index] === option
                             ? "bg-blue-500 text-white"
-                            : ""
+                            : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                         }
 `}
                         onClick={() => handleAnswer(index, option)}
@@ -93,11 +95,7 @@ const Index = () => {
           </div>
 
           <div
-            className={`col-span-4 rounded-md self-start h-[450px] p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] ${
-              theme === "light"
-                ? "bg-white border-[#EAEFF4] border"
-                : "bg-[#26334AFF] border-[#2A3447FF] border"
-            }`}
+            className={`col-span-4 rounded-md self-start h-[450px] p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
           >
             <div className="flex items-center flex-col justify-center mt-[30px]">
               <div className="relative">
@@ -111,7 +109,7 @@ const Index = () => {
                   })}
                   className="w-[200px] h-[200px] text-center"
                 />
-                <p className="absolute top-[90px] right-0 left-[75px] text-xl">{`${String(
+                <p className="absolute top-[90px] right-0 left-[75px] text-xl dark:text-white text-black">{`${String(
                   Math.floor((timeLeft % 3600) / 60)
                 ).padStart(2, "0")}:${String(timeLeft % 60).padStart(
                   2,
