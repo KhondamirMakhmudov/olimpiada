@@ -17,7 +17,7 @@ const Index = () => {
   return (
     <Dashboard>
       <div className="my-[30px] space-y-[30px]">
-        {get(data, "data", []).map((item, index) => (
+        {get(data, "data", []).map(({ item, index }) => (
           <div className="border p-[30px] shadow-md rounded-[8px]" key={index}>
             <div className="text-xl mb-[8px]">
               <p className="mb-[15px]">Savol {index + 1}:</p>

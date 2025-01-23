@@ -22,7 +22,8 @@ const Index = () => {
       <div className="grid grid-cols-12 my-[30px]">
         {get(data, "data", []).map((item) => (
           <div
-            className={`col-span-4 ${
+            key={get(item, "id")}
+            className={`col-span-6 ${
               theme === "light" ? "bg-white" : "bg-[#26334AFF]"
             } p-[30px] shadow-lg rounded-[8px]  `}
           >
@@ -40,8 +41,8 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 my-[15px]">
-                <div className="col-span-1 flex items-baseline gap-x-[12px]">
+              <div className="grid grid-cols-3 place-items-center my-[15px]">
+                <div className="col-span-1  flex items-baseline gap-x-[12px]">
                   <div className="w-[10px] h-[10px] rounded-full bg-[#539BFF]"></div>
                   <div>
                     <h3 className="text-[#868EAB] text-sm">Bajarish vaqti</h3>

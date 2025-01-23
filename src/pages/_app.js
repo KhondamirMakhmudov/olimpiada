@@ -15,7 +15,7 @@ export default function App({
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps?.dehydratedState}>
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider defaultTheme="light">
           <Component {...pageProps} />
         </ThemeProvider>
 
