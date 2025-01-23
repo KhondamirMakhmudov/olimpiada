@@ -8,13 +8,15 @@ import { useRouter } from "next/router";
 import parse from "html-react-parser";
 import { useTheme } from "next-themes";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import usePostQuery from "@/hooks/api/usePostQuery";
+
 const Index = () => {
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = router.query;
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
-  const [selectedAnswers, setSelectedAnswers] = useState({}); // Store selected answers
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(3600);
   const { data, isLoading, isFetching } = useGetQuery({
@@ -22,6 +24,17 @@ const Index = () => {
     url: `${URLS.quizTest}/${id}`,
     enabled: !!id,
   });
+
+  const { mutate: submitAnswers } = usePostQuery({
+    listKeyId: KEYS.submitAnswers,
+  });
+
+  const onSubmit = () => {
+    submitAnswers({
+      url: URLS.submitAnswers,
+      attributes: {},
+    });
+  };
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -73,7 +86,7 @@ const Index = () => {
                             ? "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6]"
                             : "border-transparent bg-[#232f42] hover:bg-[#20335DFF]"
                         }`}
-                        onClick={() => handleAnswer(index, option)} // Mark question as answered
+                        onClick={() => handleAnswer(index, option)}
                       >
                         <div>{parse(get(item, option, ""))}</div>
                       </li>

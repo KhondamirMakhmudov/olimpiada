@@ -139,7 +139,7 @@ const Register = () => {
   return (
     <div className="">
       <div
-        className={"  bg-center bg-cover bg-no-repeat"}
+        className={"bg-center bg-cover bg-no-repeat"}
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
         <div className="w-[436px] min-h-screen bg-white mx-auto rounded-[8px] p-[30px] ">
@@ -184,7 +184,7 @@ const Register = () => {
             >
               {/* Ism */}
               <div className="">
-                <p className="mb-[8px] text-lg text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
                   F.I.SH
                 </p>
 
@@ -196,7 +196,7 @@ const Register = () => {
               </div>
               {/* Email */}
               <div className="">
-                <p className="mb-[8px] text-lg text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
                   Email
                 </p>
 
@@ -208,7 +208,7 @@ const Register = () => {
               </div>
               {/* Telefon raqam */}
               <div>
-                <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
                   Telefon raqam
                 </p>
 
@@ -224,6 +224,7 @@ const Register = () => {
                   <span className="text-gray-700 text-sm">+998</span>
                   <input
                     type="tel"
+                    maxlength="9"
                     {...register("phone", { required: true })}
                     className="  w-full text-sm py-[9px] pl-[5px]"
                   />
@@ -237,12 +238,14 @@ const Register = () => {
               </div>
               {/* Birthday */}
               <div className="">
-                <p className="mb-[8px] text-lg text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
                   Tug'ilgan kun
                 </p>
 
                 <input
                   type="date"
+                  max="2010-12-31"
+                  min="2005-12-31"
                   {...register("brithday", { required: true })}
                   className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
                 />
@@ -250,7 +253,7 @@ const Register = () => {
 
               <div className="space-y-4">
                 <div className="relative">
-                  <p className="mb-2 text-lg font-semibold text-gray-800">
+                  <p className="mb-2 text-base font-semibold text-gray-800">
                     Viloyat
                   </p>
                   <div

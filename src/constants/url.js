@@ -4,4 +4,5 @@ export const URLS = {
   studentProfile: "/student/profile/",
   olimpiadaQuizList: "quiz/sciences/list/",
   quizTest: "quiz/quizzes",
+  submitAnswers: "quiz/submit-quiz-result/",
 };

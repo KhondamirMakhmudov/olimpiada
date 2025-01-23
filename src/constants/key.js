@@ -4,4 +4,5 @@ export const KEYS = {
   studentProfile: "studentProfile",
   olimpiadaQuizList: "olimpiadaQuizList",
   quizTest: "quizTest",
+  submitAnswers: "submitAnswers",
 };

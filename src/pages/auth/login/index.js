@@ -112,7 +112,7 @@ const Login = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-[20px] border p-[16px] rounded-[4px]"
               >
-                <div>
+                <div className="bg-white">
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
                     Telefon raqam
                   </p>
@@ -129,8 +129,9 @@ const Login = () => {
                     <span className="text-gray-700 text-sm">+998</span>
                     <input
                       type="tel"
+                      maxlength="9"
                       {...register("phone", { required: true })}
-                      className="  w-full text-sm py-[9px] pl-[5px]"
+                      className="  w-full text-sm text-black py-[9px] pl-[5px]"
                     />
                   </div>
                   {/* <PhoneInput
@@ -141,7 +142,7 @@ const Login = () => {
                   /> */}
                 </div>
 
-                <div className="">
+                <div className="bg-white">
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
                     Parol
                   </p>
@@ -149,7 +150,7 @@ const Login = () => {
                   <input
                     type="password"
                     {...register("password", { required: true })}
-                    className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                    className="border border-[#EAEFF4] rounded-[8px] text-black  w-full px-[8px] py-[8px]"
                   />
                 </div>
 
