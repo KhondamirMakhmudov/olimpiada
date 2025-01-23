@@ -5,4 +5,5 @@ export const URLS = {
   olimpiadaQuizList: "quiz/sciences/list/",
   quizTest: "quiz/quizzes",
   submitAnswers: "quiz/submit-quiz-result/",
+  recieveCode: "/student/verify-sms/",
 };

@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import Brand from "@/components/brand";
+import usePostQuery from "@/hooks/api/usePostQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import storage from "@/services/storage";
+import { useRouter } from "next/router";
 const Index = () => {
+  const router = useRouter();
   const [code, setCode] = useState(new Array(5).fill(""));
-  const [timer, setTimer] = useState(60); // Countdown starts at 60 seconds
+  const [timer, setTimer] = useState(60);
 
   useEffect(() => {
     if (timer > 0) {
@@ -24,6 +30,27 @@ const Index = () => {
         document.getElementById(`input-${index + 1}`).focus();
       }
     }
+  };
+
+  const { mutate: recieveCode } = usePostQuery({
+    listKeyId: KEYS.recieveCode,
+  });
+  console.log(code);
+
+  const onSubmit = () => {
+    recieveCode({
+      url: URLS.recieveCode,
+      attributes: {
+        phone: storage.get("phone"),
+        sms_code: code.join(""),
+      },
+      onSuccess: (data) => {
+        router.push("/");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
   };
 
   const handleKeyDown = (e, index) => {
@@ -79,7 +106,7 @@ const Index = () => {
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
               </div>
               <button
-                onClick={handleSubmit}
+                onClick={onSubmit}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                 disabled={code.includes("") || timer === 0}
               >

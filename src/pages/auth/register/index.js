@@ -11,6 +11,7 @@ import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import RegionDistrictDropdown from "@/components/region-district";
 import { data } from "@/data/region";
+import storage from "@/services/storage";
 
 const Register = () => {
   const router = useRouter();
@@ -106,7 +107,7 @@ const Register = () => {
   const onSubmit = ({ full_name, email, phone, address, brithday }) => {
     let formData = new FormData();
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
-
+    storage.set("phone", formattedPhone);
     formData.append("full_name", full_name);
     formData.append("email", email);
     formData.append("phone", formattedPhone);
@@ -125,6 +126,7 @@ const Register = () => {
       {
         onSuccess: (data) => {
           console.log(data);
+
           toast.success("Logged in successfully");
           router.push("/auth/recieve-code");
         },
@@ -224,7 +226,7 @@ const Register = () => {
                   <span className="text-gray-700 text-sm">+998</span>
                   <input
                     type="tel"
-                    maxlength="9"
+                    maxLength="9"
                     {...register("phone", { required: true })}
                     className="  w-full text-sm py-[9px] pl-[5px]"
                   />

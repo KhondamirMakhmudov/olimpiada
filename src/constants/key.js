@@ -5,4 +5,5 @@ export const KEYS = {
   olimpiadaQuizList: "olimpiadaQuizList",
   quizTest: "quizTest",
   submitAnswers: "submitAnswers",
+  recieveCode: "recieveCode",
 };
