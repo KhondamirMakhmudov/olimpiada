@@ -11,8 +11,8 @@ export default function Home() {
     <Dashboard>
       <div
         className={`${
-          theme === "light" ? "bg-[#EBF3FE]" : "bg-[#26334AFF]"
-        } p-[30px] my-[30px] rounded-[12px]  relative h-[200px] `}
+          theme === "dark" ? "bg-[#26334AFF]" : "bg-[#EBF3FE]"
+        } p-[30px] my-[30px] rounded-[12px]   relative h-[200px] `}
       >
         <div className={"space-y-[60px]"}>
           <div className={"flex gap-x-[12px] items-center"}>
@@ -48,7 +48,7 @@ export default function Home() {
       <div className="grid grid-cols-12 gap-[30px]">
         <div
           className={`col-span-3 shadow-lg ${
-            theme === "light" ? "bg-white" : "bg-[#26334AFF]"
+            theme === "dark" ? "bg-[#26334AFF]" : "bg-white"
           } rounded-[12px] p-[30px]`}
         >
           <div>
@@ -76,7 +76,7 @@ export default function Home() {
         <div className={"col-span-9"}>
           <div
             className={`shadow-lg ${
-              theme === "light" ? "bg-white" : "bg-[#26334AFF]"
+              theme === "dark" ? "bg-[#26334AFF]" : "bg-white"
             } p-[30px] text-sm rounded-[12px]`}
           >
             <SynchronizedAreaChart />

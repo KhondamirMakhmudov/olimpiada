@@ -5,7 +5,7 @@ const Sidebar = ({ children }) => {
   return (
     <div
       className={`col-span-3  min-h-screen border ${
-        theme === "light" ? "border-[#EAEFF4]" : "border-[#2A3447FF]"
+        theme === "dark" ? "border-[#2A3447FF]" : "border-[#EAEFF4]"
       }`}
     >
       {children}

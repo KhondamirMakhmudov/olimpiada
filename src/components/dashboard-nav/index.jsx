@@ -17,7 +17,7 @@ const DashboardNav = ({ children }) => {
   return (
     <div
       className={`p-[30px] border-b  ${
-        theme === "light" ? "border-b-[#EAEFF4]" : "border-b-[#2A3447FF]"
+        theme === "dark" ? "border-b-[#2A3447FF]" : "border-b-[#EAEFF4]"
       }`}
     >
       <SidebarTitle>DASHBOARDS</SidebarTitle>
