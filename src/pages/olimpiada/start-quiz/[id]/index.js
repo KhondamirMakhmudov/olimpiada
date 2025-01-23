@@ -21,9 +21,9 @@ const Index = () => {
           <div className="border p-[30px] shadow-md rounded-[8px]" key={index}>
             <div className="text-xl mb-[8px]">
               <p className="mb-[15px]">Savol {index + 1}:</p>
-              <p className="text-xl font-semibold mt-[30px]">
+              <div className="text-xl font-semibold mt-[30px]">
                 {parse(get(item, "question", ""))}
-              </p>
+              </div>
             </div>
           </div>
         ))}
