@@ -4,9 +4,14 @@ import Brand from "@/components/brand";
 import MainContent from "@/components/dashboard/main";
 import { useTheme } from "next-themes";
 import { ThemeProvider } from "next-themes";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import storage from "@/services/storage";
 
 const Dashboard = ({ children }) => {
   const { theme } = useTheme();
+
   return (
     <ThemeProvider defaultTheme="light" attribute={"class"}>
       <div className={"grid grid-cols-12 dark:bg-[#202936] bg-white"}>

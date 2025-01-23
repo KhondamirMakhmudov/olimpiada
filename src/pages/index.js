@@ -8,12 +8,29 @@ import { UserProfileContext } from "@/context/responseProvider";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ThemeProvider } from "@/components/theme-provider";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import storage from "@/services/storage";
+import { get } from "lodash";
 
 export default function Home() {
   const router = useRouter();
   const { theme } = useTheme();
   const [data, setData] = useState(null);
   const { result } = useContext(UserProfileContext);
+
+  const {
+    data: studentProfile,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.studentProfile,
+    url: URLS.studentProfile,
+    headers: {
+      Authorization: `Bearer ${storage.get("authToken")}`,
+    },
+  });
 
   // console.log(result, "response state management");
   useEffect(() => {
@@ -42,7 +59,7 @@ export default function Home() {
             <p
               className={"text-[18px] dark:text-white text-black font-semibold"}
             >
-              Welcome back Natalia!
+              Xush kelibsiz, {get(studentProfile, "data.full_name")}
             </p>
           </div>
 

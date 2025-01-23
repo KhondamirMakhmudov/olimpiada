@@ -11,6 +11,7 @@ import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { get } from "lodash";
 
 const Login = () => {
   const router = useRouter();
@@ -39,7 +40,9 @@ const Login = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
+          const { access_token } = data;
+          console.log(get(data, "data.access_token", ""), "access_token");
+          localStorage.setItem("authToken", get(data, "data.access_token", ""));
           toast.success("Logged in successfully");
           router.push("/");
         },

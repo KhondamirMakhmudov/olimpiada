@@ -9,6 +9,7 @@ import parse from "html-react-parser";
 import { useTheme } from "next-themes";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import usePostQuery from "@/hooks/api/usePostQuery";
+import storage from "@/services/storage";
 
 const Index = () => {
   const { theme } = useTheme();
@@ -23,6 +24,9 @@ const Index = () => {
     key: KEYS.quizTest,
     url: `${URLS.quizTest}/${id}`,
     enabled: !!id,
+    headers: {
+      Authorization: `Bearer ${storage.get("authToken")}`,
+    },
   });
 
   const { mutate: submitAnswers } = usePostQuery({
@@ -30,9 +34,34 @@ const Index = () => {
   });
 
   const onSubmit = () => {
+    // Prepare the payload
+    const answers = Object.entries(selectedAnswers).map(
+      ([questionIndex, answer]) => ({
+        quiz_id: parseInt(questionIndex) + 1, // Assuming questionIndex starts at 0
+        answer,
+      })
+    );
+
+    const payload = {
+      answers,
+      test_time: String(3600 - timeLeft), // Elapsed time
+    };
+
+    // Set submitting state
+    setIsSubmitting(true);
+
+    // Send the post request
     submitAnswers({
       url: URLS.submitAnswers,
-      attributes: {},
+      attributes: payload,
+      onSuccess: () => {
+        setIsSubmitting(false);
+        console.log("Answers submitted successfully!");
+      },
+      onError: (error) => {
+        setIsSubmitting(false);
+        console.error("Error submitting answers:", error);
+      },
     });
   };
 
@@ -138,7 +167,7 @@ const Index = () => {
               <div className="mt-[40px] flex justify-center">
                 <button
                   className="bg-red-500 text-white px-[20px] py-[10px] rounded-md hover:bg-red-600"
-                  onClick={() => console.log("Submit answers")}
+                  onClick={onSubmit}
                 >
                   Yakunlash
                 </button>
