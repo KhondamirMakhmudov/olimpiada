@@ -2,15 +2,17 @@ import Brand from "@/components/brand";
 import SynchronizedAreaChart from "@/components/charts/area-chart";
 import PieChartComponent from "@/components/charts/pie-chart";
 import Dashboard from "@/components/dashboard";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 
 export default function Home() {
+  const { theme } = useTheme();
   return (
     <Dashboard>
       <div
-        className={
-          "bg-[#EBF3FE] p-[30px] my-[30px] rounded-[12px]  relative h-[200px] "
-        }
+        className={`${
+          theme === "light" ? "bg-[#EBF3FE]" : "bg-[#26334AFF]"
+        } p-[30px] my-[30px] rounded-[12px]  relative h-[200px] `}
       >
         <div className={"space-y-[60px]"}>
           <div className={"flex gap-x-[12px] items-center"}>
@@ -44,7 +46,11 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-12 gap-[30px]">
-        <div className={"col-span-3 shadow-lg rounded-[12px] p-[30px]"}>
+        <div
+          className={`col-span-3 shadow-lg ${
+            theme === "light" ? "bg-white" : "bg-[#26334AFF]"
+          } rounded-[12px] p-[30px]`}
+        >
           <div>
             <h1 className={"text-lg font-semibold"}>Savollar</h1>
           </div>
@@ -61,16 +67,18 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className={"text-[21px] text-[#2A3547] font-semibold"}>
-                $63,489.50
-              </h4>
+              <h4 className={"text-[21px]  font-semibold"}>$63,489.50</h4>
               <p className={"text-sm text-[#7C8FAC]"}>Total Earnings</p>
             </div>
           </div>
         </div>
 
         <div className={"col-span-9"}>
-          <div className={"shadow-lg p-[30px] text-sm rounded-[12px]"}>
+          <div
+            className={`shadow-lg ${
+              theme === "light" ? "bg-white" : "bg-[#26334AFF]"
+            } p-[30px] text-sm rounded-[12px]`}
+          >
             <SynchronizedAreaChart />
           </div>
         </div>

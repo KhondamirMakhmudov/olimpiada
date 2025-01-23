@@ -6,7 +6,9 @@ import Image from "next/image";
 import { get } from "lodash";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 const Index = () => {
+  const { theme } = useTheme();
   const router = useRouter();
   const { data, isLoading, isFetching } = useGetQuery({
     key: KEYS.olimpiadaQuizList,
@@ -19,7 +21,11 @@ const Index = () => {
     <Dashboard>
       <div className="grid grid-cols-12 my-[30px]">
         {get(data, "data", []).map((item) => (
-          <div className="col-span-4 p-[30px] shadow-lg rounded-[8px]  ">
+          <div
+            className={`col-span-4 ${
+              theme === "light" ? "bg-white" : "bg-[#26334AFF]"
+            } p-[30px] shadow-lg rounded-[8px]  `}
+          >
             <div>
               <div className="flex flex-col items-center justify-center">
                 <Image

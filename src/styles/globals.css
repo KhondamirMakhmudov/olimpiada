@@ -6,7 +6,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #2a3547;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,6 +20,11 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+[data-theme="dark"] body {
+  background: #202936ff;
+  color: #fff;
 }
 
 .custom-phone-input {

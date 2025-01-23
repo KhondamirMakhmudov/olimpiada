@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import ThemeChanger from "../theme-switcher";
 const MainContentHead = () => {
   return (
     <div className={"flex justify-between"}>
@@ -24,6 +25,7 @@ const MainContentHead = () => {
       </div>
 
       <div className={"flex items-center gap-x-[24px]"}>
+        <ThemeChanger />
         <button>
           <Image
             src={"/icons/lang.svg"}

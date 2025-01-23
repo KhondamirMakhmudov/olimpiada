@@ -4,8 +4,10 @@ import SidebarTitle from "../title/sidebar-title";
 import ResultsIcon from "../icons/results";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 
 const DashboardNav = ({ children }) => {
+  const { theme } = useTheme();
   const router = useRouter();
   const [tab, setTab] = useState("main");
 
@@ -13,7 +15,11 @@ const DashboardNav = ({ children }) => {
     setTab(tab);
   };
   return (
-    <div className={"p-[30px] border-b border-b-[#EAEFF4]"}>
+    <div
+      className={`p-[30px] border-b  ${
+        theme === "light" ? "border-b-[#EAEFF4]" : "border-b-[#2A3447FF]"
+      }`}
+    >
       <SidebarTitle>DASHBOARDS</SidebarTitle>
       <ul className={"mt-[12px]"}>
         <li
