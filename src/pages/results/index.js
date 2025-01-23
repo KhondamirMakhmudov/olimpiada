@@ -1,4 +1,4 @@
-const { default: Dashboard } = require("@/components/dashboard");
+import Dashboard from "@/components/dashboard";
 
 const Index = () => {
   return <Dashboard>hello</Dashboard>;
