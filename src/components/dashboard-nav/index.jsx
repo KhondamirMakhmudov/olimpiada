@@ -3,8 +3,10 @@ import OlimpiadaIcon from "../icons/olimpiada";
 import SidebarTitle from "../title/sidebar-title";
 import ResultsIcon from "../icons/results";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const DashboardNav = ({ children }) => {
+  const router = useRouter();
   const [tab, setTab] = useState("main");
 
   const handleTab = (tab) => {
@@ -14,41 +16,63 @@ const DashboardNav = ({ children }) => {
     <div className={"p-[30px] border-b border-b-[#EAEFF4]"}>
       <SidebarTitle>DASHBOARDS</SidebarTitle>
       <ul className={"mt-[12px]"}>
-        <li onClick={() => handleTab("main")} className={"cursor-pointer"}>
+        <li
+          onClick={() => {
+            handleTab("main");
+            router.push("/");
+          }}
+          className={"cursor-pointer"}
+        >
           <div
             className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
-              tab === "main"
+              router.pathname === "/"
                 ? "bg-[#5D87FF] text-white"
                 : "text-[#5A6A85] bg-transparent"
             } `}
           >
-            <MainIcon color={tab === "main" ? "#fff" : "#5A6A85"} />
+            <MainIcon color={router.pathname === "/" ? "#fff" : "#5A6A85"} />
             <p className={"text-[14px] "}>Asosiy</p>
           </div>
         </li>
 
-        <li onClick={() => handleTab("olimpiada")} className={"cursor-pointer"}>
+        <li
+          onClick={() => {
+            handleTab("olimpiada");
+            router.push("/olimpiada");
+          }}
+          className={"cursor-pointer"}
+        >
           <div
             className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
-              tab === "olimpiada"
+              router.pathname === "/olimpiada"
                 ? "bg-[#5D87FF] text-white"
                 : "text-[#5A6A85] bg-transparent"
             } `}
           >
-            <OlimpiadaIcon color={tab === "olimpiada" ? "#fff" : "#5A6A85"} />
+            <OlimpiadaIcon
+              color={router.pathname === "/olimpiada" ? "#fff" : "#5A6A85"}
+            />
             <p className={"text-[14px]"}>Olimpiada</p>
           </div>
         </li>
 
-        <li onClick={() => handleTab("results")} className={"cursor-pointer"}>
+        <li
+          onClick={() => {
+            handleTab("results");
+            router.push("/results");
+          }}
+          className={"cursor-pointer"}
+        >
           <div
             className={`flex gap-x-[10px] itmes-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
-              tab === "results"
+              router.pathname === "/results"
                 ? "bg-[#5D87FF] text-white"
                 : "text-[#5A6A85] bg-transparent"
             }`}
           >
-            <ResultsIcon color={tab === "results" ? "#fff" : "#5A6A85"} />
+            <ResultsIcon
+              color={router.pathname === "/results" ? "#fff" : "#5A6A85"}
+            />
             <p className={"text-[14px] "}>Natijalar</p>
           </div>
         </li>

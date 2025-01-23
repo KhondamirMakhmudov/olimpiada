@@ -61,12 +61,14 @@ const Login = () => {
   return (
     <div>
       <div
-        className={" h-screen bg-center bg-cover"}
+        className={
+          "flex items-center justify-center h-screen bg-center bg-cover"
+        }
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
         <div
           className={
-            "w-[436px] h-[506px] bg-white mx-auto translate-y-1/2 rounded-[8px] p-[30px]"
+            "w-[436px] h-[506px] bg-white mx-auto  rounded-[8px] p-[30px]"
           }
         >
           <div className="translate-x-1/4 mb-[30px]">
