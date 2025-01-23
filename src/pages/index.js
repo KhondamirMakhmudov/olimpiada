@@ -4,9 +4,26 @@ import PieChartComponent from "@/components/charts/pie-chart";
 import Dashboard from "@/components/dashboard";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { UserProfileContext } from "@/context/responseProvider";
+import { useContext, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   const { theme } = useTheme();
+  const [data, setData] = useState(null);
+  const { result } = useContext(UserProfileContext);
+
+  // console.log(result, "response state management");
+  useEffect(() => {
+    if (result) {
+      // Assuming `result` is an object, directly set it as the data
+      setData(result);
+    }
+  }, [result]);
+
+  console.log(data, "data");
+
   return (
     <Dashboard>
       <div

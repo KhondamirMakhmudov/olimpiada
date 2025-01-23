@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Brand from "@/components/brand";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import storage from "@/services/storage";
 import { useRouter } from "next/router";
+import { UserProfileContext } from "@/context/responseProvider";
 const Index = () => {
   const router = useRouter();
   const [code, setCode] = useState(new Array(5).fill(""));
   const [timer, setTimer] = useState(60);
+
+  const { setResult } = useContext(UserProfileContext);
 
   useEffect(() => {
     if (timer > 0) {
@@ -38,19 +41,24 @@ const Index = () => {
   console.log(code);
 
   const onSubmit = () => {
-    recieveCode({
-      url: URLS.recieveCode,
-      attributes: {
-        phone: storage.get("phone"),
-        sms_code: code.join(""),
+    recieveCode(
+      {
+        url: URLS.recieveCode,
+        attributes: {
+          phone: storage.get("phone"),
+          sms_code: code.join(""),
+        },
       },
-      onSuccess: (data) => {
-        router.push("/");
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    });
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          router.push("/");
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
   };
 
   const handleKeyDown = (e, index) => {
@@ -62,9 +70,6 @@ const Index = () => {
     }
   };
 
-  const handleSubmit = () => {
-    alert(`Verification Code: ${code.join("")}`);
-  };
   return (
     <div
       className={
