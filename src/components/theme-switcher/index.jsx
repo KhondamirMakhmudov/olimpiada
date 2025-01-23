@@ -19,7 +19,7 @@ const ThemeChanger = () => {
   return (
     <div className="flex items-center justify-center">
       <motion.button
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.1, rotate: theme === "light" ? -10 : 10 }}

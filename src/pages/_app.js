@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import reactQueryClient from "@/config/react-query";
 import "@/styles/globals.css";
-import { ThemeProvider } from "next-themes";
+
 import { UserProfileProvider } from "@/context/responseProvider";
 
 export default function App({
@@ -16,11 +16,9 @@ export default function App({
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps?.dehydratedState}>
-        <ThemeProvider defaultTheme="light">
-          <UserProfileProvider>
-            <Component {...pageProps} />
-          </UserProfileProvider>
-        </ThemeProvider>
+        <UserProfileProvider>
+          <Component {...pageProps} />
+        </UserProfileProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
