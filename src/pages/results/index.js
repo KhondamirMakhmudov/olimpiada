@@ -7,7 +7,15 @@ import storage from "@/services/storage";
 import { get } from "lodash";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useState } from "react";
+import GridIcon from "@/components/icons/grid";
+import AnswerIcon from "@/components/icons/answer";
 const Index = () => {
+  const [tab, setTab] = useState("results");
+
+  const handleTab = (tab) => {
+    setTab(tab);
+  };
   const {
     data: quizResult,
     isLoading,
@@ -48,7 +56,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="border border-[#EAEFF4] rounded-md dark:border-[#2A3447FF]">
+      {/* <div className="border border-[#EAEFF4] rounded-md dark:border-[#2A3447FF]">
         <table className="w-full">
           <thead>
             <tr className="border-b border-[#EAEFF4] dark:border-[#2A3447FF]">
@@ -87,7 +95,65 @@ const Index = () => {
             </tr>
           </tbody>
         </table>
+      </div> */}
+
+      <div className="shadow-lg p-[16px] rounded-md">
+        <div className="flex">
+          <button
+            onClick={() => handleTab("results")}
+            className={`flex gap-x-[8px] py-[8px] px-[16px] rounded-md transform duration-200 ${
+              tab === "results"
+                ? "bg-[#5D87FFFF] text-white"
+                : "bg-white text-black"
+            }`}
+          >
+            <GridIcon color={tab === "results" ? "white" : "black"} />
+
+            <p>Sinov natijalari</p>
+          </button>
+
+          <button
+            onClick={() => handleTab("my-answers")}
+            className={`flex gap-x-[8px] py-[8px] px-[16px] rounded-md transform duration-200 ${
+              tab === "my-answers"
+                ? "bg-[#5D87FFFF] text-white"
+                : "bg-white text-black"
+            }`}
+          >
+            <AnswerIcon color={tab === "my-answers" ? "white" : "black"} />
+
+            <p>Mening javoblarim</p>
+          </button>
+        </div>
       </div>
+
+      {tab === "results" && (
+        <div className="grid grid-cols-12 gap-[30px]">
+          <div className="py-[16px] shadow-lg my-[50px] col-span-4 rounded-md">
+            <div className="flex gap-x-[30px] items-center">
+              <div className="w-[3px] h-[50px] bg-orange-400"></div>
+
+              <div>
+                <p className="text-sm text-[#5A6A85]">
+                  Sizning to'plagan balingiz
+                </p>
+
+                <p className="font-medium text-lg">
+                  {get(quizResult, "data.score")} ball
+                </p>
+              </div>
+            </div>
+
+            <p className="px-[30px] text-sm mt-[30px]">
+              300 ta eng yuqori ball to'plagan ishtirokchi ikkinchi bosqichga
+              o'tadi. Agar siz ulardan biri bo'lsangiz, yaqinda ushbu sahifada
+              "Siz ikkinchi bosqichga o'tdingiz!" degan xabarni ko'rishingiz
+              mumkin. Xabar shuningdek, sizning telefoningizga SMS tarzida
+              yuboriladi.
+            </p>
+          </div>
+        </div>
+      )}
     </Dashboard>
   );
 };
