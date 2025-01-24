@@ -118,11 +118,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={"col-span-4 p-[30px] bg-white shadow-lg rounded-md"}>
+        <div
+          className={
+            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
+          }
+        >
           <DiagramChart />
         </div>
 
-        <div className={"col-span-4 p-[30px] bg-white shadow-lg rounded-md"}>
+        <div
+          className={
+            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
+          }
+        >
           <SameDataComposedChart />
         </div>
       </div>
