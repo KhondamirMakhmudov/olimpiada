@@ -28,7 +28,7 @@ const LanguageDropdown = () => {
         <Image
           src={`/images/${selectedLanguage.flag}`}
           alt="flag"
-          width={35}
+          width={32}
           height={30}
         />
       </button>
@@ -49,7 +49,7 @@ const LanguageDropdown = () => {
               <Image
                 src={`/images/${language.flag}`}
                 alt="flag"
-                width={35}
+                width={32}
                 height={30}
               />
               <span className="ml-2">{language.name}</span>

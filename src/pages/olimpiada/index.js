@@ -64,9 +64,9 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Для Олимпиады было задано 30 вопросов, первые 10 из которых
-                получили 2,1 балла, следующие 10-3,1 балла, а последние 10-5,1
-                балла.
+                Olimpiada uchun 30 ta savol berilgan bo‘lib, birinchi 10 ta
+                savol 2,1 ball, keyingi 10 ta savol 3,1 ball, so‘nggi 10 ta
+                savol esa 5,1 ball bilan baholanadi.
               </p>
             </li>
             <li className="flex items-start gap-x-[10px]">
@@ -77,19 +77,7 @@ const Index = () => {
                 height={24}
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Максимальный балл 103 балла.
-              </p>
-            </li>
-
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                Продолжительность олимпиады-1 час.
+                Maksimal ball 103 ball.
               </p>
             </li>
 
@@ -99,13 +87,9 @@ const Index = () => {
                 alt={"remind"}
                 width={24}
                 height={24}
-                className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                По истечении указанного времени, сколько вопросов ответил
-                участник, будет объявлен результат набранных баллов по этим
-                вопросам, вопросы, на которые не было ответа, не будут
-                оцениваться.
+                Olimpiada davomiyligi – 1 soat.
               </p>
             </li>
 
@@ -118,8 +102,9 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                300 участников, набравших наивысшие баллы, получают шанс пройти
-                в раунд 2.
+                Belgilangan vaqt tugaganidan so‘ng, ishtirokchi necha savolga
+                javob bergan bo‘lsa, o‘sha savollar uchun olingan ballar
+                hisoblanadi, javob berilmagan savollar baholanmaydi.
               </p>
             </li>
 
@@ -132,32 +117,32 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Результаты можно будет увидеть в личном кабинете
+                Eng yuqori ball to‘plagan 300 nafar ishtirokchi 2-bosqichga
+                o‘tish imkoniyatini qo‘lga kiritadi.
+              </p>
+            </li>
+
+            <li className="flex items-start gap-x-[10px]">
+              <Image
+                src={"/icons/remind.svg"}
+                alt={"remind"}
+                width={24}
+                height={24}
+                className="w-[24px] h-[24px]"
+              />
+              <p className="text-sm text-[#5A6A85] dark:text-white">
+                Natijalarni shaxsiy kabinetda ko‘rish mumkin bo‘ladi.
               </p>
             </li>
           </ul>
-        </div>
-        <div className="col-span-10 self-start grid grid-cols-10  ">
+
           {get(data, "data", []).map((item) => (
             <div
               key={get(item, "id")}
-              className={`col-span-5 bg-white dark:bg-[#26334AFF] border border-[#EAEFF4] dark:border-[#2A3447FF]  p-[30px]  rounded-[8px]  `}
+              className={`  px-[30px] mb-[30px] rounded-[8px]  `}
             >
               <div>
-                <div className="flex flex-col items-center justify-center">
-                  <Image
-                    src={"/images/math.png"}
-                    alt={"maths"}
-                    width={90}
-                    height={90}
-                  />
-
-                  <p className="text-xl font-semibold dark:text-white text-black mt-[30px]">
-                    {get(item, "name", "")}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-3 place-items-center my-[15px]">
+                <div className="grid grid-cols-3 place-items-center gap-x-[15px]  my-[15px]">
                   <div className="col-span-1  flex items-baseline gap-x-[12px]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#539BFF]"></div>
                     <div>
@@ -168,7 +153,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-1 flex items-baseline gap-x-[12px]">
+                  <div className="col-span-1  flex items-baseline gap-x-[12px]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#12DEB9]"></div>
                     <div>
                       <h3 className="text-[#868EAB] text-sm ">
@@ -182,7 +167,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-1 flex items-baseline gap-x-[12px]">
+                  <div className="col-span-1  flex items-baseline gap-x-[12px]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#EB0000]"></div>
                     <div>
                       <h3 className="text-[#868EAB] text-sm">
@@ -199,7 +184,7 @@ const Index = () => {
                   onClick={() =>
                     router.push(`olimpiada/start-quiz/${get(item, "id", [])}`)
                   }
-                  className="py-[8px] w-full bg-[#5D87FF] rounded-[4px] text-white"
+                  className="py-[8px] w-full px-[10px] bg-[#5D87FF] rounded-[4px] text-white"
                 >
                   Testni boshlash
                 </button>
@@ -207,6 +192,7 @@ const Index = () => {
             </div>
           ))}
         </div>
+        <div className="col-span-10 self-start grid grid-cols-10  "></div>
       </div>
     </Dashboard>
   );

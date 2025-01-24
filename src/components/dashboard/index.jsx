@@ -17,7 +17,7 @@ const Dashboard = ({ children }) => {
       <div className={"grid grid-cols-12 dark:bg-[#202936] bg-white"}>
         <Sidebar>
           <div
-            className={`p-[30px] border-b border-b-[#EAEFF4] dark:border-b-[#2A3447FF]`}
+            className={`p-[30px] border-b border-b-[#EAEFF4] dark:border-b-[#2A3447FF] flex items-center justify-center`}
           >
             <Brand />
           </div>
