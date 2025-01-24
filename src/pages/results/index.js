@@ -79,7 +79,7 @@ const Index = () => {
                 {get(quizResult, "data.science_name", "")}
               </td>
               <td className="text-left p-[15px] dark:text-white text-black">
-                {get(quizResult, "data.score", "").toFixed(2)}
+                {+get(quizResult, "data.score", "")}
               </td>
               <td className="text-left p-[15px] dark:text-white text-black">
                 {get(quizResult, "data.total_questions", "")} ta

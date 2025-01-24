@@ -13,6 +13,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import storage from "@/services/storage";
 import { get } from "lodash";
+import DiagramChart from "@/components/charts/diagram";
 
 export default function Home() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function Home() {
 
       <div className="grid grid-cols-12 gap-[30px]">
         <div
-          className={`col-span-3 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-[30px]`}
+          className={`col-span-4 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-[30px]`}
         >
           <div>
             <h1 className={"text-lg dark:text-white text-black font-semibold"}>
@@ -116,12 +117,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={"col-span-9"}>
-          <div
-            className={`shadow-lg bg-white dark:bg-[#26334AFF] p-[30px] text-sm rounded-[12px]`}
-          >
-            <SynchronizedAreaChart />
-          </div>
+        <div className={"col-span-4 p-[30px] bg-white shadow-lg rounded-md"}>
+          <DiagramChart />
         </div>
       </div>
     </Dashboard>
