@@ -54,7 +54,7 @@ const MainContentHead = () => {
         <ThemeChanger />
 
         <button onClick={handleProfile}>
-          <Image src={"/images/user.png"} alt={"user"} width={32} height={32} />
+          <Image src={"/images/user.png"} alt={"user"} width={42} height={42} />
         </button>
 
         {openProfile && (
