@@ -8,6 +8,7 @@ import { URLS } from "../../constants/url";
 import storage from "../../services/storage";
 import { get } from "lodash";
 import { useRouter } from "next/router";
+import LanguageDropdown from "../language";
 const MainContentHead = () => {
   const router = useRouter();
   const {
@@ -49,6 +50,7 @@ const MainContentHead = () => {
       </div>
 
       <div className={"relative flex items-center gap-x-[24px]"}>
+        <LanguageDropdown />
         <ThemeChanger />
 
         <button onClick={handleProfile}>
