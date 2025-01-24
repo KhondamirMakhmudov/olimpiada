@@ -6,4 +6,5 @@ export const KEYS = {
   quizTest: "quizTest",
   submitAnswers: "submitAnswers",
   recieveCode: "recieveCode",
+  resultQuiz: "resultQuiz",
 };

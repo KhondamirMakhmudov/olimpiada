@@ -6,4 +6,5 @@ export const URLS = {
   quizTest: "quiz/quizzes",
   submitAnswers: "quiz/submit-quiz-result/",
   recieveCode: "/student/verify-sms/",
+  resultQuiz: "/quiz/result/list/",
 };
