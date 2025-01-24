@@ -14,6 +14,7 @@ import { URLS } from "@/constants/url";
 import storage from "@/services/storage";
 import { get } from "lodash";
 import DiagramChart from "@/components/charts/diagram";
+import SameDataComposedChart from "@/components/charts/SameDataComposedChart";
 
 export default function Home() {
   const router = useRouter();
@@ -119,6 +120,10 @@ export default function Home() {
 
         <div className={"col-span-4 p-[30px] bg-white shadow-lg rounded-md"}>
           <DiagramChart />
+        </div>
+
+        <div className={"col-span-4 p-[30px] bg-white shadow-lg rounded-md"}>
+          <SameDataComposedChart />
         </div>
       </div>
     </Dashboard>
