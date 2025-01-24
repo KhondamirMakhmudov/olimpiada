@@ -68,7 +68,7 @@ const Index = () => {
               <li>
                 {" "}
                 <Image
-                  src={"/icons/view.svg"}
+                  src={"/icons/View.svg"}
                   alt={"edit"}
                   width={24}
                   height={24}
