@@ -118,14 +118,48 @@ const Index = () => {
     )}`;
   };
 
+  // LocalStorage'dan javoblarni o'qish
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedAnswers = localStorage.getItem("selectedAnswers");
+      const savedAnsweredQuestions = localStorage.getItem("answeredQuestions");
+      if (savedAnswers) {
+        setSelectedAnswers(JSON.parse(savedAnswers)); // Javoblarni holatga tiklash
+      }
+      if (savedAnsweredQuestions) {
+        setAnsweredQuestions(JSON.parse(savedAnsweredQuestions)); // Javob berilgan savollarni tiklash
+      }
+    }
+  }, []);
+
+  // Javob tanlanganda, uni localStorage'da saqlash
   const handleAnswer = (questionIndex, answer) => {
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [questionIndex]: answer,
-    }));
+    setSelectedAnswers((prev) => {
+      const updatedAnswers = {
+        ...prev,
+        [questionIndex]: answer,
+      };
+
+      // Javoblarni localStorage'ga saqlash
+      if (typeof window !== "undefined") {
+        localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
+      }
+      return updatedAnswers;
+    });
 
     if (!answeredQuestions.includes(questionIndex)) {
-      setAnsweredQuestions((prev) => [...prev, questionIndex]);
+      setAnsweredQuestions((prev) => {
+        const updatedQuestions = [...prev, questionIndex];
+
+        // Javob berilgan savollarni localStorage'ga saqlash
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "answeredQuestions",
+            JSON.stringify(updatedQuestions)
+          );
+        }
+        return updatedQuestions;
+      });
     }
   };
 
