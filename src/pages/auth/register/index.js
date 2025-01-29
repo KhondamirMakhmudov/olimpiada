@@ -141,11 +141,13 @@ const Register = () => {
   return (
     <div className="">
       <div
-        className={"bg-center bg-cover bg-no-repeat"}
+        className={
+          "bg-center flex items-center justify-center min-h-screen bg-cover bg-no-repeat"
+        }
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
-        <div className="w-[436px] min-h-screen bg-white mx-auto rounded-[8px] p-[30px] ">
-          <div className="mb-[30px] flex justify-center items-center ">
+        <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[30px] ">
+          <div className="mb-[30px]  text-center">
             <Brand />
           </div>
 
@@ -182,7 +184,7 @@ const Register = () => {
           <div className="w-full mt-[30px]">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-[20px] border p-[16px] rounded-[4px]"
+              className="space-y-[10px] border p-[16px] rounded-[4px]"
             >
               {/* Ism */}
               <div className="">
@@ -260,9 +262,9 @@ const Register = () => {
                   </p>
                   <div
                     onClick={() => setRegionDropdownOpen((prev) => !prev)}
-                    className="w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white cursor-pointer flex justify-between items-center"
+                    className="w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white cursor-pointer flex justify-between items-center"
                   >
-                    <p>{selectedRegionName}</p>
+                    <p className="text-[#2A3547]">{selectedRegionName}</p>
                     <svg
                       className={`w-5 h-5 transform duration-200 ${
                         regionDropdownOpen ? "rotate-180" : ""
@@ -285,7 +287,7 @@ const Register = () => {
                       {regions.map((region) => (
                         <div
                           key={region.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                          className="px-4 py-2 hover:bg-gray-100 text-[#2A3547] cursor-pointer"
                           onClick={() => handleRegionSelect(region.id)}
                         >
                           {region.name}
@@ -296,17 +298,19 @@ const Register = () => {
                 </div>
 
                 <div className="relative">
-                  <p className="mb-2 text-lg font-semibold text-gray-800">
+                  <p className="mb-2 text-base font-semibold text-gray-800">
                     Hudud
                   </p>
                   <div
                     onClick={toggleDistrictDropdown}
-                    className={`w-full text-left border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
+                    className={`w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
                       !filteredDistricts.length ? "cursor-not-allowed" : ""
                     }`}
                     disabled={!filteredDistricts.length}
                   >
-                    <p>{selectedDistrictName}</p>
+                    <p className="text-[text-[#2A3547]]">
+                      {selectedDistrictName}
+                    </p>
                     <svg
                       className={`w-5 h-5 transform duration-200 ${
                         districtDropdownOpen ? "rotate-180" : ""
@@ -329,7 +333,7 @@ const Register = () => {
                       {filteredDistricts.map((district) => (
                         <div
                           key={district.id}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                          className="px-4 py-2 hover:bg-gray-100 text-[#2A3547] cursor-pointer"
                           onClick={() => handleDistrictSelect(district.id)}
                         >
                           {district.name}
@@ -341,7 +345,7 @@ const Register = () => {
               </div>
 
               <div className="">
-                <p className="mb-[8px] text-lg text-[#2A3547] font-semibold">
+                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
                   Manzil
                 </p>
 
@@ -354,14 +358,14 @@ const Register = () => {
 
               <div className="relative ">
                 {/* Dropdown label */}
-                <p className="mb-2 text-lg text-gray-700 font-semibold">
+                <p className="mb-2 text-base text-gray-700 font-semibold">
                   Ta'lim dargohi
                 </p>
 
                 {/* Dropdown button */}
                 <div
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
+                  className="w-full  px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
                 >
                   <span>{selectedOption}</span>
                   <svg
@@ -400,7 +404,7 @@ const Register = () => {
 
               <div className="relative ">
                 {/* Dropdown label */}
-                <p className="mb-2 text-lg text-gray-700 font-semibold">
+                <p className="mb-2 text-base text-gray-700 font-semibold">
                   Kursni tanlang
                 </p>
 
