@@ -106,10 +106,10 @@ const Index = () => {
             className={`flex gap-x-[8px] py-[8px] px-[16px] rounded-md transform duration-200 ${
               tab === "results"
                 ? "bg-[#5D87FFFF] text-white"
-                : "bg-white text-black"
+                : "bg-white text-black dark:bg-transparent dark:text-white"
             }`}
           >
-            <GridIcon color={tab === "results" ? "white" : "black"} />
+            <GridIcon color={tab === "results" ? "white " : "black"} />
 
             <p>{t("testResults")}</p>
           </button>
@@ -139,7 +139,7 @@ const Index = () => {
                 <p className="text-sm text-[#5A6A85]">{t("totalScore")}</p>
 
                 <p className="font-medium text-lg">
-                  {get(quizResult, "data.score")} {t("score")}
+                  {get(quizResult, "data.score").toFixed(2)} {t("score")}
                 </p>
               </div>
             </div>
