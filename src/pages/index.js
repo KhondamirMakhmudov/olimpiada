@@ -18,120 +18,18 @@ import SameDataComposedChart from "@/components/charts/SameDataComposedChart";
 import { useTranslation } from "react-i18next";
 
 export default function Home() {
-  const { t } = useTranslation();
   const router = useRouter();
-  const { theme } = useTheme();
-  const [data, setData] = useState(null);
-  const { result } = useContext(UserProfileContext);
-
-  const {
-    data: studentProfile,
-    isLoading,
-    isFetching,
-  } = useGetQuery({
-    key: KEYS.studentProfile,
-    url: URLS.studentProfile,
-    headers: {
-      Authorization: `Bearer ${storage.get("authToken")}`,
-    },
-  });
 
   useEffect(() => {
-    if (result) {
-      setData(result);
+    // Example: Check authentication status from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      router.replace("/dashboard"); // Redirect to dashboard if logged in
+    } else {
+      router.replace("/login"); // Redirect to login if not authenticated
     }
-  }, [result]);
+  }, []);
 
-  return (
-    <Dashboard>
-      <div
-        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[200px] `}
-      >
-        <div className={"space-y-[60px]"}>
-          <div className={"flex gap-x-[12px] items-center"}>
-            <Image
-              src={"/images/user-welcome.png"}
-              alt={"welcome"}
-              width={40}
-              height={40}
-            />
-
-            <p
-              className={"text-[18px] dark:text-white text-black font-semibold"}
-            >
-              {t("welcome")}, {get(studentProfile, "data.full_name")}
-            </p>
-          </div>
-
-          <button
-            className={
-              " py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
-            }
-          >
-            {t("telegram_bot")}
-          </button>
-        </div>
-
-        <div className={"absolute right-0 bottom-0"}>
-          <Image
-            src={"/icons/welcome-bg.svg"}
-            alt={"welcome"}
-            width={326}
-            height={96}
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-12 gap-[30px]">
-        <div
-          className={`col-span-4 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-[30px]`}
-        >
-          <div>
-            <h1 className={"text-lg dark:text-white text-black font-semibold"}>
-              {t("questions")}
-            </h1>
-          </div>
-          <PieChartComponent />
-
-          <div className={"flex items-end gap-x-[12px]"}>
-            <div className={"bg-[#ECF2FF] p-[10px] rounded-[8px] inline-block"}>
-              <Image
-                src={"/icons/grid.svg"}
-                alt={"grid"}
-                width={24}
-                height={24}
-              />
-            </div>
-
-            <div>
-              <h4
-                className={
-                  "text-[21px] dark:text-white text-black  font-semibold"
-                }
-              >
-                $63,489.50
-              </h4>
-              <p className={"text-sm text-[#7C8FAC]"}>Total Earnings</p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
-          }
-        >
-          <DiagramChart />
-        </div>
-
-        <div
-          className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
-          }
-        >
-          <SameDataComposedChart />
-        </div>
-      </div>
-    </Dashboard>
-  );
+  return null;
 }
