@@ -39,7 +39,6 @@ const Index = () => {
   const { mutate: recieveCode } = usePostQuery({
     listKeyId: KEYS.recieveCode,
   });
-  console.log(code);
 
   const onSubmit = () => {
     recieveCode(
