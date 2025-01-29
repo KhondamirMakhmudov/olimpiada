@@ -52,7 +52,7 @@ const Index = () => {
       {
         onSuccess: (data) => {
           console.log(data);
-          router.push("/");
+          router.push("/dashboard");
         },
         onError: (error) => {
           console.log(error);
