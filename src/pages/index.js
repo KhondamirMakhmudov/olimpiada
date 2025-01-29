@@ -27,7 +27,7 @@ export default function Home() {
     if (token) {
       router.replace("/dashboard"); // Redirect to dashboard if logged in
     } else {
-      router.replace("/login"); // Redirect to login if not authenticated
+      router.replace("/auth/login"); // Redirect to login if not authenticated
     }
   }, []);
 
