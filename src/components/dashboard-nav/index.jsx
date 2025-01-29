@@ -22,18 +22,20 @@ const DashboardNav = ({ children }) => {
         <li
           onClick={() => {
             handleTab("main");
-            router.push("/");
+            router.push("/dashboard");
           }}
           className={"cursor-pointer"}
         >
           <div
             className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
-              router.pathname === "/"
+              router.pathname === "/dashboard"
                 ? "bg-[#5D87FF] text-white"
                 : "text-[#5A6A85] bg-transparent"
             } `}
           >
-            <MainIcon color={router.pathname === "/" ? "#fff" : "#5A6A85"} />
+            <MainIcon
+              color={router.pathname === "/dashboard" ? "#fff" : "#5A6A85"}
+            />
             <p className={"text-[14px] "}>{t("main")}</p>
           </div>
         </li>
