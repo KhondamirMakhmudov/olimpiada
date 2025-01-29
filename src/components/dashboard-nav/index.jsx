@@ -5,9 +5,10 @@ import ResultsIcon from "../icons/results";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 
 const DashboardNav = ({ children }) => {
-  const { theme } = useTheme();
+  const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("main");
 
@@ -16,7 +17,7 @@ const DashboardNav = ({ children }) => {
   };
   return (
     <div className={`p-[30px]`}>
-      <SidebarTitle>Boshqaruv paneli</SidebarTitle>
+      <SidebarTitle>{t("dashboard")}</SidebarTitle>
       <ul className={"mt-[12px]"}>
         <li
           onClick={() => {
@@ -33,7 +34,7 @@ const DashboardNav = ({ children }) => {
             } `}
           >
             <MainIcon color={router.pathname === "/" ? "#fff" : "#5A6A85"} />
-            <p className={"text-[14px] "}>Asosiy</p>
+            <p className={"text-[14px] "}>{t("main")}</p>
           </div>
         </li>
 
@@ -54,7 +55,7 @@ const DashboardNav = ({ children }) => {
             <OlimpiadaIcon
               color={router.pathname === "/olimpiada" ? "#fff" : "#5A6A85"}
             />
-            <p className={"text-[14px]"}>Olimpiada</p>
+            <p className={"text-[14px]"}>{t("olympics")}</p>
           </div>
         </li>
 
@@ -75,7 +76,7 @@ const DashboardNav = ({ children }) => {
             <ResultsIcon
               color={router.pathname === "/results" ? "#fff" : "#5A6A85"}
             />
-            <p className={"text-[14px] "}>Natijalar</p>
+            <p className={"text-[14px] "}>{t("results")}</p>
           </div>
         </li>
       </ul>

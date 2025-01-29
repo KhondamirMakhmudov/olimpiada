@@ -10,7 +10,9 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import GridIcon from "@/components/icons/grid";
 import AnswerIcon from "@/components/icons/answer";
+import { useTranslation } from "react-i18next";
 const Index = () => {
+  const { t } = useTranslation();
   const [tab, setTab] = useState("results");
 
   const handleTab = (tab) => {
@@ -34,15 +36,15 @@ const Index = () => {
       >
         <div className={"space-y-[15px]"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
-            Foydalanuvchining olimpiada testlaridagi natijalari
+            {t("resultsPage")}
           </p>
 
           <div className="flex gap-x-[12px] items-center">
             <Link href={"/"} className="text-[#5A6A85BF]">
-              Bosh sahifa
+              {t("homePage")}
             </Link>
             <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
-            <p className="text-black dark:text-white">Natijalar</p>
+            <p className="text-black dark:text-white">{t("results")}</p>
           </div>
         </div>
 
@@ -109,7 +111,7 @@ const Index = () => {
           >
             <GridIcon color={tab === "results" ? "white" : "black"} />
 
-            <p>Sinov natijalari</p>
+            <p>{t("testResults")}</p>
           </button>
 
           <button
@@ -122,7 +124,7 @@ const Index = () => {
           >
             <AnswerIcon color={tab === "my-answers" ? "white" : "black"} />
 
-            <p>Mening javoblarim</p>
+            <p>{t("myAnswers")}</p>
           </button>
         </div>
       </div>
@@ -134,23 +136,15 @@ const Index = () => {
               <div className="w-[3px] h-[50px] bg-orange-400"></div>
 
               <div>
-                <p className="text-sm text-[#5A6A85]">
-                  Sizning to'plagan balingiz
-                </p>
+                <p className="text-sm text-[#5A6A85]">{t("totalScore")}</p>
 
                 <p className="font-medium text-lg">
-                  {get(quizResult, "data.score")} ball
+                  {get(quizResult, "data.score")} {t("score")}
                 </p>
               </div>
             </div>
 
-            <p className="px-[30px] text-sm mt-[30px]">
-              300 ta eng yuqori ball to'plagan ishtirokchi ikkinchi bosqichga
-              o'tadi. Agar siz ulardan biri bo'lsangiz, yaqinda ushbu sahifada
-              "Siz ikkinchi bosqichga o'tdingiz!" degan xabarni ko'rishingiz
-              mumkin. Xabar shuningdek, sizning telefoningizga SMS tarzida
-              yuboriladi.
-            </p>
+            <p className="px-[30px] text-sm mt-[30px]">{t("resultsDesc")}</p>
           </div>
         </div>
       )}

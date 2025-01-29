@@ -8,8 +8,10 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 const Index = () => {
-  const { theme } = useTheme();
+  const { t } = useTranslation();
+
   const router = useRouter();
   const { data, isLoading, isFetching } = useGetQuery({
     key: KEYS.olimpiadaQuizList,
@@ -25,15 +27,15 @@ const Index = () => {
       >
         <div className={"space-y-[15px]"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
-            Olimpiada
+            {t("olympics")}
           </p>
 
           <div className="flex gap-x-[12px] items-center">
             <Link href={"/"} className="text-[#5A6A85BF]">
-              Bosh sahifa
+              {t("homePage")}
             </Link>
             <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
-            <p className="text-black dark:text-white">Olimpiada</p>
+            <p className="text-black dark:text-white">{t("olympics")}</p>
           </div>
         </div>
 
@@ -50,7 +52,7 @@ const Index = () => {
         <div className="col-span-12 bg-white dark:bg-[#26334AFF] self-start border  border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md ">
           <div className="p-[30px]">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
-              Eslatma
+              {t("reminder")}
             </h3>
           </div>
           <div className="w-full h-[1px] bg-[#EAEFF4] dark:bg-[#2A3447FF]"></div>
@@ -64,9 +66,7 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Olimpiada uchun 30 ta savol berilgan bo‘lib, birinchi 10 ta
-                savol 2,1 ball, keyingi 10 ta savol 3,1 ball, so‘nggi 10 ta
-                savol esa 5,1 ball bilan baholanadi.
+                {t("first_reminder")}
               </p>
             </li>
             <li className="flex items-start gap-x-[10px]">
@@ -77,19 +77,7 @@ const Index = () => {
                 height={24}
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Maksimal ball 103 ball.
-              </p>
-            </li>
-
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                Olimpiada davomiyligi – 1 soat.
+                {t("second_reminder")}
               </p>
             </li>
 
@@ -99,12 +87,9 @@ const Index = () => {
                 alt={"remind"}
                 width={24}
                 height={24}
-                className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Belgilangan vaqt tugaganidan so‘ng, ishtirokchi necha savolga
-                javob bergan bo‘lsa, o‘sha savollar uchun olingan ballar
-                hisoblanadi, javob berilmagan savollar baholanmaydi.
+                {t("third_reminder")}
               </p>
             </li>
 
@@ -117,8 +102,7 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Eng yuqori ball to‘plagan 300 nafar ishtirokchi 2-bosqichga
-                o‘tish imkoniyatini qo‘lga kiritadi.
+                {t("fourth_reminder")}
               </p>
             </li>
 
@@ -131,7 +115,20 @@ const Index = () => {
                 className="w-[24px] h-[24px]"
               />
               <p className="text-sm text-[#5A6A85] dark:text-white">
-                Natijalarni shaxsiy kabinetda ko‘rish mumkin bo‘ladi.
+                {t("fifth_reminder")}
+              </p>
+            </li>
+
+            <li className="flex items-start gap-x-[10px]">
+              <Image
+                src={"/icons/remind.svg"}
+                alt={"remind"}
+                width={24}
+                height={24}
+                className="w-[24px] h-[24px]"
+              />
+              <p className="text-sm text-[#5A6A85] dark:text-white">
+                {t("sixth_reminder")}
               </p>
             </li>
           </ul>
@@ -146,9 +143,11 @@ const Index = () => {
                   <div className="col-span-1  flex items-baseline gap-x-[12px]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#539BFF]"></div>
                     <div>
-                      <h3 className="text-[#868EAB] text-sm">Bajarish vaqti</h3>
+                      <h3 className="text-[#868EAB] text-sm">
+                        {t("leadTime")}
+                      </h3>
                       <p className="font-semibold text-lg dark:text-white text-black ">
-                        {get(item, "duration_in_minutes", "")} minut
+                        {get(item, "duration_in_minutes", "")} {t("minut")}
                       </p>
                     </div>
                   </div>
@@ -157,7 +156,7 @@ const Index = () => {
                     <div className="w-[10px] h-[10px] rounded-full bg-[#12DEB9]"></div>
                     <div>
                       <h3 className="text-[#868EAB] text-sm ">
-                        Boshlangan sanasi
+                        {t("startDate")}
                       </h3>
                       <p className="font-semibold text-lg dark:text-white text-black">
                         {dayjs(get(item, "start_date", "")).format(
@@ -170,9 +169,7 @@ const Index = () => {
                   <div className="col-span-1  flex items-baseline gap-x-[12px]">
                     <div className="w-[10px] h-[10px] rounded-full bg-[#EB0000]"></div>
                     <div>
-                      <h3 className="text-[#868EAB] text-sm">
-                        Tugaydigan sanasi
-                      </h3>
+                      <h3 className="text-[#868EAB] text-sm">{t("endDate")}</h3>
                       <p className="font-semibold text-lg dark:text-white text-black">
                         {dayjs(get(item, "end_date", "")).format("DD.MM.YYYY")}{" "}
                       </p>
@@ -186,7 +183,7 @@ const Index = () => {
                   }
                   className="py-[8px] w-full px-[10px] bg-[#5D87FF] rounded-[4px] text-white"
                 >
-                  Testni boshlash
+                  {t("startTheTest")}
                 </button>
               </div>
             </div>

@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useSettingsStore } from "@/store";
+import { useTranslation } from "react-i18next";
+import { get } from "lodash";
+
 const LanguageDropdown = () => {
+  const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const setLang = useSettingsStore((state) => get(state, "setLang", () => {}));
 
   const languages = [
-    { code: "en", name: "English", flag: "en.png" },
     { code: "uz", name: "Uzbek", flag: "uz.png" },
+    { code: "en", name: "English", flag: "en.png" },
     { code: "ru", name: "Russian", flag: "ru.png" },
   ];
 
@@ -16,6 +22,9 @@ const LanguageDropdown = () => {
   const selectLanguage = (language) => {
     setSelectedLanguage(language);
     setIsOpen(false);
+    setLang(language.code);
+    setLang(language.flag);
+    i18n.changeLanguage(language.code);
   };
 
   return (

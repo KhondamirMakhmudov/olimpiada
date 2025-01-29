@@ -15,8 +15,10 @@ import storage from "@/services/storage";
 import { get } from "lodash";
 import DiagramChart from "@/components/charts/diagram";
 import SameDataComposedChart from "@/components/charts/SameDataComposedChart";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { theme } = useTheme();
   const [data, setData] = useState(null);
@@ -34,15 +36,11 @@ export default function Home() {
     },
   });
 
-  // console.log(result, "response state management");
   useEffect(() => {
     if (result) {
-      // Assuming `result` is an object, directly set it as the data
       setData(result);
     }
   }, [result]);
-
-  console.log(data, "data");
 
   return (
     <Dashboard>
@@ -61,7 +59,7 @@ export default function Home() {
             <p
               className={"text-[18px] dark:text-white text-black font-semibold"}
             >
-              Xush kelibsiz, {get(studentProfile, "data.full_name")}
+              {t("welcome")}, {get(studentProfile, "data.full_name")}
             </p>
           </div>
 
@@ -70,7 +68,7 @@ export default function Home() {
               " py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
             }
           >
-            Telegram bot orqali ro&apos;yhatdan o&apos;ting
+            {t("telegram_bot")}
           </button>
         </div>
 
@@ -90,7 +88,7 @@ export default function Home() {
         >
           <div>
             <h1 className={"text-lg dark:text-white text-black font-semibold"}>
-              Savollar
+              {t("questions")}
             </h1>
           </div>
           <PieChartComponent />
