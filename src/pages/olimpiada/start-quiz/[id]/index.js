@@ -15,11 +15,11 @@ const Index = () => {
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = router.query;
+  const [timeLeft, setTimeLeft] = useState(3600);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [timeLeft, setTimeLeft] = useState(3600);
   const { data, isLoading, isFetching } = useGetQuery({
     key: KEYS.quizTest,
     url: `${URLS.quizTest}/${id}`,
@@ -205,7 +205,7 @@ const Index = () => {
           </div>
 
           <div
-            className={`col-span-4 rounded-md self-start h-[450px] p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
+            className={`col-span-4 rounded-md self-start p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
           >
             <div className="flex items-center flex-col justify-center mt-[30px]">
               <div className="relative">
@@ -227,12 +227,12 @@ const Index = () => {
                 )}`}</p>
               </div>
 
-              <div className="flex justify-center mt-[40px] space-x-[10px]">
-                {get(data, "data", []).map((_, index) => (
+              <div className="grid grid-cols-8 mt-[40px] gap-[10px] ">
+                {get(data, "data", []).map((item, index) => (
                   <div
-                    key={index}
-                    className={`w-[40px] h-[40px] flex items-center justify-center rounded-full border cursor-pointer ${
-                      answeredQuestions.includes(index)
+                    key={(item, "id")}
+                    className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer ${
+                      answeredQuestions.includes((item, "id"))
                         ? "bg-blue-500 text-white border-blue-500"
                         : "bg-transparent border-gray-300 text-gray-500"
                     }`}
