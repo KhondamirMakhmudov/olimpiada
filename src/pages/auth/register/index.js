@@ -41,16 +41,16 @@ const Register = () => {
   const optionsCourse = [
     { id: 1, name: "1-kurs" },
     { id: 2, name: "2-kurs" },
-    { id: 3, name: "3-kurs" },
+    // { id: 3, name: "3-kurs" },
     { id: 4, name: "10-sinf" },
     { id: 5, name: "11-sinf" },
   ];
 
   const filteredCourses =
     selectedOption === "Litsey"
-      ? optionsCourse.slice(0, 3) // First three objects
+      ? optionsCourse.slice(0, 2) // First three objects
       : selectedOption === "Maktab"
-      ? optionsCourse.slice(3, 5) // Last two objects
+      ? optionsCourse.slice(2, 4) // Last two objects
       : [];
 
   const handleCourseSelect = (course) => {
