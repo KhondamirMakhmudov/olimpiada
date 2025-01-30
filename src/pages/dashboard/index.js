@@ -28,6 +28,32 @@ export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [accessToken, setAccessToken] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("dataRegister");
+    const currentSessionToken = session?.accessToken; // Session token from NextAuth
+    const hasModalBeenShown = localStorage.getItem("modalShown");
+
+    if (storedData && !hasModalBeenShown) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        console.log(parsedData, "parsedData");
+        setShowModal(true);
+        setUserData(parsedData);
+        setAccessToken(get(parsedData, "data.access_token")); // Use accessToken from dataRegister
+        localStorage.removeItem("session");
+        localStorage.setItem("modalShown", "true"); // Remove session data
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    } else if (currentSessionToken) {
+      setAccessToken(currentSessionToken); // Use accessToken from session
+      localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
+    }
+  }, [session]);
 
   const {
     data: studentProfile,
@@ -37,23 +63,18 @@ export default function DashboardPage() {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: session?.accessToken
-        ? `Bearer ${session.accessToken}`
-        : "",
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
     },
   });
 
   console.log(session, "session");
 
-  useEffect(() => {
-    if (result) {
-      setData(result);
-    }
-  }, [result]);
-  console.log(get(result, "data"), "data");
-  const handleProfile = () => {
-    setOpenProfile(!openProfile);
-  };
+  // useEffect(() => {
+  //   if (result) {
+  //     setData(result);
+  //   }
+  // }, [result]);
+  // console.log(get(result, "data"), "data");
 
   const handleCopy = () => {
     const textToCopy = `Login: ${get(result, "data.login")}\nPassword: ${get(
@@ -69,24 +90,20 @@ export default function DashboardPage() {
       .catch((err) => console.error("Failed to copy text:", err));
   };
 
-  // Function to handle showing the modal
-  const handleLogoutClick = () => {
-    setIsModalOpen(true);
-  };
-
   // Function to handle closing the modal
   const closeModal = () => {
     setIsExiting(true);
     setTimeout(() => {
       setIsModalOpen(false);
       setIsExiting(false);
+      setUserData(null);
     }, 300); // Delay for the animation to complete
   };
 
   return (
     <Dashboard>
       {/* if recieve code successful this modal should be appeared */}
-      {result ? (
+      {showModal && userData && (
         <div>
           {" "}
           <div
@@ -102,7 +119,7 @@ export default function DashboardPage() {
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <div className="flex items-center gap-x-[5px]">
                 <h2 className="text-xl font-semibold mb-1 text-[#13DEB9]">
-                  {get(result, "data.message")}
+                  {get(userData, "data.message")}
                 </h2>
 
                 <Image
@@ -117,10 +134,10 @@ export default function DashboardPage() {
               </h2>
 
               <p className="text-lg font-medium text-[#7C8FAC] mb-2">
-                Login: {get(result, "data.login")}
+                Login: {get(userData, "data.login")}
               </p>
               <p className="text-lg font-medium text-[#7C8FAC] mb-4">
-                Parolingiz: {get(result, "data.password")}
+                Parolingiz: {get(userData, "data.password")}
               </p>
 
               <p lassName="text-sm font-medium text-[#7C8FAC] ">
@@ -144,8 +161,6 @@ export default function DashboardPage() {
             </div>
           </div>{" "}
         </div>
-      ) : (
-        ""
       )}
       <div
         className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[200px] `}
