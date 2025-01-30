@@ -75,7 +75,7 @@ const Login = () => {
               <button
                 onClick={() => {
                   handleTab("login");
-                  router.push("/auth/login");
+                  router.push("");
                 }}
                 className={`py-[8px] px-[16px]  w-1/3  ${
                   tab === "login"
