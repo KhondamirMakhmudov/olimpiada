@@ -15,7 +15,7 @@ import storage from "@/services/storage";
 import { get } from "lodash";
 import DiagramChart from "@/components/charts/diagram";
 import { useTranslation } from "react-i18next";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -44,13 +44,13 @@ export default function DashboardPage() {
         setShowModal(true);
         setUserData(parsedData);
         setAccessToken(get(parsedData, "data.access_token")); // Use accessToken from dataRegister
-        localStorage.removeItem("session");
+        signOut;
         localStorage.setItem("modalShown", "true"); // Remove session data
       } catch (error) {
         console.error("Error parsing JSON:", error);
       }
-    } else if (currentSessionToken) {
-      setAccessToken(currentSessionToken); // Use accessToken from session
+    } else if (session?.accessToken) {
+      setAccessToken(session?.accessToken); // Use accessToken from session
       localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
     }
   }, [session]);
@@ -63,11 +63,9 @@ export default function DashboardPage() {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      Authorization: `Bearer ${accessToken}`,
     },
   });
-
-  console.log(session, "session");
 
   // useEffect(() => {
   //   if (result) {

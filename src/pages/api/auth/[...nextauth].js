@@ -15,7 +15,7 @@ export default NextAuth({
           formData.append("password", password);
 
           const response = await fetch(
-            "https://api.jetmind.uz/api/v1/student/login/",
+            "https://app.iq-math.uz/v1/student/login/",
             {
               method: "POST",
               headers: {

@@ -53,7 +53,6 @@ const Index = () => {
         onSuccess: (data) => {
           console.log(data);
           localStorage.setItem("dataRegister", JSON.stringify(data));
-          setResult(data);
 
           router.push("/dashboard");
         },
