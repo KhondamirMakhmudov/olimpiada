@@ -131,20 +131,8 @@ const Register = () => {
           router.push("/auth/recieve-code");
         },
         onError: (error) => {
-          console.log("Error response:", error?.response?.data || error);
-
-          // Xatolikni stringga o'tkazish
-          let errorMessage = "Xatolik yuz berdi";
-
-          if (error?.response?.data?.errors) {
-            errorMessage = Object.values(error.response.data.errors)
-              .flat()
-              .join(", ");
-          } else if (error?.message) {
-            errorMessage = error.message;
-          }
-
-          toast.error(errorMessage);
+          console.log(error);
+          toast.error("Error logging in");
         },
       }
     );
