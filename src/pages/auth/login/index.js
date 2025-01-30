@@ -123,7 +123,7 @@ const Login = () => {
                     <span className="text-gray-700 text-sm">+998</span>
                     <input
                       type="tel"
-                      maxLength="12"
+                      maxLength="9"
                       {...register("phone", { required: true })}
                       className="  w-full text-sm bg-white text-black py-[9px] pl-[5px]"
                       placeholder="331234567"
