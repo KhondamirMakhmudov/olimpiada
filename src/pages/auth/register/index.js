@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { set, useForm } from "react-hook-form";
-
+import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-
+import RegionDistrictDropdown from "@/components/region-district";
 import { data } from "@/data/region";
 import storage from "@/services/storage";
 
@@ -106,20 +106,18 @@ const Register = () => {
 
   const onSubmit = ({ full_name, email, phone, address, brithday }) => {
     let formData = new FormData();
-    const formattedPhone = `998${String(phone).replace(/[^0-9]/g, "")}`;
+    const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
     storage.set("phone", formattedPhone);
-    formData.append("full_name", "Khondamir");
-    formData.append("email", "xondamir.maxmudov.01@mail.ru");
-    formData.append("phone", "998915812109");
-    formData.append("region", "9");
-    formData.append("districts", "126");
-    formData.append("address", "Uyim o'zimni");
-    formData.append("brithday", "2010-10-01");
-    formData.append("academy_or_school", "Litsey");
-    formData.append("class_name", "2-kurs");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
+    formData.append("full_name", full_name);
+    formData.append("email", email);
+    formData.append("phone", formattedPhone);
+    formData.append("region", selectedRegion);
+    formData.append("districts", selectedDistrict);
+    formData.append("address", address);
+    formData.append("brithday", brithday);
+    formData.append("academy_or_school", selectedOption);
+    formData.append("class_name", selectedOptionCourse);
+
     registerRequest(
       {
         url: URLS.register,
@@ -132,7 +130,6 @@ const Register = () => {
           toast.success("Logged in successfully");
           router.push("/auth/recieve-code");
         },
-
         onError: (error) => {
           console.log("Error response:", error?.response?.data || error);
 
@@ -143,6 +140,8 @@ const Register = () => {
             errorMessage = Object.values(error.response.data.errors)
               .flat()
               .join(", ");
+          } else if (error?.message) {
+            errorMessage = error.message;
           }
 
           toast.error(errorMessage);
@@ -150,9 +149,6 @@ const Register = () => {
       }
     );
   };
-
-  const storedPhone = storage.get("phone");
-  console.log("Stored phone:", storedPhone, typeof storedPhone);
 
   return (
     <div className="">
