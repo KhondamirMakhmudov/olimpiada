@@ -132,11 +132,9 @@ const Home = () => {
                     <span className="text-gray-700 text-sm">+998</span>
                     <input
                       type="tel"
-                      maxLength="15"
+                      maxLength="9"
                       {...register("phone", { required: true })}
                       className="  w-full bg-white text-sm text-black py-[9px] pl-[5px]"
-                      value={phone}
-                      onChange={(e) => formatPhoneNumber(e.target.value)}
                     />
                   </div>
                   {/* <PhoneInput
