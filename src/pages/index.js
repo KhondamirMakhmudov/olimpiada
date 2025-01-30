@@ -125,7 +125,7 @@ const Home = () => {
                       type="tel"
                       maxLength="9"
                       {...register("phone", { required: true })}
-                      className="  w-full text-sm text-black py-[9px] pl-[5px]"
+                      className="  w-full bg-white text-sm text-black py-[9px] pl-[5px]"
                     />
                   </div>
                   {/* <PhoneInput
@@ -144,7 +144,7 @@ const Home = () => {
                   <input
                     type="password"
                     {...register("password", { required: true })}
-                    className="border border-[#EAEFF4] rounded-[8px] text-black  w-full px-[8px] py-[8px]"
+                    className="border border-[#EAEFF4] bg-white rounded-[8px] text-black  w-full px-[8px] py-[8px]"
                   />
                 </div>
 

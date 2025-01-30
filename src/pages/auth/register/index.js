@@ -191,7 +191,7 @@ const Register = () => {
                 <input
                   type="text"
                   {...register("full_name", { required: true })}
-                  className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                   placeholder="F.I.SH"
                 />
               </div>
@@ -200,7 +200,7 @@ const Register = () => {
                 <input
                   type="email"
                   {...register("email", { required: true })}
-                  className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                   placeholder="Email"
                 />
               </div>
@@ -215,12 +215,12 @@ const Register = () => {
                   />
 
                   <div className="w-[1px] h-[40px] bg-[#EAEFF4]  "></div>
-                  <span className="text-gray-700 text-sm">+998</span>
+                  <span className="text-[#2A3547] text-sm">+998</span>
                   <input
                     type="tel"
                     maxLength="9"
                     {...register("phone", { required: true })}
-                    className="  w-full text-sm py-[9px] pl-[5px]"
+                    className="  w-full text-sm bg-white text-[#2A3547] py-[9px] pl-[5px]"
                     placeholder="331234678"
                   />
                 </div>
@@ -239,7 +239,7 @@ const Register = () => {
                   min="2005-12-31"
                   {...register("brithday", { required: true })}
                   placeholder="Tug'ilgan kun"
-                  className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white rounded-[8px] w-full px-[8px] py-[8px]"
                 />
               </div>
 
@@ -332,7 +332,7 @@ const Register = () => {
                 <input
                   type="text"
                   {...register("address", { required: true })}
-                  className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                   placeholder=" Manzil"
                 />
               </div>
