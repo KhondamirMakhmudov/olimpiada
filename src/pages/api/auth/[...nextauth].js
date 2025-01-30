@@ -54,7 +54,9 @@ export default NextAuth({
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret:
+    process.env.NEXTAUTH_SECRET ||
+    "a1d808591edf4ecda7262ad750234b7c5d777f05f76dca55123dd50b1e65568c",
   pages: {
     signIn: "/dashboard",
   },
