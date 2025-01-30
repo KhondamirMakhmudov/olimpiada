@@ -175,7 +175,7 @@ const MainContentHead = () => {
                 </p>
                 <div className="flex justify-end gap-x-[10px]">
                   <button
-                    onClick={confirmLogout}
+                    onClick={handleLogout}
                     className="bg-green-500  text-white py-2 px-4 rounded"
                   >
                     Ha
