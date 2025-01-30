@@ -239,7 +239,7 @@ const Register = () => {
                   min="2005-12-31"
                   {...register("brithday", { required: true })}
                   placeholder="Tug'ilgan kun"
-                  className="border border-[#EAEFF4] bg-white rounded-[8px] w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white text-black rounded-[8px] w-full px-[8px] py-[8px]"
                 />
               </div>
 
@@ -337,10 +337,10 @@ const Register = () => {
                 />
               </div>
 
-              <div className="relative ">
+              <div className="relative text-[#2A3547]">
                 <div
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  className="w-full  px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
+                  className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
                 >
                   <span>{selectedOption}</span>
                   <svg
@@ -362,7 +362,7 @@ const Register = () => {
                 </div>
 
                 {dropdownOpen && (
-                  <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
+                  <ul className="absolute w-full mt-1 bg-white text-[#2A3547] border border-gray-300 rounded-md shadow-md z-10">
                     {options.map((option, index) => (
                       <li
                         key={index}
@@ -376,7 +376,7 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="relative ">
+              <div className="relative text-[#2A3547]">
                 <div
                   onClick={() => setDropdownOpenCourse((prev) => !prev)}
                   className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
