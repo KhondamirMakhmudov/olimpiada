@@ -243,7 +243,7 @@ const Register = () => {
                 />
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 text-[#2A3547]">
                 <div className="relative">
                   <div
                     onClick={() => setRegionDropdownOpen((prev) => !prev)}
@@ -284,7 +284,7 @@ const Register = () => {
                   )}
                 </div>
 
-                <div className="relative">
+                <div className="relative text-[#2A3547]">
                   <div
                     onClick={toggleDistrictDropdown}
                     className={`w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${

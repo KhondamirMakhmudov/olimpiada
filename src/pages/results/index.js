@@ -140,14 +140,16 @@ const Index = () => {
               <div>
                 <p className="text-sm text-[#5A6A85]">{t("totalScore")}</p>
 
-                <p className="font-medium text-lg">
+                <p className="font-medium text-lg text-[#2A3547] dark:text-white">
                   {parseInt(get(quizResult, "data.score")).toFixed(2)}{" "}
                   {t("score")}
                 </p>
               </div>
             </div>
 
-            <p className="px-[30px] text-sm mt-[30px]">{t("resultsDesc")}</p>
+            <p className="px-[30px] text-sm mt-[30px] text-[#2A3547] dark:text-white">
+              {t("resultsDesc")}
+            </p>
           </div>
         </div>
       )}
