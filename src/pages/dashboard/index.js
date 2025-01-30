@@ -1,60 +1,63 @@
-import Brand from "@/components/brand";
-import SynchronizedAreaChart from "@/components/charts/area-chart";
-import PieChartComponent from "@/components/charts/pie-chart";
-import Dashboard from "@/components/dashboard";
-import { useTheme } from "next-themes";
-import Image from "next/image";
-import { UserProfileContext } from "@/context/responseProvider";
-import { useContext, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { ThemeProvider } from "@/components/theme-provider";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { get } from "lodash";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
-import storage from "@/services/storage";
-import { get } from "lodash";
-import DiagramChart from "@/components/charts/diagram";
-import { useTranslation } from "react-i18next";
-import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import Dashboard from "@/components/dashboard";
+import PieChartComponent from "@/components/charts/pie-chart";
+import DiagramChart from "@/components/charts/diagram";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
   const { t } = useTranslation();
-  const router = useRouter();
-  const { theme } = useTheme();
-  const [data, setData] = useState(null);
-  const { result } = useContext(UserProfileContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isExiting, setIsExiting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userData, setUserData] = useState(null);
   const [accessToken, setAccessToken] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  // Read localStorage data on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("dataRegister");
-    const currentSessionToken = session?.accessToken; // Session token from NextAuth
     const hasModalBeenShown = localStorage.getItem("modalShown");
 
-    if (storedData && !hasModalBeenShown) {
+    if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log(parsedData, "parsedData");
-        setShowModal(true);
+        console.log("Parsed data from localStorage:", parsedData); // Debugging
         setUserData(parsedData);
-        setAccessToken(get(parsedData, "data.access_token")); // Use accessToken from dataRegister
-        signOut;
-        localStorage.setItem("modalShown", "true"); // Remove session data
+
+        // Set accessToken from dataRegister
+        const tokenFromDataRegister = get(parsedData, "data.access_token");
+        if (tokenFromDataRegister) {
+          setAccessToken(tokenFromDataRegister);
+        }
+
+        // Show modal if it hasn't been shown before
+        if (!hasModalBeenShown) {
+          setShowModal(true);
+          localStorage.setItem("modalShown", "true");
+        }
       } catch (error) {
-        console.error("Error parsing JSON:", error);
+        console.error("Error parsing JSON from localStorage:", error);
       }
-    } else if (session?.accessToken) {
-      setAccessToken(session?.accessToken); // Use accessToken from session
+    }
+  }, []); // Empty dependency array to run only on mount
+
+  // Handle session-based accessToken
+  useEffect(() => {
+    if (session?.accessToken) {
+      setAccessToken(session.accessToken);
       localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
     }
   }, [session]);
 
+  // Fetch student profile using accessToken
   const {
     data: studentProfile,
     isLoading,
@@ -65,18 +68,13 @@ export default function DashboardPage() {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
+    enabled: !!accessToken, // Only fetch if accessToken is available
   });
 
-  // useEffect(() => {
-  //   if (result) {
-  //     setData(result);
-  //   }
-  // }, [result]);
-  // console.log(get(result, "data"), "data");
-
+  // Copy login/password to clipboard
   const handleCopy = () => {
-    const textToCopy = `Login: ${get(result, "data.login")}\nPassword: ${get(
-      result,
+    const textToCopy = `Login: ${get(userData, "data.login")}\nPassword: ${get(
+      userData,
       "data.password"
     )}`;
     navigator.clipboard
@@ -88,24 +86,22 @@ export default function DashboardPage() {
       .catch((err) => console.error("Failed to copy text:", err));
   };
 
-  // Function to handle closing the modal
+  // Close the modal
   const closeModal = () => {
     setIsExiting(true);
     setTimeout(() => {
-      setIsModalOpen(false);
       setIsExiting(false);
-      setUserData(null);
-    }, 300); // Delay for the animation to complete
+      setShowModal(false); // Close the modal
+    }, 300);
   };
 
   return (
     <Dashboard>
-      {/* if recieve code successful this modal should be appeared */}
+      {/* Modal for showing login/password */}
       {showModal && userData && (
         <div>
-          {" "}
           <div
-            className={`fixed inset-0  bg-black bg-opacity-40 z-50 transition-opacity duration-300 ${
+            className={`fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity duration-300 ${
               !isExiting ? "opacity-90" : "opacity-40"
             }`}
           ></div>
@@ -119,7 +115,6 @@ export default function DashboardPage() {
                 <h2 className="text-xl font-semibold mb-1 text-[#13DEB9]">
                   {get(userData, "data.message")}
                 </h2>
-
                 <Image
                   src={"/icons/success.svg"}
                   alt="success"
@@ -130,22 +125,20 @@ export default function DashboardPage() {
               <h2 className="text-xl font-semibold mb-1">
                 Sizning login parolingiz
               </h2>
-
               <p className="text-lg font-medium text-[#7C8FAC] mb-2">
                 Login: {get(userData, "data.login")}
               </p>
               <p className="text-lg font-medium text-[#7C8FAC] mb-4">
                 Parolingiz: {get(userData, "data.password")}
               </p>
-
-              <p lassName="text-sm font-medium text-[#7C8FAC] ">
+              <p className="text-sm font-medium text-[#7C8FAC]">
                 Login va parolni o'zgartirmoqchi bo'lsangiz, bu jarayonni mening
                 sahifamda bajarasiz
               </p>
               <div className="flex justify-end gap-x-[10px] mt-4">
                 <button
                   onClick={handleCopy}
-                  className="bg-green-500  text-white py-2 px-4 rounded"
+                  className="bg-green-500 text-white py-2 px-4 rounded"
                 >
                   {copied ? "Nusxa Olindi!" : "Nusxa olish"}
                 </button>
@@ -157,11 +150,13 @@ export default function DashboardPage() {
                 </button>
               </div>
             </div>
-          </div>{" "}
+          </div>
         </div>
       )}
+
+      {/* Rest of the dashboard content */}
       <div
-        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[200px] `}
+        className={`p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF] my-[30px] rounded-[12px] relative h-[200px]`}
       >
         <div className={"space-y-[60px]"}>
           <div className={"flex gap-x-[12px] items-center"}>
@@ -171,25 +166,22 @@ export default function DashboardPage() {
               width={40}
               height={40}
             />
-
             <p
               className={"text-[18px] dark:text-white text-black font-semibold"}
             >
               {t("welcome")}, {get(studentProfile, "data.full_name")}
             </p>
           </div>
-
           <Link href={"https://t.me/iq_mathbot"} className="mt-[60px] block">
             <button
               className={
-                " py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
+                "py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
               }
             >
               {t("telegram_bot")}
             </button>
           </Link>
         </div>
-
         <div className={"absolute right-0 bottom-0"}>
           <Image
             src={"/icons/welcome-bg.svg"}
@@ -210,7 +202,6 @@ export default function DashboardPage() {
             </h1>
           </div>
           <PieChartComponent />
-
           <div className={"flex items-end gap-x-[12px]"}>
             <div className={"bg-[#ECF2FF] p-[10px] rounded-[8px] inline-block"}>
               <Image
@@ -220,11 +211,10 @@ export default function DashboardPage() {
                 height={24}
               />
             </div>
-
             <div>
               <h4
                 className={
-                  "text-[21px] dark:text-white text-black  font-semibold"
+                  "text-[21px] dark:text-white text-black font-semibold"
                 }
               >
                 $63,489.50
@@ -233,18 +223,16 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
         <div
           className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
+            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md"
           }
         >
           <DiagramChart />
         </div>
-
         <div
           className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF]  shadow-lg rounded-md"
+            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md"
           }
         >
           {/* <ReactApexChart /> */}

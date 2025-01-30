@@ -6,51 +6,43 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import toast from "react-hot-toast";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
-import { set, useForm } from "react-hook-form";
-import { PhoneInput } from "react-international-phone";
-import "react-international-phone/style.css";
-import RegionDistrictDropdown from "@/components/region-district";
+import { useForm } from "react-hook-form";
 import { data } from "@/data/region";
 import storage from "@/services/storage";
 
 const Register = () => {
   const router = useRouter();
   const [tab, setTab] = useState("register");
-  const [phone, setPhone] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const regions = data.regions;
   const districts = data.districts;
+  const [submitError, setSubmitError] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [filteredDistricts, setFilteredDistricts] = useState([]);
   const [regionDropdownOpen, setRegionDropdownOpen] = useState(false);
   const [districtDropdownOpen, setDistrictDropdownOpen] = useState(false);
-  // Talim turi
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(
     "Ta'lim dargohi tanlang"
   );
-
-  //   Kurs turi
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
   const [selectedOptionCourse, setSelectedOptionCourse] =
     useState("Kurs turi tanlang");
 
   const options = ["Litsey", "Maktab"];
-
   const optionsCourse = [
     { id: 1, name: "1-kurs" },
     { id: 2, name: "2-kurs" },
-    // { id: 3, name: "3-kurs" },
     { id: 4, name: "10-sinf" },
     { id: 5, name: "11-sinf" },
   ];
 
   const filteredCourses =
     selectedOption === "Litsey"
-      ? optionsCourse.slice(0, 2) // First three objects
+      ? optionsCourse.slice(0, 2)
       : selectedOption === "Maktab"
-      ? optionsCourse.slice(2, 4) // Last two objects
+      ? optionsCourse.slice(2, 4)
       : [];
 
   const handleCourseSelect = (course) => {
@@ -106,11 +98,10 @@ const Register = () => {
 
   const onSubmit = ({ full_name, email, phone, address, brithday }) => {
     let formData = new FormData();
-    const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
-    storage.set("phone", formattedPhone);
+    storage.set("phone", `${String(998) + String(phone)}`);
     formData.append("full_name", full_name);
     formData.append("email", email);
-    formData.append("phone", formattedPhone);
+    formData.append("phone", `${String(998) + String(phone)}`);
     formData.append("region", selectedRegion);
     formData.append("districts", selectedDistrict);
     formData.append("address", address);
@@ -126,13 +117,14 @@ const Register = () => {
       {
         onSuccess: (data) => {
           console.log(data);
-
           toast.success("Logged in successfully");
           router.push("/auth/recieve-code");
         },
         onError: (error) => {
           console.log(error);
-          toast.error("Error logging in");
+          const errorMessage =
+            error.response?.data?.errors?.phone?.[0] || "An error occurred";
+          setSubmitError(errorMessage);
         },
       }
     );
@@ -152,6 +144,7 @@ const Register = () => {
           </div>
 
           <div className="flex">
+            {submitError}
             <button
               onClick={() => {
                 handleTab("login");
@@ -224,12 +217,6 @@ const Register = () => {
                     placeholder="331234678"
                   />
                 </div>
-                {/* <PhoneInput
-                    defaultCountry="uz"
-                    value={phone}
-                    {...register("phone", { required: true })}
-                    onChange={(phone) => setPhone(phone)}
-                  /> */}
               </div>
               {/* Birthday */}
               <div className="">

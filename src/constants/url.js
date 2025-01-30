@@ -3,7 +3,7 @@ export const URLS = {
   register: "/student/register/",
   studentProfile: "/student/profile/",
   olimpiadaQuizList: "quiz/sciences/list/",
-  quizTest: "quiz/quizzes",
+  quizTest: "quiz/quizzes/",
   submitAnswers: "quiz/submit-quiz-result/",
   recieveCode: "/student/verify-sms/",
   resultQuiz: "/quiz/result/list/",

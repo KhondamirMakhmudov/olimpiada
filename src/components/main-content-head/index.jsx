@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ThemeChanger from "../theme-switcher";
 
 import useGetQuery from "../../hooks/api/useGetQuery";
@@ -10,6 +10,7 @@ import { get } from "lodash";
 import { useRouter } from "next/router";
 import LanguageDropdown from "../language";
 import { signOut, useSession } from "next-auth/react";
+import { useTranslation } from "react-i18next";
 const MainContentHead = () => {
   const { data: session } = useSession();
   const [openProfile, setOpenProfile] = useState(false);
@@ -17,6 +18,50 @@ const MainContentHead = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
+  const { t } = useTranslation();
+
+  const [copied, setCopied] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [accessToken, setAccessToken] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  // Read localStorage data on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("dataRegister");
+    const hasModalBeenShown = localStorage.getItem("modalShown");
+
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        console.log("Parsed data from localStorage:", parsedData); // Debugging
+        setUserData(parsedData);
+
+        // Set accessToken from dataRegister
+        const tokenFromDataRegister = get(parsedData, "data.access_token");
+        if (tokenFromDataRegister) {
+          setAccessToken(tokenFromDataRegister);
+        }
+
+        // Show modal if it hasn't been shown before
+        if (!hasModalBeenShown) {
+          setShowModal(true);
+          localStorage.setItem("modalShown", "true");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON from localStorage:", error);
+      }
+    }
+  }, []); // Empty dependency array to run only on mount
+
+  // Handle session-based accessToken
+  useEffect(() => {
+    if (session?.accessToken) {
+      setAccessToken(session.accessToken);
+      localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
+    }
+  }, [session]);
+
+  // Fetch student profile using accessToken
   const {
     data: studentProfile,
     isLoading,
@@ -25,10 +70,9 @@ const MainContentHead = () => {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: session?.accessToken
-        ? `Bearer ${session.accessToken}`
-        : "",
+      Authorization: `Bearer ${accessToken}`,
     },
+    enabled: !!accessToken, // Only fetch if accessToken is available
   });
 
   const handleProfile = () => {
