@@ -52,7 +52,9 @@ const Index = () => {
       {
         onSuccess: (data) => {
           console.log(data);
-          localStorage.setItem("authToken", get(data, "data.access_token", ""));
+
+          setResult(data);
+
           router.push("/dashboard");
         },
         onError: (error) => {

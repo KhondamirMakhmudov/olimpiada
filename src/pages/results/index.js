@@ -11,7 +11,9 @@ import { useState } from "react";
 import GridIcon from "@/components/icons/grid";
 import AnswerIcon from "@/components/icons/answer";
 import { useTranslation } from "react-i18next";
+import { useSession } from "next-auth/react";
 const Index = () => {
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [tab, setTab] = useState("results");
 
@@ -26,7 +28,7 @@ const Index = () => {
     key: KEYS.resultQuiz,
     url: URLS.resultQuiz,
     headers: {
-      Authorization: `Bearer ${storage.get("authToken")}`,
+      Authorization: `Bearer ${session?.accessToken}`,
     },
   });
   return (
@@ -139,7 +141,7 @@ const Index = () => {
                 <p className="text-sm text-[#5A6A85]">{t("totalScore")}</p>
 
                 <p className="font-medium text-lg">
-                  {parseFloat(get(quizResult, "data.score")).toFixed(2)}{" "}
+                  {parseInt(get(quizResult, "data.score")).toFixed(2)}{" "}
                   {t("score")}
                 </p>
               </div>

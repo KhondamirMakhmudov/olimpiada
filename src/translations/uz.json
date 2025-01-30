@@ -25,5 +25,7 @@
   "myAnswers": "Mening javoblarim",
   "resultsDesc": "300 ta eng yuqori ball to'plagan ishtirokchi ikkinchi bosqichga o'tadi. Agar siz ulardan biri bo'lsangiz, yaqinda ushbu sahifada 'Siz ikkinchi bosqichga o'tdingiz!' degan xabarni ko'rishingiz mumkin. Xabar shuningdek, sizning telefoningizga SMS tarzida yuboriladi.",
   "totalScore": "Sizning to'plagan balingiz",
-  "score": "ball"
+  "score": "ball",
+  "next": "Keyingisi",
+  "previous": "Oldingisi"
 }

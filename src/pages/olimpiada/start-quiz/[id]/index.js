@@ -10,8 +10,10 @@ import { useTheme } from "next-themes";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import storage from "@/services/storage";
+import { useSession } from "next-auth/react";
 
 const Index = () => {
+  const { data: session } = useSession();
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = router.query;
@@ -19,15 +21,42 @@ const Index = () => {
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [openProfile, setOpenProfile] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+
+  const handleProfile = () => {
+    setOpenProfile(!openProfile);
+  };
+
+  // Function to handle showing the modal
+  const handleLogoutClick = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to handle closing the modal
+  const closeModal = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setIsExiting(false);
+    }, 300); // Delay for the animation to complete
+  };
 
   const { data, isLoading, isFetching } = useGetQuery({
     key: KEYS.quizTest,
     url: `${URLS.quizTest}/${id}`,
     enabled: !!id,
     headers: {
-      Authorization: `Bearer ${storage.get("authToken")}`,
+      Authorization: session?.accessToken
+        ? `Bearer ${session.accessToken}`
+        : "",
     },
   });
+
+  const totalQuizzes = get(data, "data", []).length;
 
   const { mutate: submitAnswers } = usePostQuery({
     listKeyId: KEYS.submitAnswers,
@@ -54,7 +83,9 @@ const Index = () => {
         attributes: payload,
         config: {
           headers: {
-            Authorization: `Bearer ${storage.get("authToken")}`,
+            Authorization: session?.accessToken
+              ? `Bearer ${session.accessToken}`
+              : "",
           },
         },
       },
@@ -62,6 +93,9 @@ const Index = () => {
         onSuccess: () => {
           setIsSubmitting(false);
           router.push("/results");
+          localStorage.removeItem("timeLeft");
+          localStorage.removeItem("selectedAnswers");
+          localStorage.removeItem("answeredQuestions");
           console.log("Answers submitted successfully!");
         },
         onError: (error) => {
@@ -170,38 +204,81 @@ const Index = () => {
       <div className="my-[30px] ">
         <div className="grid grid-cols-12 gap-x-[30px]">
           <div className="col-span-8 space-y-[30px]">
-            {get(data, "data", []).map((item, index) => (
+            {get(data, "data", []).length > 0 && (
               <div
-                className={`border p-[30px] shadow-md  rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
-                key={index}
+                className={`border p-[30px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
+                key={currentQuizIndex}
               >
                 <div className="text-xl mb-[8px]">
                   <p className="mb-[15px] dark:text-white text-black">
-                    Savol {index + 1}:
+                    Savol {currentQuizIndex + 1}:
                   </p>
                   <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
-                    {parse(get(item, "question", ""))}
+                    {parse(
+                      get(data, "data", [])[currentQuizIndex]?.question,
+                      ""
+                    )}
                   </div>
                   {/* Quizzes */}
                   <ul className="mt-[30px] space-y-[10px]">
-                    {["A", "B", "C", "D"].map((option) => (
+                    {["A", "B", "C", "D"].map((option, index) => (
                       <li
-                        key={option}
+                        key={index}
                         className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
-                          selectedAnswers[get(item, "id")] === option
+                          selectedAnswers[
+                            get(data, "data", [])[currentQuizIndex]?.id
+                          ] === option
                             ? "bg-blue-500 text-white"
                             : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
+                        }`}
+                        onClick={() =>
+                          handleAnswer(
+                            get(data, "data", [])[currentQuizIndex]?.id,
+                            option
+                          )
                         }
-`}
-                        onClick={() => handleAnswer(get(item, "id"), option)}
                       >
-                        <div>{parse(get(item, option, ""))}</div>
+                        <div>
+                          {parse(
+                            get(data, "data", [])[currentQuizIndex][option],
+                            ""
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
-            ))}
+            )}
+
+            <div className="flex justify-between mt-[20px]">
+              <button
+                onClick={() =>
+                  setCurrentQuizIndex((prevIndex) => Math.max(prevIndex - 1, 0))
+                }
+                disabled={currentQuizIndex === 0}
+                className={` text-white px-4 py-2 rounded-md  ${
+                  currentQuizIndex === 0 ? "bg-gray-400" : "bg-blue-500"
+                }`}
+              >
+                Oldingisi
+              </button>
+              <button
+                onClick={() =>
+                  setCurrentQuizIndex((prevIndex) =>
+                    Math.min(prevIndex + 1, totalQuizzes - 1)
+                  )
+                }
+                disabled={currentQuizIndex === totalQuizzes - 1}
+                className={` text-white px-4 py-2 rounded-md  ${
+                  currentQuizIndex === totalQuizzes - 1
+                    ? "bg-gray-400"
+                    : "bg-blue-500"
+                }`}
+              >
+                Keyingisi
+              </button>
+            </div>
           </div>
 
           <div
@@ -230,9 +307,9 @@ const Index = () => {
               <div className="grid grid-cols-8 mt-[40px] gap-[10px] ">
                 {get(data, "data", []).map((item, index) => (
                   <div
-                    key={(item, "id")}
+                    key={index}
                     className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer ${
-                      answeredQuestions.includes((item, "id"))
+                      answeredQuestions.includes(item.id)
                         ? "bg-blue-500 text-white border-blue-500"
                         : "bg-transparent border-gray-300 text-gray-500"
                     }`}
@@ -248,7 +325,7 @@ const Index = () => {
               <div className="mt-[40px] flex justify-center">
                 <button
                   className="bg-red-500 text-white px-[20px] py-[10px] rounded-md hover:bg-red-600"
-                  onClick={onSubmit}
+                  onClick={handleLogoutClick}
                 >
                   Yakunlash
                 </button>
@@ -257,6 +334,42 @@ const Index = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <>
+          <div
+            className={`fixed inset-0 bg-black bg-opacity-90 z-50 transition-opacity duration-300 ${
+              isExiting ? "opacity-0" : "opacity-40"
+            }`}
+          ></div>
+          <div
+            className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-300 ${
+              isExiting ? "scale-95 opacity-0" : "scale-100 opacity-100"
+            }`}
+          >
+            <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+              <h2 className="text-xl font-semibold mb-1">Testni yakunlash</h2>
+              <p className="text-lg font-medium text-[#7C8FAC] mb-4">
+                Testni yakunlashga aminmisiz? "Ha" tugmasini bosganingizdan
+                so&apos;ng siz test jarayoniga qayta olmaysiz.
+              </p>
+              <div className="flex justify-end gap-x-[10px]">
+                <button
+                  onClick={onSubmit}
+                  className="bg-green-500  text-white py-2 px-4 rounded"
+                >
+                  Ha
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="bg-gray-300 text-black py-2 px-4 rounded"
+                >
+                  Yo&apos;q
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </Dashboard>
   );
 };

@@ -7,7 +7,10 @@ import storage from "@/services/storage";
 import { get } from "lodash";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
+
 const Index = () => {
+  const { data: session } = useSession();
   const {
     data: studentProfile,
     isLoading,
@@ -16,9 +19,12 @@ const Index = () => {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: `Bearer ${storage.get("authToken")}`,
+      Authorization: session?.accessToken
+        ? `Bearer ${session.accessToken}`
+        : "",
     },
   });
+
   return (
     <Dashboard>
       <div

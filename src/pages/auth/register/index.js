@@ -146,7 +146,7 @@ const Register = () => {
         }
         style={{ backgroundImage: `url(/images/bg-auth.png)` }}
       >
-        <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[30px] ">
+        <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[20px] ">
           <div className="mb-[30px]  text-center">
             <Brand />
           </div>
@@ -188,34 +188,24 @@ const Register = () => {
             >
               {/* Ism */}
               <div className="">
-                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
-                  F.I.SH
-                </p>
-
                 <input
                   type="text"
                   {...register("full_name", { required: true })}
                   className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  placeholder="F.I.SH"
                 />
               </div>
               {/* Email */}
               <div className="">
-                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
-                  Email
-                </p>
-
                 <input
                   type="email"
                   {...register("email", { required: true })}
                   className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  placeholder="Email"
                 />
               </div>
               {/* Telefon raqam */}
               <div>
-                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
-                  Telefon raqam
-                </p>
-
                 <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
                   <Image
                     src={"/icons/uzb-flag.svg"}
@@ -231,6 +221,7 @@ const Register = () => {
                     maxLength="9"
                     {...register("phone", { required: true })}
                     className="  w-full text-sm py-[9px] pl-[5px]"
+                    placeholder="331234678"
                   />
                 </div>
                 {/* <PhoneInput
@@ -242,29 +233,25 @@ const Register = () => {
               </div>
               {/* Birthday */}
               <div className="">
-                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
-                  Tug'ilgan kun
-                </p>
-
                 <input
                   type="date"
                   max="2010-12-31"
                   min="2005-12-31"
                   {...register("brithday", { required: true })}
+                  placeholder="Tug'ilgan kun"
                   className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
                 />
               </div>
 
               <div className="space-y-4">
                 <div className="relative">
-                  <p className="mb-2 text-base font-semibold text-gray-800">
-                    Viloyat
-                  </p>
                   <div
                     onClick={() => setRegionDropdownOpen((prev) => !prev)}
                     className="w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white cursor-pointer flex justify-between items-center"
                   >
-                    <p className="text-[#2A3547]">{selectedRegionName}</p>
+                    <p className="text-[#2A3547]">
+                      {selectedRegionName || "Viloyat"}
+                    </p>
                     <svg
                       className={`w-5 h-5 transform duration-200 ${
                         regionDropdownOpen ? "rotate-180" : ""
@@ -298,9 +285,6 @@ const Register = () => {
                 </div>
 
                 <div className="relative">
-                  <p className="mb-2 text-base font-semibold text-gray-800">
-                    Hudud
-                  </p>
                   <div
                     onClick={toggleDistrictDropdown}
                     className={`w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
@@ -345,24 +329,15 @@ const Register = () => {
               </div>
 
               <div className="">
-                <p className="mb-[8px] text-base text-[#2A3547] font-semibold">
-                  Manzil
-                </p>
-
                 <input
                   type="text"
                   {...register("address", { required: true })}
                   className="border border-[#EAEFF4] rounded-[8px] w-full px-[8px] py-[8px]"
+                  placeholder=" Manzil"
                 />
               </div>
 
               <div className="relative ">
-                {/* Dropdown label */}
-                <p className="mb-2 text-base text-gray-700 font-semibold">
-                  Ta'lim dargohi
-                </p>
-
-                {/* Dropdown button */}
                 <div
                   onClick={() => setDropdownOpen((prev) => !prev)}
                   className="w-full  px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
@@ -386,7 +361,6 @@ const Register = () => {
                   </svg>
                 </div>
 
-                {/* Dropdown options */}
                 {dropdownOpen && (
                   <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
                     {options.map((option, index) => (
@@ -403,12 +377,6 @@ const Register = () => {
               </div>
 
               <div className="relative ">
-                {/* Dropdown label */}
-                <p className="mb-2 text-base text-gray-700 font-semibold">
-                  Kursni tanlang
-                </p>
-
-                {/* Dropdown button */}
                 <div
                   onClick={() => setDropdownOpenCourse((prev) => !prev)}
                   className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"

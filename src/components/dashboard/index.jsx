@@ -8,9 +8,25 @@ import useGetQuery from "@/hooks/api/useGetQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import storage from "@/services/storage";
+import { useSession } from "next-auth/react";
 
 const Dashboard = ({ children }) => {
+  const { data: session } = useSession();
   const { theme } = useTheme();
+
+  const {
+    data: studentProfile,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.studentProfile,
+    url: URLS.studentProfile,
+    headers: {
+      Authorization: session?.accessToken
+        ? `Bearer ${session.accessToken}`
+        : "",
+    },
+  });
 
   return (
     <ThemeProvider defaultTheme="light" attribute={"class"}>

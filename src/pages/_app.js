@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import reactQueryClient from "@/config/react-query";
 import "@/styles/globals.css";
-
+import { SessionProvider } from "next-auth/react";
 import { UserProfileProvider } from "@/context/responseProvider";
 
 export default function App({
@@ -16,15 +16,17 @@ export default function App({
   const [queryClient] = useState(() => reactQueryClient);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps?.dehydratedState}>
-        <UserProfileProvider>
-          <Component {...pageProps} />
-        </UserProfileProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps?.dehydratedState}>
+          <UserProfileProvider>
+            <Component {...pageProps} />
+          </UserProfileProvider>
 
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
-      </Hydrate>
-    </QueryClientProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster />
+        </Hydrate>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }

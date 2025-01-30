@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { get } from "lodash";
+import { signIn } from "next-auth/react";
 
 const Login = () => {
   const router = useRouter();
@@ -28,30 +29,20 @@ const Login = () => {
     listKeyId: KEYS.login,
   });
 
-  const onSubmit = ({ phone, password }) => {
-    let formData = new FormData();
+  const onSubmit = async ({ phone, password }) => {
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
-    formData.append("phone", formattedPhone);
-    formData.append("password", password);
-    loginRequest(
-      {
-        url: URLS.login,
-        attributes: formData,
-      },
-      {
-        onSuccess: (data) => {
-          const { access_token } = data;
-          console.log(get(data, "data.access_token", ""), "access_token");
-          localStorage.setItem("authToken", get(data, "data.access_token", ""));
-          toast.success("Logged in successfully");
-          router.push("/");
-        },
-        onError: (error) => {
-          console.log(error);
-          toast.error("Error logging in");
-        },
-      }
-    );
+    const result = await signIn("credentials", {
+      phone: formattedPhone,
+      password,
+      redirect: false, // Prevent automatic redirect
+    });
+
+    if (result?.error) {
+      toast.error("Invalid credentials");
+    } else {
+      toast.success("Logged in successfully");
+      router.push("/");
+    }
   };
 
   const handleTab = (tab) => {
@@ -135,6 +126,7 @@ const Login = () => {
                       maxLength="9"
                       {...register("phone", { required: true })}
                       className="  w-full text-sm text-black py-[9px] pl-[5px]"
+                      placeholder="331234567"
                     />
                   </div>
                   {/* <PhoneInput
@@ -154,6 +146,7 @@ const Login = () => {
                     type="password"
                     {...register("password", { required: true })}
                     className="border border-[#EAEFF4] rounded-[8px] text-black  w-full px-[8px] py-[8px]"
+                    placeholder="Kiriting"
                   />
                 </div>
 
