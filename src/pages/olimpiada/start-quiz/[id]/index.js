@@ -91,9 +91,7 @@ const Index = () => {
   const { data, isLoading, isFetching } = useGetQuery({
     key: KEYS.quizTest,
     url: `${URLS.quizTest}${id}/`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+
     enabled: !!id,
   });
 
