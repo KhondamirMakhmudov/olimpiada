@@ -9,8 +9,11 @@ import { URLS } from "@/constants/url";
 import { useForm } from "react-hook-form";
 import { data } from "@/data/region";
 import storage from "@/services/storage";
+import { useTranslation } from "react-i18next";
+import LanguageDropdown from "@/components/language";
 
 const Register = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("register");
   const [isChecked, setIsChecked] = useState(false);
@@ -26,10 +29,17 @@ const Register = () => {
   const [selectedOption, setSelectedOption] = useState(
     "Ta'lim dargohi tanlang"
   );
+
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
   const [selectedOptionCourse, setSelectedOptionCourse] =
     useState("Kurs turi tanlang");
+  const [dropdownselectedDocument, setDropdownSelectedDocument] =
+    useState(false);
+  const [selectedDocument, setSelectedDocument] = useState(
+    `${t("selectTypeOfPassport")}`
+  );
 
+  const optionDocument = [t("certificate"), "Passport"];
   const options = ["Litsey", "Maktab"];
   const optionsCourse = [
     { id: 1, name: "1-kurs" },
@@ -45,16 +55,22 @@ const Register = () => {
       ? optionsCourse.slice(2, 4)
       : [];
 
-  const handleCourseSelect = (course) => {
-    setSelectedOptionCourse(course.name);
-    setDropdownOpenCourse(false);
-  };
-
+  // litsey yoki maktabni tanlash
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setDropdownOpen(false);
   };
-
+  // kursni tanlash
+  const handleCourseSelect = (course) => {
+    setSelectedOptionCourse(course.name);
+    setDropdownOpenCourse(false);
+  };
+  // passport
+  const handleSelectedDocument = (document) => {
+    setSelectedDocument(document);
+    setDropdownSelectedDocument(false);
+  };
+  // viloyatni tanlash
   const handleRegionSelect = (regionId) => {
     setSelectedRegion(regionId);
     setSelectedDistrict(null);
@@ -64,7 +80,7 @@ const Register = () => {
     setFilteredDistricts(filterDistricts);
     setRegionDropdownOpen(false);
   };
-
+  // hududni tanlash
   const handleDistrictSelect = (districtId) => {
     setSelectedDistrict(districtId);
     setDistrictDropdownOpen(false);
@@ -132,6 +148,9 @@ const Register = () => {
 
   return (
     <div className="">
+      <div className="absolute right-4 top-4">
+        <LanguageDropdown />
+      </div>
       <div
         className={
           "bg-center flex items-center justify-center min-h-screen bg-cover bg-no-repeat"
@@ -154,9 +173,9 @@ const Register = () => {
                 tab === "login"
                   ? "bg-[#5D87FF] text-white"
                   : "text-[#5A6A85] bg-transparent"
-              } rounded-[4px] text-lg active:scale-90 scale-100 transition-all duration-300`}
+              } rounded-[4px] capitalize text-lg active:scale-90 scale-100 transition-all duration-300`}
             >
-              Kirish
+              {t("login")}
             </button>
 
             <button
@@ -170,7 +189,7 @@ const Register = () => {
                   : "text-[#5A6A85] bg-transparent"
               } rounded-[4px] active:scale-90 scale-100 transition-all duration-300`}
             >
-              Ro&apos;yhatdan o&apos;tish
+              {t("sign in")}
             </button>
           </div>
 
@@ -185,7 +204,7 @@ const Register = () => {
                   type="text"
                   {...register("full_name", { required: true })}
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                  placeholder="F.I.SH"
+                  placeholder={`${t("full name")}`}
                 />
               </div>
               {/* Email */}
@@ -194,7 +213,7 @@ const Register = () => {
                   type="email"
                   {...register("email", { required: true })}
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                  placeholder="Email"
+                  placeholder={`${t("email")}`}
                 />
               </div>
               {/* Telefon raqam */}
@@ -227,6 +246,55 @@ const Register = () => {
                   {...register("brithday", { required: true })}
                   placeholder="Tug'ilgan kun"
                   className="border border-[#EAEFF4] bg-white text-black rounded-[8px] w-full px-[8px] py-[8px]"
+                />
+              </div>
+
+              {/* Passport yoki guvohnoma */}
+
+              <div className="relative text-[#2A3547]">
+                <div
+                  onClick={() => setDropdownSelectedDocument((prev) => !prev)}
+                  className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
+                >
+                  <span>{selectedDocument}</span>
+                  <svg
+                    className={`w-5 h-5 transform ${
+                      dropdownselectedDocument ? "rotate-180" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+
+                {dropdownselectedDocument && (
+                  <ul className="absolute w-full mt-1 bg-white text-[#2A3547] border border-gray-300 rounded-md shadow-md z-10">
+                    {optionDocument.map((option, index) => (
+                      <li
+                        key={index}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleSelectedDocument(option)}
+                      >
+                        {t(option)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="">
+                <input
+                  type="text"
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                  placeholder={`${t("enter details of passport")}`}
                 />
               </div>
 
@@ -314,13 +382,13 @@ const Register = () => {
                   )}
                 </div>
               </div>
-
+              {/* Manzil */}
               <div className="">
                 <input
                   type="text"
                   {...register("address", { required: true })}
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                  placeholder=" Manzil"
+                  placeholder={`${t("address")}`}
                 />
               </div>
 

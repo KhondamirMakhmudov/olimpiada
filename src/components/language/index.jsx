@@ -28,7 +28,7 @@ const LanguageDropdown = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative inline-block">
       {/* Selected Language */}
       <button
         onClick={toggleDropdown}

@@ -13,8 +13,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { get } from "lodash";
 import { signIn } from "next-auth/react";
+import LanguageDropdown from "@/components/language";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("login");
   const [phone, setPhone] = useState("");
@@ -64,6 +67,9 @@ const Home = () => {
 
   return (
     <div>
+      <div className="absolute right-4 top-4">
+        <LanguageDropdown />
+      </div>
       <div
         className={
           "flex items-center justify-center h-screen bg-center bg-cover"
@@ -90,9 +96,9 @@ const Home = () => {
                   tab === "login"
                     ? "bg-[#5D87FF] text-white"
                     : "text-[#5A6A85] bg-transparent"
-                } rounded-[4px] text-lg active:scale-90 scale-100 transition-all duration-300`}
+                } rounded-[4px] text-lg active:scale-90 scale-100 transition-all capitalize duration-300`}
               >
-                Kirish
+                {t("login")}
               </button>
 
               <button
@@ -106,7 +112,7 @@ const Home = () => {
                     : "text-[#5A6A85] bg-transparent"
                 } rounded-[4px] active:scale-90 scale-100 transition-all duration-300`}
               >
-                Ro&apos;yhatdan o&apos;tish
+                {t("sign in")}
               </button>
             </div>
 
@@ -117,7 +123,7 @@ const Home = () => {
               >
                 <div className="bg-white">
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
-                    Telefon raqam
+                    {t("phone number")}
                   </p>
 
                   <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
@@ -147,7 +153,7 @@ const Home = () => {
 
                 <div className="bg-white">
                   <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
-                    Parol
+                    {t("password")}
                   </p>
 
                   <input
@@ -165,19 +171,19 @@ const Home = () => {
                       onChange={handleCheckboxChange}
                     />{" "}
                     <span className="checkmark"></span>
-                    <p className="text-sm text-dark">Eslab qolsin</p>
+                    <p className="text-sm text-dark">{t("remember")}</p>
                   </label>
 
                   <Link
                     href={"/auth/forget-password"}
                     className="text-[#5D87FF] font-medium"
                   >
-                    Parolni unitdingizmi ?
+                    {t("forget password")}
                   </Link>
                 </div>
 
-                <button className="bg-[#5D87FF] text-white py-[8px] px-[16px] w-full rounded-[4px]">
-                  Kirish
+                <button className="bg-[#5D87FF] capitalize text-white py-[8px] px-[16px] w-full rounded-[4px]">
+                  {t("login")}
                 </button>
               </form>
             </div>

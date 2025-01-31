@@ -25,6 +25,8 @@ const Index = () => {
   const [openProfile, setOpenProfile] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [accessToken, setAccessToken] = useState("");
   const [isExiting, setIsExiting] = useState(false);
 
   const handleProfile = () => {
@@ -47,21 +49,14 @@ const Index = () => {
 
   const { t } = useTranslation();
 
-  const [copied, setCopied] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [accessToken, setAccessToken] = useState("");
-  const [showModal, setShowModal] = useState(false);
-
   // Read localStorage data on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("dataRegister");
-    const hasModalBeenShown = localStorage.getItem("modalShown");
 
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
         console.log("Parsed data from localStorage: quiz", parsedData); // Debugging
-        setUserData(parsedData);
 
         // Set accessToken from dataRegister
         const tokenFromDataRegister = get(parsedData, "data.access_token");
@@ -70,10 +65,6 @@ const Index = () => {
         }
 
         // Show modal if it hasn't been shown before
-        if (!hasModalBeenShown) {
-          setShowModal(true);
-          localStorage.setItem("modalShown", "true");
-        }
       } catch (error) {
         console.error("Error parsing JSON from localStorage:", error);
       }
@@ -102,6 +93,12 @@ const Index = () => {
   });
 
   const onSubmit = () => {
+    // Ensure accessToken is available
+    if (!accessToken) {
+      console.error("Access token is missing.");
+      return;
+    }
+
     const answers = Object.entries(selectedAnswers).map(
       ([questionIndex, answer]) => ({
         quiz_id: parseInt(questionIndex),
@@ -138,6 +135,11 @@ const Index = () => {
         onError: (error) => {
           setIsSubmitting(false);
           console.error("Error submitting answers:", error);
+
+          // Log the full error response from the server
+          if (error.response) {
+            console.error("Server error response:", error.response.data);
+          }
         },
       }
     );
