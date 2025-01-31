@@ -13,7 +13,7 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        myriad: ["Myriad Pro", "sans-serif"], // Add your custom font
+        myriad: "Myriad Pro", // Add your custom font
       },
     },
   },

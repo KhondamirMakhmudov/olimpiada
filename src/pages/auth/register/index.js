@@ -112,7 +112,14 @@ const Register = () => {
     listKeyId: KEYS.register,
   });
 
-  const onSubmit = ({ full_name, email, phone, address, brithday }) => {
+  const onSubmit = ({
+    full_name,
+    email,
+    phone,
+    address,
+    brithday,
+    document,
+  }) => {
     let formData = new FormData();
     storage.set("phone", `${String(998) + String(phone)}`);
     formData.append("full_name", full_name);
@@ -124,26 +131,27 @@ const Register = () => {
     formData.append("brithday", brithday);
     formData.append("academy_or_school", selectedOption);
     formData.append("class_name", selectedOptionCourse);
-
-    registerRequest(
-      {
-        url: URLS.register,
-        attributes: formData,
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          toast.success("Logged in successfully");
-          router.push("/auth/recieve-code");
+    formData.append("document_type", selectedDocument),
+      formData.append("document", document),
+      registerRequest(
+        {
+          url: URLS.register,
+          attributes: formData,
         },
-        onError: (error) => {
-          console.log(error);
-          const errorMessage =
-            error.response?.data?.errors?.phone?.[0] || "An error occurred";
-          setSubmitError(errorMessage);
-        },
-      }
-    );
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            toast.success("Logged in successfully");
+            router.push("/auth/recieve-code");
+          },
+          onError: (error) => {
+            console.log(error);
+            const errorMessage =
+              error.response?.data?.errors?.phone?.[0] || "An error occurred";
+            setSubmitError(errorMessage);
+          },
+        }
+      );
   };
 
   return (
@@ -293,6 +301,7 @@ const Register = () => {
               <div className="">
                 <input
                   type="text"
+                  {...register("document", { required: true })}
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                   placeholder={`${t("enter details of passport")}`}
                 />
