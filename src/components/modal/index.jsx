@@ -30,10 +30,10 @@ const Modal = () => {
           ×
         </button>
         <Image
-          src="/image.png" // Replace with your image path
+          src="/images/olimpiada-banner.jpg" // Replace with your image path
           alt="Example Image"
-          width={400}
-          height={300}
+          width={700}
+          height={700}
           className="rounded-lg"
         />
       </div>
