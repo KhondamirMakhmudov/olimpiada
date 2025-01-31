@@ -15,6 +15,7 @@ import { get } from "lodash";
 import { signIn } from "next-auth/react";
 import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
+import Modal from "@/components/modal";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -190,6 +191,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <Modal />
     </div>
   );
 };
