@@ -73,9 +73,9 @@ const Home = () => {
       </div>
       <div
         className={
-          "flex items-center justify-center h-screen bg-center bg-cover"
+          "flex items-center justify-center h-screen bg-center bg-cover bg-no-repeat"
         }
-        style={{ backgroundImage: `url(/images/bg-auth.png)` }}
+        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
       >
         <div
           className={

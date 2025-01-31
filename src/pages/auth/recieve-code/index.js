@@ -77,7 +77,7 @@ const Index = () => {
       className={
         "flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat"
       }
-      style={{ backgroundImage: `url(/images/bg-auth.png)` }}
+      style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
       <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
         <div className="flex justify-center items-center mb-[30px]">

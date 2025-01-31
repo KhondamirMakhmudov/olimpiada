@@ -163,7 +163,7 @@ const Register = () => {
         className={
           "bg-center flex items-center justify-center min-h-screen bg-cover bg-no-repeat"
         }
-        style={{ backgroundImage: `url(/images/bg-auth.png)` }}
+        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
       >
         <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[20px] ">
           <div className="mb-[30px]  text-center">
