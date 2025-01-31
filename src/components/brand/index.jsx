@@ -7,7 +7,7 @@ const Brand = () => {
       <Link href={"/"}>
         <h1
           className={
-            " font-semibold text-[34px] text-[#3965c6] font-myriad dark:text-white text-black "
+            " font-semibold text-[34px]  text-[#3965c6] font-myriad dark:text-white  "
           }
         >
           IQ math
