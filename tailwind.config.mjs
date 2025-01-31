@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        myriad: ["Myriad Pro", "sans-serif"], // Add your custom font
+      },
     },
   },
   plugins: [],

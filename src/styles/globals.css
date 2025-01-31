@@ -10,6 +10,13 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+@font-face {
+  font-family: "Myriad Pro";
+  src: url("/fonts/MyriadPro-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 [data-theme="dark"] body {
   background: #202936ff;
   color: #fff;
