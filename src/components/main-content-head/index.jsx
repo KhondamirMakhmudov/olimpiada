@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import LanguageDropdown from "../language";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-const MainContentHead = () => {
+const MainContentHead = ({ toggleSidebar }) => {
   const { data: session } = useSession();
   const [openProfile, setOpenProfile] = useState(false);
   const router = useRouter();
@@ -25,7 +25,6 @@ const MainContentHead = () => {
   const [accessToken, setAccessToken] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  // Read localStorage data on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("dataRegister");
     const hasModalBeenShown = localStorage.getItem("modalShown");
@@ -33,16 +32,14 @@ const MainContentHead = () => {
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log("Parsed data from localStorage:", parsedData); // Debugging
+        console.log("Parsed data from localStorage:", parsedData);
         setUserData(parsedData);
 
-        // Set accessToken from dataRegister
         const tokenFromDataRegister = get(parsedData, "data.access_token");
         if (tokenFromDataRegister) {
           setAccessToken(tokenFromDataRegister);
         }
 
-        // Show modal if it hasn't been shown before
         if (!hasModalBeenShown) {
           setShowModal(true);
           localStorage.setItem("modalShown", "true");
@@ -51,17 +48,15 @@ const MainContentHead = () => {
         console.error("Error parsing JSON from localStorage:", error);
       }
     }
-  }, []); // Empty dependency array to run only on mount
+  }, []);
 
-  // Handle session-based accessToken
   useEffect(() => {
     if (session?.accessToken) {
       setAccessToken(session.accessToken);
-      localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
+      localStorage.removeItem("dataRegister");
     }
   }, [session]);
 
-  // Fetch student profile using accessToken
   const {
     data: studentProfile,
     isLoading,
@@ -100,16 +95,10 @@ const MainContentHead = () => {
     }, 300); // Delay for the animation to complete
   };
 
-  // Function to handle logout confirmation
-  const confirmLogout = () => {
-    // Your logout logic here
-    console.log("Logging out...");
-    setIsModalOpen(false);
-  };
   return (
     <div className={"flex justify-between"}>
       <div className={"flex items-center gap-x-[24px]"}>
-        <button>
+        <button onClick={toggleSidebar}>
           <Image
             src={"/icons/sidebar.svg"}
             alt={"sidebar"}
@@ -118,14 +107,14 @@ const MainContentHead = () => {
           />
         </button>
 
-        <button>
+        {/* <button>
           <Image
             src={"/icons/search.svg"}
             alt={"sidebar"}
             width={24}
             height={24}
           />
-        </button>
+        </button> */}
       </div>
 
       <div className={"relative flex items-center gap-x-[24px]"}>

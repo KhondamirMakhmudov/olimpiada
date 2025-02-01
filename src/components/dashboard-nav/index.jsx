@@ -27,10 +27,10 @@ const DashboardNav = ({ children }) => {
           className={"cursor-pointer"}
         >
           <div
-            className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
+            className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px]  active:scale-90 scale-100 transition-all duration-300 ${
               router.pathname === "/dashboard"
                 ? "bg-[#5D87FF] text-white"
-                : "text-[#5A6A85] bg-transparent"
+                : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:hover:bg-[#252B48]"
             } `}
           >
             <MainIcon
@@ -51,7 +51,7 @@ const DashboardNav = ({ children }) => {
             className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
               router.pathname === "/olimpiada"
                 ? "bg-[#5D87FF] text-white"
-                : "text-[#5A6A85] bg-transparent"
+                : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:hover:bg-[#252B48] "
             } `}
           >
             <OlimpiadaIcon
@@ -72,7 +72,7 @@ const DashboardNav = ({ children }) => {
             className={`flex gap-x-[10px] itmes-center py-[10px] px-[12px] rounded-[4px] active:scale-90 scale-100 transition-all duration-300 ${
               router.pathname === "/results"
                 ? "bg-[#5D87FF] text-white"
-                : "text-[#5A6A85] bg-transparent"
+                : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:hover:bg-[#252B48]"
             }`}
           >
             <ResultsIcon

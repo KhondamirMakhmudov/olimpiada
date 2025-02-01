@@ -9,39 +9,47 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import storage from "@/services/storage";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import MainContentHead from "../main-content-head";
 
 const Dashboard = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { data: session } = useSession();
-  const { theme } = useTheme();
 
-  const {
-    data: studentProfile,
-    isLoading,
-    isFetching,
-  } = useGetQuery({
-    key: KEYS.studentProfile,
-    url: URLS.studentProfile,
-    headers: {
-      Authorization: session?.accessToken
-        ? `Bearer ${session.accessToken}`
-        : "",
-    },
-  });
+  // const {
+  //   data: studentProfile,
+  //   isLoading,
+  //   isFetching,
+  // } = useGetQuery({
+  //   key: KEYS.studentProfile,
+  //   url: URLS.studentProfile,
+  //   headers: {
+  //     Authorization: session?.accessToken
+  //       ? `Bearer ${session.accessToken}`
+  //       : "",
+  //   },
+  // });
 
   return (
     <ThemeProvider defaultTheme="light" attribute={"class"}>
-      <div className={"grid grid-cols-12 dark:bg-[#202936] bg-white"}>
-        <Sidebar>
-          <div
-            className={`p-[30px] border-b border-b-[#EAEFF4] dark:border-b-[#2A3447FF] flex items-center justify-center`}
-          >
+      <div className="relative flex min-h-screen dark:bg-[#202936] bg-white transition-all">
+        <Sidebar isSidebarOpen={isSidebarOpen}>
+          <div className="p-[30px] border-b border-b-[#EAEFF4] dark:border-b-[#2A3447FF] flex items-center justify-center">
             <Brand />
           </div>
-
           <DashboardNav />
         </Sidebar>
 
-        <MainContent>{children}</MainContent>
+        <div
+          className={`flex-1 transition-all duration-300 ${
+            isSidebarOpen ? "ml-[350px]" : "ml-0"
+          } p-[30px]`}
+        >
+          <MainContentHead
+            toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          />
+          {children}
+        </div>
       </div>
     </ThemeProvider>
   );
