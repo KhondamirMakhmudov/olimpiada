@@ -81,7 +81,7 @@ const Index = () => {
               </p>
             </li>
 
-            <li className="flex items-start gap-x-[10px]">
+            {/* <li className="flex items-start gap-x-[10px]">
               <Image
                 src={"/icons/remind.svg"}
                 alt={"remind"}
@@ -91,7 +91,7 @@ const Index = () => {
               <p className="text-sm text-[#5A6A85] dark:text-white">
                 {t("third_reminder")}
               </p>
-            </li>
+            </li> */}
 
             <li className="flex items-start gap-x-[10px]">
               <Image

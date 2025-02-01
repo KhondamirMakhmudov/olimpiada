@@ -56,7 +56,7 @@ const Register = () => {
       : selectedOption === "Maktab"
       ? optionsCourse.slice(2, 4)
       : selectedOption === "Bitirgan"
-      ? optionsCourse.slice(4, 5)
+      ? optionsCourse.slice(4, 6)
       : [];
 
   // litsey yoki maktabni tanlash
