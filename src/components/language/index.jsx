@@ -43,7 +43,7 @@ const LanguageDropdown = () => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-1  z-50 bg-white dark:bg-[#26334A] border border-gray-300  shadow-md">
+        <div className="absolute right-0 mt-1 left-0 z-50 bg-white dark:bg-[#26334A] border border-gray-300  shadow-md">
           {languages.map((language) => (
             <button
               key={language.code}
@@ -54,7 +54,7 @@ const LanguageDropdown = () => {
                   : "bg-white dark:bg-[#26334A] text-black dark:text-white"
               }`}
             >
-              <span className="text-sm uppercase">{language.code}</span>
+              <span className="text-sm ml-1 uppercase">{language.code}</span>
             </button>
           ))}
         </div>

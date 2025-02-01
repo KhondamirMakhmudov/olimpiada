@@ -11,6 +11,7 @@ import { data } from "@/data/region";
 import storage from "@/services/storage";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
+import { motion } from "framer-motion";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const Register = () => {
 
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
   const [selectedOptionCourse, setSelectedOptionCourse] =
-    useState("Kurs turi tanlang");
+    useState("Kurs/Sinf/Bitirgan");
   const [dropdownselectedDocument, setDropdownSelectedDocument] =
     useState(false);
   const [selectedDocument, setSelectedDocument] = useState(
@@ -40,12 +41,13 @@ const Register = () => {
   );
 
   const optionDocument = [t("certificate"), "Passport"];
-  const options = ["Litsey", "Maktab"];
+  const options = ["Litsey", "Maktab", "Bitirgan"];
   const optionsCourse = [
     { id: 1, name: "1-kurs" },
     { id: 2, name: "2-kurs" },
-    { id: 4, name: "10-sinf" },
-    { id: 5, name: "11-sinf" },
+    { id: 3, name: "10-sinf" },
+    { id: 4, name: "11-sinf" },
+    { id: 5, name: "Bitirgan" },
   ];
 
   const filteredCourses =
@@ -53,6 +55,8 @@ const Register = () => {
       ? optionsCourse.slice(0, 2)
       : selectedOption === "Maktab"
       ? optionsCourse.slice(2, 4)
+      : selectedOption === "Bitirgan"
+      ? optionsCourse.slice(4, 5)
       : [];
 
   // litsey yoki maktabni tanlash
@@ -247,6 +251,9 @@ const Register = () => {
               </div>
               {/* Birthday */}
               <div className="">
+                <p className="text-sm text-gray-400 mb-1">
+                  Tug&apos;ilgan sanasi
+                </p>
                 <input
                   type="date"
                   max="2010-12-31"
@@ -259,7 +266,7 @@ const Register = () => {
 
               {/* Passport yoki guvohnoma */}
 
-              <div className="relative text-[#2A3547]">
+              <div className="relative text-[#2A3547] cursor-pointer">
                 <div
                   onClick={() => setDropdownSelectedDocument((prev) => !prev)}
                   className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
@@ -298,14 +305,23 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="">
-                <input
-                  type="text"
-                  {...register("document", { required: true })}
-                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                  placeholder={`${t("enter details of passport")}`}
-                />
-              </div>
+              {selectedDocument === `${t("selectTypeOfPassport")}` ? (
+                ""
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, translateY: "30px" }}
+                  animate={{ opacity: 1, translateY: "0px" }}
+                  transition={{ duration: 0.2 }}
+                  className=""
+                >
+                  <input
+                    type="text"
+                    {...register("document", { required: true })}
+                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                    placeholder={`${t("enter details of passport")}`}
+                  />
+                </motion.div>
+              )}
 
               <div className="space-y-4 text-[#2A3547]">
                 <div className="relative">
@@ -348,48 +364,57 @@ const Register = () => {
                   )}
                 </div>
 
-                <div className="relative text-[#2A3547]">
-                  <div
-                    onClick={toggleDistrictDropdown}
-                    className={`w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
-                      !filteredDistricts.length ? "cursor-not-allowed" : ""
-                    }`}
-                    disabled={!filteredDistricts.length}
+                {selectedRegion === null ? (
+                  ""
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, translateY: "30px" }}
+                    animate={{ opacity: 1, translateY: "0px" }}
+                    transition={{ duration: 0.3 }}
+                    className="relative text-[#2A3547]"
                   >
-                    <p className="text-[text-[#2A3547]]">
-                      {selectedDistrictName}
-                    </p>
-                    <svg
-                      className={`w-5 h-5 transform duration-200 ${
-                        districtDropdownOpen ? "rotate-180" : ""
+                    <div
+                      onClick={toggleDistrictDropdown}
+                      className={`w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white flex justify-between items-center ${
+                        !filteredDistricts.length ? "cursor-not-allowed" : ""
                       }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      disabled={!filteredDistricts.length}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                  {districtDropdownOpen && (
-                    <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
-                      {filteredDistricts.map((district) => (
-                        <div
-                          key={district.id}
-                          className="px-4 py-2 hover:bg-gray-100 text-[#2A3547] cursor-pointer"
-                          onClick={() => handleDistrictSelect(district.id)}
-                        >
-                          {district.name}
-                        </div>
-                      ))}
+                      <p className="text-[text-[#2A3547]]">
+                        {selectedDistrictName}
+                      </p>
+                      <svg
+                        className={`w-5 h-5 transform duration-200 ${
+                          districtDropdownOpen ? "rotate-180" : ""
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
                     </div>
-                  )}
-                </div>
+                    {districtDropdownOpen && (
+                      <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
+                        {filteredDistricts.map((district) => (
+                          <div
+                            key={district.id}
+                            className="px-4 py-2 hover:bg-gray-100 text-[#2A3547] cursor-pointer"
+                            onClick={() => handleDistrictSelect(district.id)}
+                          >
+                            {district.name}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
               </div>
               {/* Manzil */}
               <div className="">
@@ -400,8 +425,8 @@ const Register = () => {
                   placeholder={`${t("address")}`}
                 />
               </div>
-
-              <div className="relative text-[#2A3547]">
+              {/* Ta'lim dargohi */}
+              <div className="relative text-[#2A3547] cursor-pointer">
                 <div
                   onClick={() => setDropdownOpen((prev) => !prev)}
                   className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
@@ -440,45 +465,54 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="relative text-[#2A3547]">
-                <div
-                  onClick={() => setDropdownOpenCourse((prev) => !prev)}
-                  className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
+              {selectedOption === "Ta'lim dargohi tanlang" ? (
+                ""
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, translateY: "30px" }}
+                  animate={{ opacity: 1, translateY: "0px" }}
+                  transition={{ duration: 0.3 }}
+                  className="relative text-[#2A3547] cursor-pointer"
                 >
-                  <span>{selectedOptionCourse}</span>
-                  <svg
-                    className={`w-5 h-5 transform ${
-                      dropdownOpenCourse ? "rotate-180" : ""
-                    }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  <div
+                    onClick={() => setDropdownOpenCourse((prev) => !prev)}
+                    className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
+                    <span>{selectedOptionCourse}</span>
+                    <svg
+                      className={`w-5 h-5 transform ${
+                        dropdownOpenCourse ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
 
-                {/* Dropdown options */}
-                {dropdownOpenCourse && (
-                  <ul className="absolute w-full -top-[90px] bg-white border border-gray-300 rounded-md shadow-md z-50">
-                    {filteredCourses.map((option, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleCourseSelect(option)}
-                      >
-                        {option.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+                  {/* Dropdown options */}
+                  {dropdownOpenCourse && (
+                    <ul className="absolute w-full -top-[90px] bg-white border border-gray-300 rounded-md shadow-md z-50">
+                      {filteredCourses.map((option, index) => (
+                        <li
+                          key={index}
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleCourseSelect(option)}
+                        >
+                          {option.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </motion.div>
+              )}
 
               <button className="bg-[#5D87FF] text-white py-[8px] px-[16px] w-full rounded-[4px]">
                 Kirish
