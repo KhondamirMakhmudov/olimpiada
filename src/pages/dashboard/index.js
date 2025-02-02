@@ -172,7 +172,11 @@ export default function DashboardPage() {
               {t("welcome")}, {get(studentProfile, "data.full_name")}
             </p>
           </div>
-          <Link href={"https://t.me/iq_mathbot"} className="mt-[60px] block">
+          <a
+            target="_blank"
+            href={"https://t.me/iq_mathbot"}
+            className="mt-[60px] block"
+          >
             <button
               className={
                 "py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
@@ -180,7 +184,7 @@ export default function DashboardPage() {
             >
               {t("telegram_bot")}
             </button>
-          </Link>
+          </a>
         </div>
         <div className={"absolute right-0 bottom-0"}>
           <Image

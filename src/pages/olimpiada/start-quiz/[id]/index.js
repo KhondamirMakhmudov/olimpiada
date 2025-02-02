@@ -2,7 +2,7 @@ import Dashboard from "@/components/dashboard";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import useGetQuery from "@/hooks/api/useGetQuery";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { get } from "lodash";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
@@ -12,7 +12,9 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import storage from "@/services/storage";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
+import { UserProfileContext } from "@/context/responseProvider";
 const Index = () => {
+  const { setResult } = useContext(UserProfileContext);
   const { data: session } = useSession();
   const { theme } = useTheme();
   const router = useRouter();
@@ -124,9 +126,10 @@ const Index = () => {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           setIsSubmitting(false);
           router.push("/results");
+          setResult(data);
           localStorage.removeItem("timeLeft");
           localStorage.removeItem("selectedAnswers");
           localStorage.removeItem("answeredQuestions");

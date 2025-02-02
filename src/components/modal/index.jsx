@@ -6,7 +6,6 @@ const Modal = () => {
   const modalRef = useRef(null);
 
   useEffect(() => {
-    // Check if the modal has been shown before
     const hasSeenModal = localStorage.getItem("hasSeenModal");
     if (!hasSeenModal) {
       setIsOpen(true);
@@ -30,31 +29,28 @@ const Modal = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const closeModal = () => {
-    setIsOpen(false); // Simply close the modal
-  };
+  const closeModal = () => setIsOpen(false);
 
-  // If the modal is not open, return null (render nothing)
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
       <div
         ref={modalRef}
-        className="bg-white p-5 rounded-lg relative text-center"
+        className="bg-white p-5 rounded-lg relative text-center max-w-lg w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
       >
         <button
           onClick={closeModal}
-          className="absolute top-2 right-2 bg-transparent border-none text-xl cursor-pointer"
+          className="absolute top-3 right-3 text-3xl text-gray-700 hover:text-gray-900"
         >
           ×
         </button>
         <Image
-          src="/images/olimpiada-banner.jpg" // Replace with your image path
+          src="/images/olimpiada-banner.jpg"
           alt="Example Image"
           width={700}
           height={700}
-          className="rounded-lg"
+          className="w-full h-auto rounded-lg"
         />
       </div>
     </div>
