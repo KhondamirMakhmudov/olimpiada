@@ -99,6 +99,8 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -122,9 +124,11 @@ const Register = () => {
     phone,
     address,
     brithday,
-    document,
+    documentPrefix,
+    documentNumber,
   }) => {
     let formData = new FormData();
+    const fullDocument = `${documentPrefix}${documentNumber}`;
     storage.set("phone", `${String(998) + String(phone)}`);
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -136,7 +140,7 @@ const Register = () => {
     formData.append("academy_or_school", selectedOption);
     formData.append("class_name", selectedOptionCourse);
     formData.append("document_type", selectedDocument),
-      formData.append("document", document),
+      formData.append("document", fullDocument),
       registerRequest(
         {
           url: URLS.register,
@@ -149,10 +153,21 @@ const Register = () => {
             router.push("/auth/recieve-code");
           },
           onError: (error) => {
-            console.log(error);
-            const errorMessage =
-              error.response?.data?.errors?.phone?.[0] || "An error occurred";
-            setSubmitError(errorMessage);
+            console.log("Full error response:", error.response?.data);
+
+            if (error.response?.data?.errors) {
+              const errors = error.response.data.errors;
+
+              // setSubmitError({
+              //   phone: errors.phone?.[0] || null,
+              //   email: errors.email?.[0] || null,
+              //   document: errors.document?.[0] || null,
+              // });
+
+              toast.error(Object.values(errors).flat().join("\n"));
+            } else {
+              console.log("error occured");
+            }
           },
         }
       );
@@ -169,13 +184,20 @@ const Register = () => {
         }
         style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
       >
+        {submitError && (
+          <p className="text-red-500 text-sm mt-1">
+            {Object.entries(submitError)
+              .map(([key, value]) => `${key}: ${value}`)
+              .join(", ")}
+          </p>
+        )}
+
         <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[20px] ">
           <div className="mb-[30px]  text-center">
             <Brand />
           </div>
 
           <div className="flex">
-            {submitError}
             <button
               onClick={() => {
                 handleTab("login");
@@ -184,7 +206,7 @@ const Register = () => {
               className={`py-[8px] px-[16px]  w-1/3  ${
                 tab === "login"
                   ? "bg-[#5D87FF] text-white"
-                  : "text-[#5A6A85] bg-transparent"
+                  : "text-[#5A6A85] hover:bg-[#ECF2FF]"
               } rounded-[4px] capitalize text-lg active:scale-90 scale-100 transition-all duration-300`}
             >
               {t("login")}
@@ -198,7 +220,7 @@ const Register = () => {
               className={`py-[8px] px-[16px]  w-2/3  ${
                 tab === "register"
                   ? "bg-[#5D87FF] text-white"
-                  : "text-[#5A6A85] bg-transparent"
+                  : "text-[#5A6A85] hover:bg-[#ECF2FF]"
               } rounded-[4px] active:scale-90 scale-100 transition-all duration-300`}
             >
               {t("sign in")}
@@ -220,34 +242,45 @@ const Register = () => {
                 />
               </div>
               {/* Email */}
-              <div className="">
+              <div>
                 <input
                   type="email"
-                  {...register("email", { required: true })}
+                  {...register("email", { required: "Email is required" })}
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                   placeholder={`${t("email")}`}
                 />
+                {submitError?.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {submitError.email}
+                  </p>
+                )}
               </div>
               {/* Telefon raqam */}
               <div>
-                <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
+                <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px]">
                   <Image
                     src={"/icons/uzb-flag.svg"}
                     alt="flag"
                     width={30}
                     height={30}
                   />
-
-                  <div className="w-[1px] h-[40px] bg-[#EAEFF4]  "></div>
+                  <div className="w-[1px] h-[40px] bg-[#EAEFF4]"></div>
                   <span className="text-[#2A3547] text-sm">+998</span>
                   <input
                     type="tel"
                     maxLength="9"
-                    {...register("phone", { required: true })}
-                    className="  w-full text-sm bg-white text-[#2A3547] py-[9px] pl-[5px]"
+                    {...register("phone", {
+                      required: "Phone number is required",
+                    })}
+                    className="w-full text-sm bg-white text-[#2A3547] py-[9px] pl-[5px]"
                     placeholder="331234678"
                   />
                 </div>
+                {submitError?.phone && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {submitError.phone}
+                  </p>
+                )}
               </div>
               {/* Birthday */}
               <div className="">
@@ -312,14 +345,59 @@ const Register = () => {
                   initial={{ opacity: 0, translateY: "30px" }}
                   animate={{ opacity: 1, translateY: "0px" }}
                   transition={{ duration: 0.2 }}
-                  className=""
                 >
-                  <input
-                    type="text"
-                    {...register("document", { required: true })}
-                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                    placeholder={`${t("enter details of passport")}`}
-                  />
+                  <div className="flex gap-x-[5px]">
+                    <input
+                      type="text"
+                      {...register("documentPrefix", {
+                        required: "To'ldirilishi shart",
+                        pattern: {
+                          value: /^[A-Z]{2}$/,
+                          message: "Ikkita katta harf bo'lishi kerak",
+                        },
+                        onChange: (e) =>
+                          setValue(
+                            "document",
+                            e.target.value + watch("documentNumber") || ""
+                          ),
+                      })}
+                      maxLength={2}
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-16 px-3 py-2 text-center"
+                      placeholder="AB"
+                    />
+
+                    {/* Number (5462312) Input */}
+                    <input
+                      type="text"
+                      {...register("documentNumber", {
+                        required: "To'ldirilishi shart",
+                        pattern: {
+                          value: /^[0-9]{7}$/,
+                          message: "7 ta raqam bo'lishi kerak",
+                        },
+                        onChange: (e) =>
+                          setValue(
+                            "document",
+                            watch("documentPrefix") + e.target.value || ""
+                          ),
+                      })}
+                      maxLength={7}
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-3 py-2"
+                      placeholder="5462312"
+                    />
+                  </div>
+
+                  {errors.documentPrefix && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.documentPrefix.message}
+                    </p>
+                  )}
+
+                  {errors.documentNumber && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.documentNumber.message}
+                    </p>
+                  )}
                 </motion.div>
               )}
 
@@ -514,7 +592,7 @@ const Register = () => {
                 </motion.div>
               )}
 
-              <button className="bg-[#5D87FF] text-white py-[8px] px-[16px] w-full rounded-[4px]">
+              <button className="bg-[#5D87FF] hover:bg-[#4570EA] transition-all duration-300 text-white py-[8px] px-[16px] w-full rounded-[4px]">
                 Kirish
               </button>
             </form>

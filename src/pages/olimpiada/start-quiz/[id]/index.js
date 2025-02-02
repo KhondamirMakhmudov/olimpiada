@@ -253,7 +253,7 @@ const Index = () => {
               >
                 <div className="text-xl mb-[8px]">
                   <p className="mb-[15px] dark:text-white text-black">
-                    Savol {currentQuizIndex + 1}:
+                    {currentQuizIndex + 1} - savol :
                   </p>
                   <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
                     {parse(
