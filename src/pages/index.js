@@ -178,7 +178,7 @@ const Home = () => {
 
                     <Link
                       href={"/auth/forget-password"}
-                      className="text-[#5D87FF] font-medium"
+                      className="text-[#5D87FF] font-medium hover:underline transform duration-200"
                     >
                       {t("forget password")}
                     </Link>

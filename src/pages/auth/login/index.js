@@ -163,7 +163,7 @@ const Login = () => {
 
                   <Link
                     href={"/auth/forget-password"}
-                    className="text-[#5D87FF] font-medium"
+                    className="text-[#5D87FF] font-medium underline-0 hover:underline"
                   >
                     Parolni unitdingizmi ?
                   </Link>
