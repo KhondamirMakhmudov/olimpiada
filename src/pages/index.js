@@ -22,26 +22,13 @@ const Home = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("login");
-  const [phone, setPhone] = useState("");
+
   const [isChecked, setIsChecked] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const formatPhoneNumber = (value) => {
-    // Remove non-numeric characters
-    let numbers = value.replace(/\D/g, "").slice(0, 9);
-
-    // Apply formatting (XX XXX XX XX)
-    let formatted = numbers.replace(
-      /^(\d{2})(\d{3})?(\d{2})?(\d{2})?$/,
-      (match, p1, p2, p3, p4) => [p1, p2, p3, p4].filter(Boolean).join(" ")
-    );
-
-    setPhone(formatted);
-  };
 
   const onSubmit = async ({ phone, password }) => {
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;

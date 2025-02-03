@@ -7,22 +7,39 @@ import storage from "@/services/storage";
 import { useRouter } from "next/router";
 import { UserProfileContext } from "@/context/responseProvider";
 import { get } from "lodash";
-import {signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 const Index = () => {
   const router = useRouter();
   const { phone } = router.query;
+  const { setResult } = useContext(UserProfileContext);
   const [code, setCode] = useState(new Array(5).fill(""));
   const [timer, setTimer] = useState(60);
 
-  const { setResult } = useContext(UserProfileContext);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedTimer = localStorage.getItem("timer");
+      if (savedTimer) {
+        setTimer(parseInt(savedTimer, 10));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (timer > 0) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("timer", timer);
+      }
+
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
+
       return () => clearInterval(interval);
+    } else {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("timer");
+      }
     }
   }, [timer]);
 
@@ -39,10 +56,6 @@ const Index = () => {
     }
   };
 
-  const { mutate: recieveCode } = usePostQuery({
-    listKeyId: KEYS.recieveCode,
-  });
-
   const onSubmit = async () => {
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
     const result = await signIn("credentials", {
@@ -58,7 +71,6 @@ const Index = () => {
       await router.push(`/dashboard?phone=${phone}`);
     }
   };
-
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && code[index] === "") {
