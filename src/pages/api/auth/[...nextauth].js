@@ -57,6 +57,9 @@ export default NextAuth({
       session.phone = token.phone;
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      return baseUrl; // This ensures it redirects to NEXTAUTH_URL
+    },
   },
   secret:
     process.env.NEXTAUTH_SECRET ||
