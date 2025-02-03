@@ -67,9 +67,6 @@ const Home = () => {
     setIsChecked(!isChecked);
   };
 
-  console.log("session", session);
-  console.log(get(session, "accessToken"));
-
   return (
     <div>
       <div className="absolute right-4 top-4">
