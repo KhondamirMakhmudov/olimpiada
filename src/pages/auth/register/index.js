@@ -39,7 +39,7 @@ const Register = () => {
   );
 
   const optionDocument = [t("certificate"), "Passport"];
-  const options = ["Litsey", "Maktab", "Bitirgan"];
+  const options = ["Litsey", "Maktab"];
   const optionsCourse = [
     { id: 1, name: "1-kurs" },
     { id: 2, name: "2-kurs" },
@@ -50,11 +50,9 @@ const Register = () => {
 
   const filteredCourses =
     selectedOption === "Litsey"
-      ? optionsCourse.slice(0, 2)
+      ? optionsCourse.filter((course) => [1, 2, 5].includes(course.id))
       : selectedOption === "Maktab"
-      ? optionsCourse.slice(2, 4)
-      : selectedOption === "Bitirgan"
-      ? optionsCourse.slice(4, 6)
+      ? optionsCourse.filter((course) => [3, 4, 5].includes(course.id))
       : [];
 
   // litsey yoki maktabni tanlash

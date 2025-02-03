@@ -1026,30 +1026,35 @@ export const data = {
     {
       id: 208,
       region_id: 14,
-      name: "Yakkasaroy tumani",
+      name: "Yangihayot tumani",
     },
     {
       id: 209,
+      region_id: 14,
+      name: "Yakkasaroy tumani",
+    },
+    {
+      id: 210,
       region_id: 1,
       name: "Taxiatosh shahri",
     },
     {
-      id: 210,
+      id: 211,
       region_id: 2,
       name: "Asaka shahri",
     },
     {
-      id: 211,
+      id: 212,
       region_id: 9,
       name: "Bandixon tumani",
     },
     {
-      id: 212,
+      id: 213,
       region_id: 11,
       name: "Ohangaron shahri",
     },
     {
-      id: 213,
+      id: 214,
       region_id: 11,
       name: "Yangiyo‘l shahri",
     },
