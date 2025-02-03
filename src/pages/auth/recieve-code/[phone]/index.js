@@ -7,8 +7,11 @@ import storage from "@/services/storage";
 import { useRouter } from "next/router";
 import { UserProfileContext } from "@/context/responseProvider";
 import { get } from "lodash";
+import {signIn} from "next-auth/react";
+import toast from "react-hot-toast";
 const Index = () => {
   const router = useRouter();
+  const { phone } = router.query;
   const [code, setCode] = useState(new Array(5).fill(""));
   const [timer, setTimer] = useState(60);
 
@@ -40,28 +43,22 @@ const Index = () => {
     listKeyId: KEYS.recieveCode,
   });
 
-  const onSubmit = () => {
-    recieveCode(
-      {
-        url: URLS.recieveCode,
-        attributes: {
-          phone: storage.get("phone"),
-          sms_code: code.join(""),
-        },
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          localStorage.setItem("dataRegister", JSON.stringify(data));
+  const onSubmit = async () => {
+    const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
+    const result = await signIn("credentials", {
+      phone: formattedPhone,
+      sms_code: code.join(""),
+      redirect: false, // Prevent automatic redirect
+    });
 
-          router.push("/dashboard");
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      }
-    );
+    if (result?.error) {
+      toast.error("Invalid credentials");
+    } else {
+      toast.success("Logged in successfully");
+      await router.push(`/dashboard?phone=${phone}`);
+    }
   };
+
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && code[index] === "") {

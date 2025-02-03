@@ -33,15 +33,18 @@ const usePostQuery = ({
         }
       },
       onError: (data) => {
+
         if (isArray(get(data, "response.data"))) {
+          debugger
           forEach(get(data, "response.data"), (val) => {
             toast.error(get(val, "message", "ERROR"));
           });
         } else if (isObject(get(data, "response.data"))) {
-          forEach(values(get(data, "response.data")), (val) => {
-            toast.error(val, { position: "top-right" });
-          });
-        } else {
+          // forEach(values(get(data, "response.data")), (val) => {
+          //   toast.error(val, { position: "top-right" });
+          // });
+        } else {debugger
+
           if (!hideErrorToast) {
             toast.error(data?.response?.data?.message) || t("ERROR");
           }

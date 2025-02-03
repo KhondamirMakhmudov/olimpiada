@@ -8,7 +8,6 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { useForm } from "react-hook-form";
 import { data } from "@/data/region";
-import storage from "@/services/storage";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
 import { motion } from "framer-motion";
@@ -17,7 +16,6 @@ const Register = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("register");
-  const [isChecked, setIsChecked] = useState(false);
   const regions = data.regions;
   const districts = data.districts;
   const [submitError, setSubmitError] = useState("");
@@ -129,7 +127,6 @@ const Register = () => {
   }) => {
     let formData = new FormData();
     const fullDocument = `${documentPrefix}${documentNumber}`;
-    storage.set("phone", `${String(998) + String(phone)}`);
     formData.append("full_name", full_name);
     formData.append("email", email);
     formData.append("phone", `${String(998) + String(phone)}`);
@@ -150,7 +147,7 @@ const Register = () => {
           onSuccess: (data) => {
             console.log(data);
             toast.success("Logged in successfully");
-            router.push("/auth/recieve-code");
+            router.push(`/auth/recieve-code/${phone}`);
           },
           onError: (error) => {
             console.log("Full error response:", error.response?.data);
@@ -172,7 +169,6 @@ const Register = () => {
         }
       );
   };
-
   return (
     <div className="">
       <div className="absolute right-4 top-4">
