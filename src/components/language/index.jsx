@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSettingsStore } from "@/store";
 import { useTranslation } from "react-i18next";
 import { get } from "lodash";
@@ -14,16 +14,33 @@ const LanguageDropdown = () => {
     { code: "ru", name: "Russian" },
   ];
 
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState(null); // Initially null
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedLang = localStorage.getItem("lang") || "uz";
+      const initialLang =
+        languages.find((lang) => lang.code === storedLang) || languages[0];
+
+      setSelectedLanguage(initialLang);
+      i18n.changeLanguage(initialLang.code); // Update i18n
+      setLang(initialLang.code); // Update global state
+    }
+  }, []);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const selectLanguage = (language) => {
     setSelectedLanguage(language);
     setIsOpen(false);
-    setLang(language.code);
-    i18n.changeLanguage(language.code);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("lang", language.code); // Store selected language
+    }
+    setLang(language.code); // Update global state
+    i18n.changeLanguage(language.code); // Update i18n
   };
+
+  if (!selectedLanguage) return null; // Prevent rendering until language is set
 
   return (
     <div className="relative inline-block">

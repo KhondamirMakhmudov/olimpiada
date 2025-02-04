@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
 import Modal from "@/components/modal";
@@ -49,6 +49,15 @@ const Home = () => {
     setIsChecked(!isChecked);
   };
 
+  const handleLogout = async () => {
+    await signOut({
+      callbackUrl: "https://iq-math.uz", // Redirect to iq-math.uz after sign out
+    });
+
+    localStorage.clear();
+    sessionStorage.clear();
+  };
+
   return (
     <div
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
@@ -60,10 +69,6 @@ const Home = () => {
           <div
             className={"w-[436px]  bg-white mx-auto  rounded-[8px] p-[30px]"}
           >
-            <div className="flex justify-center items-center mb-[30px]">
-              <Brand />
-            </div>
-
             {session === null ? (
               <div className="w-full">
                 <div className="flex">
@@ -174,11 +179,21 @@ const Home = () => {
                   {t("welcome")}
                 </h1>
 
-                <Link href={"/dashboard"}>
-                  <button className="bg-[#5D87FF] hover:bg-[#4570EA] py-[16px] w-full text-white rounded-md">
+                <div className="flex gap-x-[15px]">
+                  <button
+                    onClick={() => router.push("/dashboard")}
+                    className="bg-[#5D87FF] hover:bg-[#4570EA] py-[16px] w-full text-white rounded-md"
+                  >
                     Tizimga kirish
                   </button>
-                </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    className="bg-[#FA896B] hover:bg-[#E77F63] py-[16px] w-full text-white rounded-md"
+                  >
+                    Tizimdan chiqish
+                  </button>
+                </div>
               </div>
             )}
           </div>
