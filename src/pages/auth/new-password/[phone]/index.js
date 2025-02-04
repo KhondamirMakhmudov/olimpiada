@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 const Index = () => {
   const router = useRouter();
+  const { phone } = router.query;
   const { t } = useTranslation();
   const {
     register,
@@ -16,23 +17,24 @@ const Index = () => {
     formState: { errors },
   } = useForm();
 
-  const { mutate: forgetPassword } = usePostQuery({
-    listKeyId: KEYS.forgetPassword,
+  const { mutate: newPassword } = usePostQuery({
+    listKeyId: KEYS.newPassword,
   });
 
-  const onSubmit = ({ phone }) => {
+  const onSubmit = ({ new_password }) => {
     let formData = new FormData();
     formData.append("phone", `${String(998) + String(phone)}`);
-    forgetPassword(
+    formData.append("new_password", new_password);
+    newPassword(
       {
-        url: URLS.forgetPassword,
+        url: URLS.newPassword,
         attributes: formData,
       },
       {
         onSuccess: (data) => {
           console.log(data);
           toast.success("Logged in successfully");
-          router.push(`/auth/forget-password/verify-sms/${phone}`);
+          router.push(`/`);
         },
         onError: (error) => {
           console.log("Full error response:");
@@ -64,7 +66,7 @@ const Index = () => {
             >
               <div className="bg-white">
                 <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
-                  {t("phone number")}
+                  Telefon nomeringiz
                 </p>
 
                 <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
@@ -80,10 +82,23 @@ const Index = () => {
                   <input
                     type="tel"
                     maxLength="9"
-                    {...register("phone", { required: true })}
+                    value={phone}
+                    disabled
                     className="  w-full bg-white text-sm text-black py-[9px] pl-[5px]"
                   />
                 </div>
+              </div>
+
+              <div>
+                <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
+                  Yangi parolni kiriting
+                </p>
+
+                <input
+                  type="text"
+                  {...register("new_password", { required: true })}
+                  className="border border-[#EAEFF4] bg-white rounded-[8px] text-sm text-black  w-full px-[8px] py-[8px]"
+                />
               </div>
 
               <button className="bg-[#5D87FF] hover:bg-[#4570EA]   text-white py-[8px] px-[16px] w-full rounded-[4px] transition-all duration-300">

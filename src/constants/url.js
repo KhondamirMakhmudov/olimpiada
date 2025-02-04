@@ -8,4 +8,6 @@ export const URLS = {
   recieveCode: "/student/verify-sms/",
   resultQuiz: "/quiz/result/list/",
   resendSMSCode: "/student/resend-sms-code/",
+  forgetPassword: "/student/forgot-password/",
+  newPassword: "/student/reset-password/",
 };

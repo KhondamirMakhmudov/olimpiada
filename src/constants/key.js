@@ -8,4 +8,6 @@ export const KEYS = {
   recieveCode: "recieveCode",
   resultQuiz: "resultQuiz",
   resendSMSCode: "resendSMSCode",
+  forgetPassword: "forgetPassword",
+  resendSMSCodeForget: "resendSMSCodeForget",
 };
