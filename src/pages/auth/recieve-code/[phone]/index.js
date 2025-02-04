@@ -15,29 +15,40 @@ const Index = () => {
   const { phone } = router.query;
   const { setResult } = useContext(UserProfileContext);
   const [code, setCode] = useState(new Array(5).fill(""));
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(10);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    // Get saved timestamp from localStorage
+    const savedTimestamp = localStorage.getItem("timerTimestamp");
+    const savedTime = parseInt(localStorage.getItem("timer"), 10);
 
-    const savedTimer = localStorage.getItem("timer");
-    if (savedTimer) {
-      setTimer(parseInt(savedTimer, 10));
+    if (savedTimestamp && savedTime) {
+      const elapsedTime = Math.floor(
+        (Date.now() - parseInt(savedTimestamp, 10)) / 1000
+      );
+      const newTime = Math.max(savedTime - elapsedTime, 0); // Ensure timer never goes negative
+      setTimer(newTime);
+    } else {
+      setTimer(120);
+      localStorage.setItem("timer", 120);
+      localStorage.setItem("timerTimestamp", Date.now().toString());
     }
-  }, []);
-
-  useEffect(() => {
-    if (!isMounted || timer <= 0) return;
-
-    localStorage.setItem("timer", timer);
 
     const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        localStorage.setItem("timer", prev - 1);
+        localStorage.setItem("timerTimestamp", Date.now().toString());
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timer, isMounted]);
+  }, []);
 
   const handleChange = (value, index) => {
     if (value.match(/^[0-9]$/)) {
@@ -74,6 +85,22 @@ const Index = () => {
 
   const onSubmitResendedCode = () => {
     setTimer(120);
+    localStorage.setItem("timer", 120);
+    localStorage.setItem("timerTimestamp", Date.now().toString());
+
+    // Clear any existing interval to avoid duplication
+    clearInterval(window.timerInterval);
+
+    // Start the countdown again
+    window.timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(window.timerInterval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     resendSMSCode(
       {
         url: URLS.resendSMSCode,
@@ -87,6 +114,11 @@ const Index = () => {
           console.log(data);
           toast.success("Logged in successfully");
           router.push(`/auth/recieve-code/${phone}`);
+        },
+        onError: (error) => {
+          console.log("Full error response:");
+
+          toast.error(error.response?.data.error);
         },
       }
     );
