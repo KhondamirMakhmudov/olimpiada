@@ -15,7 +15,7 @@ const Index = () => {
   const { phone } = router.query;
   const { setResult } = useContext(UserProfileContext);
   const [code, setCode] = useState(new Array(5).fill(""));
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(120);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -73,10 +73,13 @@ const Index = () => {
   });
 
   const onSubmitResendedCode = () => {
+    setTimer(120);
     resendSMSCode(
       {
         url: URLS.resendSMSCode,
-        attributes: parseInt(`998${phone.replace(/[^0-9]/g, "")}`),
+        attributes: {
+          phone: parseInt(`998${phone.replace(/[^0-9]/g, "")}`),
+        },
       },
 
       {
@@ -97,6 +100,14 @@ const Index = () => {
       }
     }
   };
+
+  const isCodeComplete = code.every((digit) => digit !== "");
+
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+  const formattedTime = `${minutes < 10 ? `0${minutes}` : minutes}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
 
   return (
     <div
@@ -133,16 +144,24 @@ const Index = () => {
               </div>
               <div className="flex justify-center items-center mb-6">
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
-                <span className="text-gray-600 text-sm">
-                  {`00:${timer < 10 ? `0${timer}` : timer}`}
-                </span>
+                <span className="text-gray-600 text-sm">{formattedTime}</span>
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
               </div>
               <button
-                onClick={timer === 0 ? onSubmitResendedCode : onSubmit}
+                onClick={
+                  isCodeComplete
+                    ? onSubmit
+                    : timer === 0
+                    ? onSubmitResendedCode
+                    : onSubmit
+                }
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
               >
-                {timer === 0 ? "Sms kodni qayta yuborish" : "TASDIQLASH"}
+                {isCodeComplete
+                  ? "Tasdiqlash"
+                  : timer === 0
+                  ? "Sms kodni qayta yuborish"
+                  : "TASDIQLASH"}
               </button>
             </div>
           </div>
