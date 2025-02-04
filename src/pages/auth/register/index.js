@@ -11,6 +11,7 @@ import { data } from "@/data/region";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
 import { motion } from "framer-motion";
+import UserAgreement from "@/components/oferta";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -585,6 +586,8 @@ const Register = () => {
                   )}
                 </motion.div>
               )}
+
+              <UserAgreement />
 
               <button className="bg-[#5D87FF] hover:bg-[#4570EA] transition-all duration-300 text-white py-[8px] px-[16px] w-full rounded-[4px]">
                 Kirish

@@ -90,6 +90,43 @@ const Index = () => {
 
   const totalQuizzes = get(data, "data", []).length;
 
+  const handleNext = () => {
+    setCurrentQuizIndex((prevIndex) =>
+      Math.min(prevIndex + 1, totalQuizzes - 1)
+    );
+  };
+
+  // Function to handle the "Previous" button click
+  const handlePrevious = () => {
+    setCurrentQuizIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
+  // Add event listener for keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter" && currentQuizIndex < totalQuizzes - 1) {
+        // Enter key for "Next"
+        handleNext();
+      } else if (
+        event.key === "ArrowRight" &&
+        currentQuizIndex < totalQuizzes - 1
+      ) {
+        // Right Arrow key for "Next"
+        handleNext();
+      } else if (event.key === "ArrowLeft" && currentQuizIndex > 0) {
+        // Left Arrow key for "Previous"
+        handlePrevious();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentQuizIndex, totalQuizzes]);
+
   const { mutate: submitAnswers } = usePostQuery({
     listKeyId: KEYS.submitAnswers,
   });
@@ -295,9 +332,7 @@ const Index = () => {
 
             <div className="flex justify-between mt-[20px]">
               <button
-                onClick={() =>
-                  setCurrentQuizIndex((prevIndex) => Math.max(prevIndex - 1, 0))
-                }
+                onClick={handlePrevious}
                 disabled={currentQuizIndex === 0}
                 className={` text-white px-4 py-2 rounded-md  ${
                   currentQuizIndex === 0 ? "bg-gray-400" : "bg-blue-500"
@@ -306,11 +341,7 @@ const Index = () => {
                 Oldingisi
               </button>
               <button
-                onClick={() =>
-                  setCurrentQuizIndex((prevIndex) =>
-                    Math.min(prevIndex + 1, totalQuizzes - 1)
-                  )
-                }
+                onClick={handleNext}
                 disabled={currentQuizIndex === totalQuizzes - 1}
                 className={` text-white px-4 py-2 rounded-md  ${
                   currentQuizIndex === totalQuizzes - 1
@@ -350,14 +381,14 @@ const Index = () => {
                 {get(data, "data", []).map((item, index) => (
                   <div
                     key={index}
-                    className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer ${
-                      answeredQuestions.includes(item.id)
-                        ? "bg-blue-500 text-white border-blue-500"
+                    className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer         ${
+                      currentQuizIndex === index
+                        ? "bg-green-500 text-white border-green-500" // Highlight the current question
+                        : answeredQuestions.includes(item.id)
+                        ? "bg-blue-500 text-white border-blue-500" // Highlight answered questions
                         : "bg-transparent border-gray-300 text-gray-500"
                     }`}
-                    onClick={() =>
-                      console.log(`Navigate to question ${index + 1}`)
-                    }
+                    onClick={() => setCurrentQuizIndex(index)}
                   >
                     {index + 1}
                   </div>

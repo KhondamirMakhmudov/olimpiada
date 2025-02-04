@@ -1,21 +1,16 @@
 import Brand from "@/components/brand";
-import InternationalPhoneInput from "@/components/phone-number";
 import Link from "next/link";
 import { useState } from "react";
-import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useForm } from "react-hook-form";
-import usePostQuery from "@/hooks/api/usePostQuery";
-import { KEYS } from "@/constants/key";
-import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { get } from "lodash";
 import { signIn, useSession } from "next-auth/react";
 import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
 import Modal from "@/components/modal";
+import Header from "@/components/header";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -55,16 +50,12 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <div className="absolute right-4 top-4">
-        <LanguageDropdown />
-      </div>
-      <div
-        className={
-          "flex items-center justify-center h-screen bg-center bg-cover bg-no-repeat"
-        }
-        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
-      >
+    <div
+      className="h-screen bg-center bg-cover bg-no-repeat flex items-center justify-center"
+      style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
+    >
+      {/* <Header /> */}
+      <div className={""}>
         <div className={"w-[436px]  bg-white mx-auto  rounded-[8px] p-[30px]"}>
           <div className="flex justify-center items-center mb-[30px]">
             <Brand />

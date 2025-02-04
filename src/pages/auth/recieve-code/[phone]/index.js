@@ -9,39 +9,35 @@ import { UserProfileContext } from "@/context/responseProvider";
 import { get } from "lodash";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+
 const Index = () => {
   const router = useRouter();
   const { phone } = router.query;
   const { setResult } = useContext(UserProfileContext);
   const [code, setCode] = useState(new Array(5).fill(""));
   const [timer, setTimer] = useState(60);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTimer = localStorage.getItem("timer");
-      if (savedTimer) {
-        setTimer(parseInt(savedTimer, 10));
-      }
+    setIsMounted(true);
+
+    const savedTimer = localStorage.getItem("timer");
+    if (savedTimer) {
+      setTimer(parseInt(savedTimer, 10));
     }
   }, []);
 
   useEffect(() => {
-    if (timer > 0) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("timer", timer);
-      }
+    if (!isMounted || timer <= 0) return;
 
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
+    localStorage.setItem("timer", timer);
 
-      return () => clearInterval(interval);
-    } else {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("timer");
-      }
-    }
-  }, [timer]);
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timer, isMounted]);
 
   const handleChange = (value, index) => {
     if (value.match(/^[0-9]$/)) {
@@ -70,6 +66,27 @@ const Index = () => {
       toast.success("Logged in successfully");
       await router.push(`/dashboard?phone=${phone}`);
     }
+  };
+
+  const { mutate: resendSMSCode, isLoading } = usePostQuery({
+    listKeyId: KEYS.resendSMSCode,
+  });
+
+  const onSubmitResendedCode = () => {
+    resendSMSCode(
+      {
+        url: URLS.resendSMSCode,
+        attributes: parseInt(`998${phone.replace(/[^0-9]/g, "")}`),
+      },
+
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          toast.success("Logged in successfully");
+          router.push(`/auth/recieve-code/${phone}`);
+        },
+      }
+    );
   };
 
   const handleKeyDown = (e, index) => {
@@ -122,11 +139,10 @@ const Index = () => {
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
               </div>
               <button
-                onClick={onSubmit}
+                onClick={timer === 0 ? onSubmitResendedCode : onSubmit}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-                disabled={code.includes("") || timer === 0}
               >
-                TASDIQLASH
+                {timer === 0 ? "Sms kodni qayta yuborish" : "TASDIQLASH"}
               </button>
             </div>
           </div>
