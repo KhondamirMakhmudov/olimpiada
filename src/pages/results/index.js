@@ -185,31 +185,6 @@ const Index = () => {
       {tab === "my-answers" && (
         <div>
           <div className="grid grid-cols-12 gap-[30px] mt-[30px] ">
-            {/* <div className="col-span-6 space-y-[10px]">
-            {get(quizResult, "data.correct_questions", []).map(
-              (item, index) => (
-                <div
-                  className="border border-[#13DEB9] flex justify-between px-[10px] py-[12px] rounded-[4px]"
-                  key={index}
-                >
-                  <div className="flex gap-x-[10px]">
-                    <p className="text-[#13DEB9]">{index + 1}. </p>
-                    <p className="text-[#13DEB9]">{item} - savol</p>
-                  </div>
-
-                  <div>
-                    <Image
-                      src={"/icons/success.svg"}
-                      alt="success"
-                      width={26}
-                      height={26}
-                    />
-                  </div>
-                </div>
-              )
-            )}
-          </div> */}
-
             {isEmpty(scores2_1) ? (
               ""
             ) : (
