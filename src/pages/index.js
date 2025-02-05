@@ -30,7 +30,7 @@ const Home = () => {
     const result = await signIn("credentials", {
       phone: formattedPhone,
       password,
-      redirect: true, // Prevent automatic redirect
+      redirect: false, // Prevent automatic redirect
     });
 
     if (result?.error) {
