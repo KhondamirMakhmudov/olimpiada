@@ -14,7 +14,7 @@ const Index = () => {
       <main>
         <section>
           <div className="container mt-[50px] ">
-            <NavbarTitle>IQMath-2025 Fan olimpiadasi</NavbarTitle>{" "}
+            <NavbarTitle>{t("olympicsTitle  ")}</NavbarTitle>{" "}
             <p className=" my-[50px]">
               {t("aboutOlympicsContent1")}
               <strong>{t("aboutOlympicsContent2")}</strong>
@@ -23,7 +23,7 @@ const Index = () => {
         </section>
 
         <section className="container my-[50px] ">
-          <TitleLittleContent>Olimpiada shartlari</TitleLittleContent>
+          <TitleLittleContent>{t("aboutOlympicsTitle")}</TitleLittleContent>
 
           <div className="grid grid-cols-12 self-baseline gap-[30px] mt-[30px]">
             <div className="col-span-4 shadow-2xl rounded-md flex items-start gap-x-[10px]">
@@ -67,9 +67,7 @@ const Index = () => {
 
         <section className="">
           <div className="container">
-            <TitleLittleContent>
-              Olimpiada ikki bosqichda o'tkaziladi:
-            </TitleLittleContent>
+            <TitleLittleContent>{t("aboutOlympicsTitle1")}</TitleLittleContent>
 
             <div className="grid grid-cols-12 items-center gap-x-[30px]">
               <div className="col-span-4">
@@ -88,12 +86,7 @@ const Index = () => {
                   transition={{ duration: 0.5 }}
                   className="my-[10px] text-lg text-[#696984]"
                 >
-                  Birinchi bosqich 2025 yilning 21-martdan 28-martgacha bo‘lgan
-                  oraliqda "iqmath.uz" saytida onlayn shaklida o‘tkaziladi. Har
-                  bir ishtirokchiga <strong>30 ta test</strong> savoli beriladi,
-                  ishlash uchun <strong>60 daqiqa</strong> vaqt beriladi. Eng
-                  yuqori ball to‘plagan <strong>300 nafar</strong> ishtirokchi
-                  ikkinchi bosqichga yo'llanmani qo'lga kiritadi.
+                  {t("aboutOlympics10")}
                 </motion.p>
               </div>
             </div>
@@ -106,12 +99,7 @@ const Index = () => {
                   transition={{ duration: 0.5 }}
                   className="my-[10px] text-lg text-[#696984]"
                 >
-                  Birinchi bosqich 2025 yilning 21-martdan 28-martgacha bo‘lgan
-                  oraliqda "iqmath.uz" saytida onlayn shaklida o‘tkaziladi. Har
-                  bir ishtirokchiga <strong>30 ta test</strong> savoli beriladi,
-                  ishlash uchun <strong>60 daqiqa</strong> vaqt beriladi. Eng
-                  yuqori ball to‘plagan <strong>300 nafar</strong> ishtirokchi
-                  ikkinchi bosqichga yo'llanmani qo'lga kiritadi.
+                  {t("aboutOlympics11")}
                 </motion.p>
               </div>
 
@@ -129,7 +117,7 @@ const Index = () => {
 
         <section className=" my-[50px]">
           <div className="container">
-            <TitleLittleContent>Sovrinlar</TitleLittleContent>
+            <TitleLittleContent>{t("aboutOlympicsTitle2")}</TitleLittleContent>
 
             <motion.p
               initial={{ opacity: 0, translateY: "30px" }}
@@ -137,15 +125,7 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="my-[10px] text-lg text-[#696984]"
             >
-              Olimpiada va sovrinlar UDEA universiteti (www.udea.uz) va AGROBANK
-              (agrobank.uz) homiyligida tashkillashtiriladi. Ikkinchi bosqichda
-              eng yuqori ball to‘plagan 10 nafar ishtirokchi (IELTS
-              sertifikatiga ega bo‘lsa) UDEA dagi Buyuk Britaniya yirik
-              universitetlardan biri bo'lgan "Coventry university" dasturlari
-              uchun tavsiya etiladi. Ushbu dasturlarga 100% shartnoma to‘lovini
-              to‘lab talabalikka qabul qilingan ishtirokchilar Koventri
-              shahridagi "Summer School" dasturida ishtirok etish imkoniga ega
-              bo‘ladilar.
+              {t("aboutOlympics12")}
             </motion.p>
 
             <motion.p
@@ -154,9 +134,7 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="my-[10px] text-lg text-[#696984]"
             >
-              Ikkinchi bosqichda ishtirok etgan va UDEA universitetiga kirib,
-              100% shartnoma to‘lovini amalga oshirgan talabalar 3 million
-              so‘mlik "Vaucher" bilan taqdirlanadi.
+              {t("aboutOlympics13")}
             </motion.p>
           </div>
 
@@ -186,7 +164,7 @@ const Index = () => {
                     transition={{ duration: 0.5 }}
                     className="my-[10px] text-lg text-[#696984]"
                   >
-                    BYD E2 elektromobili.
+                    {t("winner1")}
                   </motion.p>
                 </li>
 
@@ -204,7 +182,7 @@ const Index = () => {
                     transition={{ duration: 0.5 }}
                     className="my-[10px] text-lg text-[#696984]"
                   >
-                    13 dyuymli Apple iPad Pro M4.
+                    {t("winner2")}
                   </motion.p>
                 </li>
 
@@ -222,14 +200,12 @@ const Index = () => {
                     transition={{ duration: 0.5 }}
                     className="my-[10px] text-lg text-[#696984]"
                   >
-                    Apple iPhone 16 Pro Max.
+                    {t("winner3")}
                   </motion.p>
                 </li>
               </ul>
-              <p className="my-[20px]">
-                Olimpiadada qatnashing va qimmatbaho sovg&apos;alardan birini
-                yutib oling. <br /> Sizga omad tilab, g&apos;oliblarimiz
-                qatorida bo'lishingizni tilab qolamiz!
+              <p className="my-[20px] text-[#696984] max-w-[500px]">
+                {t("winnerDesc")}
               </p>
             </div>
           </div>

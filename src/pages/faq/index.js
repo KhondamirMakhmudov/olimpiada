@@ -4,22 +4,21 @@ import { motion } from "framer-motion";
 import TitleLittleContent from "@/components/title/titleLittleContent";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Header />
       <div className="container mt-[50px] ">
-        <NavbarTitle>Savollarga javoblar</NavbarTitle>{" "}
+        <NavbarTitle></NavbarTitle>{" "}
       </div>
 
       <div className="container flex justify-center items-start flex-col mt-[50px]">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-1.png"} alt="ask-1" width={50} height={50} />
-          <TitleLittleContent>
-            {" "}
-            Olimpiada haqida qayerdan ma'lumot olsam bo'ladi?
-          </TitleLittleContent>
+          <TitleLittleContent> {t("question1")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -35,12 +34,12 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            Olimpiada haqida.{" "}
+            {t("answer1")}{" "}
             <Link
-              href={"https://iqmath.uz/info/about-olympic"}
+              href={"https://iq-math.uz/about-olympics"}
               className="text-[#3965c6]"
             >
-              https://iqmath.uz/info/about-olympic
+              https://iq-math.uz/about-olympic
             </Link>
           </motion.p>
         </div>
@@ -51,7 +50,7 @@ const Index = () => {
       <div className="container flex justify-center items-start flex-col ">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-2.png"} alt="ask-2" width={50} height={50} />
-          <TitleLittleContent> IQMATH o'zi nima?</TitleLittleContent>
+          <TitleLittleContent> {t("question2")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -67,11 +66,7 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            IQmath - bu matematika fanini samarali o'qish uchun maxsus ishlab
-            chiqilgan innovatsion elektron platforma bo'lib, unda maktab
-            darsliklarini yaxshi o'zlashtirishga va oliy ta'lim dargohlariga
-            kirish imtihonlarida yuqori natijalarni qo'lga kiritishda yordam
-            beradi.
+            {t("answer2")}
           </motion.p>
         </div>
       </div>
@@ -81,11 +76,7 @@ const Index = () => {
       <div className="container flex justify-center items-start flex-col">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-3.png"} alt="ask-3" width={50} height={50} />
-          <TitleLittleContent>
-            {" "}
-            IQMATH bo'yicha qiziqtirgan savollarimga qayerdan javob olsam
-            bo'ladi?
-          </TitleLittleContent>
+          <TitleLittleContent> {t("question3")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -101,8 +92,7 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            +998 (78) 888 08 00 raqamiga qo'ng'iroq qilib istalgan
-            savollaringizga javob olishingiz mumkin.
+            {t("answer3")}
           </motion.p>
         </div>
       </div>
@@ -112,10 +102,7 @@ const Index = () => {
       <div className="container flex justify-center items-start flex-col">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-4.png"} alt="ask-3" width={50} height={50} />
-          <TitleLittleContent>
-            {" "}
-            IQMATH platformasidan kimlar ro'yxatdan o'tishi mumkin?
-          </TitleLittleContent>
+          <TitleLittleContent> {t("question4")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -131,9 +118,7 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            IQmath platformasidan foydalanish uchun yosh chegarasi
-            belgilanmagan. Istalgan foydalanuchi saytdan foydlanishi mumkin.
-            Saytdan foydalanish pullik.
+            {t("answer4")}
           </motion.p>
         </div>
       </div>
@@ -143,11 +128,7 @@ const Index = () => {
       <div className="container flex justify-center items-start flex-col">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-3.png"} alt="ask-3" width={50} height={50} />
-          <TitleLittleContent>
-            {" "}
-            IQMATH platformasida a'lochi foydalanuvchilar uchun bonuslar
-            beriladimi?
-          </TitleLittleContent>
+          <TitleLittleContent> {t("question5")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -163,10 +144,7 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            IQmath platformasida berilgan topshiriqlarni o'z vaqtida
-            muvaffaqiyatli bajargan foydalanuvchilar uchun bonuslar beriladi.
-            Ushbu ballarni tez orada qimmatbaho sovg'alarga almashtirishingiz
-            mumkin bo'ladi (Bu boraga ishlar boshlangan).
+            {t("answer5")}
           </motion.p>
         </div>
       </div>
@@ -176,10 +154,7 @@ const Index = () => {
       <div className="container flex justify-center items-start flex-col mb-[50px]">
         <div className="flex gap-x-[30px] items-center">
           <Image src={"/images/ask-1.png"} alt="ask-3" width={50} height={50} />
-          <TitleLittleContent>
-            {" "}
-            IQMATH tashkilotchilari bilan bog'lanish
-          </TitleLittleContent>
+          <TitleLittleContent> {t("question6")}</TitleLittleContent>
         </div>
 
         <div className="flex gap-x-[30px] items-start ml-[30px] mt-[15px]">
@@ -195,8 +170,7 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="my-[10px] text-lg"
           >
-            +998 (78) 888 08 00 raqamiga qo'ng'iroq qilib istalgan
-            savollaringizga javob olishingiz mumkin.
+            {t("answer6")}
           </motion.p>
         </div>
       </div>
