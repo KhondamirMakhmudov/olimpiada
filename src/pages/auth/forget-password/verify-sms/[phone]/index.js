@@ -7,8 +7,11 @@ import { URLS } from "@/constants/url";
 import { useRouter } from "next/router";
 
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import Header from "@/components/header";
 
 const Index = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { phone } = router.query;
   const [code, setCode] = useState(new Array(5).fill(""));
@@ -114,48 +117,49 @@ const Index = () => {
 
   return (
     <div
-      className={
-        "flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat"
-      }
+      className="bg-center bg-cover bg-no-repeat"
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
-      <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
-        <div className="flex justify-center items-center mb-[30px]">
-          <Brand />
-        </div>
+      <Header />
+      <div className={"flex items-center justify-center h-screen "}>
+        <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
+          {/* <div className="flex justify-center items-center mb-[30px]">
+            <Brand />
+          </div> */}
 
-        <p className="text-sm text-center mt-[30px] mb-[8px]">
-          SMS Kodni Kiriting
-        </p>
+          <p className="text-sm text-center mt-[30px] mb-[8px]">
+            {t("enterSMSCode")}
+          </p>
 
-        <div className="border p-[16px]">
-          <div className="flex flex-col items-center justify-center ">
-            <div className="bg-white p-6 rounded-lg ">
-              <div className="flex justify-center space-x-2 mb-6">
-                {code.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`input-${index}`}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    onChange={(e) => handleChange(e.target.value, index)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                ))}
+          <div className="border p-[16px]">
+            <div className="flex flex-col items-center justify-center ">
+              <div className="bg-white p-6 rounded-lg ">
+                <div className="flex justify-center space-x-2 mb-6">
+                  {code.map((digit, index) => (
+                    <input
+                      key={index}
+                      id={`input-${index}`}
+                      type="text"
+                      maxLength="1"
+                      value={digit}
+                      onChange={(e) => handleChange(e.target.value, index)}
+                      onKeyDown={(e) => handleKeyDown(e, index)}
+                      className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-center items-center mb-6">
+                  <hr className="border-t border-gray-300 flex-grow mx-2" />
+                  <span className="text-gray-600 text-sm">{formattedTime}</span>
+                  <hr className="border-t border-gray-300 flex-grow mx-2" />
+                </div>
+                <button
+                  onClick={onSubmit}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                >
+                  {t("submit")}
+                </button>
               </div>
-              <div className="flex justify-center items-center mb-6">
-                <hr className="border-t border-gray-300 flex-grow mx-2" />
-                <span className="text-gray-600 text-sm">{formattedTime}</span>
-                <hr className="border-t border-gray-300 flex-grow mx-2" />
-              </div>
-              <button
-                onClick={onSubmit}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-              >
-                Tasdiqlash
-              </button>
             </div>
           </div>
         </div>

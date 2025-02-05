@@ -38,7 +38,7 @@
   "certificate": "Guvohnoma",
   "enter details of passport": "Hujjat detallarini kiriting",
   "address": "Manzil",
-  "aboutus": "Biz haqimizda",
+
   "aboutusTitle": "Innovatsion elektron platforma",
   "aboutusTitle1": "IQ math haqida ko'proq",
   "aboutusTitle2": "Nimalarni taklif qilamiz?",
@@ -50,6 +50,8 @@
   "aboutusContent4": "Asosiy xususiyatlaridan biri bu video materiallarning mavjudligi. Platformada nazariy konsepsiyalar va tamoyillarni bosqichma-bosqich tushuntirib beruvchi batafsil video darsliklar taqdim etilgan. Bu hatto murakkab mavzularni ham o‘zlashtirishni osonlashtiradi. Shuningdek, darsliklardagi aniq misollarni yechish bo‘yicha video tushuntirishlar ham mavjud bo‘lib, foydalanuvchilarga masalalarni qanday yechishni o‘rganish va yechim mantiqini tushunish imkonini beradi.",
   "aboutusContent5": "IQmath platformasida o‘qitish natijasida nafaqat akademik natijalar sezilarli darajada yaxshilanadi, balki mantiqiy va analitik fikrlash kabi muhim ko‘nikmalar ham rivojlanadi. Ushbu ko‘nikmalar nafaqat matematik masalalarni, balki hayotning boshqa sohalaridagi muammolarni hal qilishda ham asqotadi.",
   "aboutOlympics": "Olimpiada haqida",
+  "faq": "Savollarga javoblar",
+  "aboutus": "Biz haqimizda",
   "olympicsTitle": "IQMath-2025 Fan olimpiadasi",
   "aboutOlympicsTitle": "Olimpiada shartlari",
   "aboutOlympicsTitle1": "Olimpiada ikki bosqichda o'tkaziladi:",
@@ -84,5 +86,13 @@
   "answer3": "+998 (78) 888 08 00 raqamiga qo'ng'iroq qilib istalgan savollaringizga javob olishingiz mumkin.",
   "answer4": "IQmath platformasidan foydalanish uchun yosh chegarasi belgilanmagan. Istalgan foydalanuchi saytdan foydlanishi mumkin. Saytdan foydalanish pullik.",
   "answer5": "IQmath platformasida berilgan topshiriqlarni o'z vaqtida muvaffaqiyatli bajargan foydalanuvchilar uchun bonuslar beriladi. Ushbu ballarni tez orada qimmatbaho sovg'alarga almashtirishingiz mumkin bo'ladi (Bu boraga ishlar boshlangan).",
-  "answer6": "+998 (78) 888 08 00 raqamiga qo'ng'iroq qilib istalgan savollaringizga javob olishingiz mumkin."
+  "answer6": "+998 (78) 888 08 00 raqamiga qo'ng'iroq qilib istalgan savollaringizga javob olishingiz mumkin.",
+  "enter": "Tizimga kirish",
+  "left": "Tizimdan chiqish",
+  "resetPassword": "Parolni tiklash",
+  "submit": "Tasdiqlash",
+  "enterSMSCode": "SMS Kodni Kiriting",
+  "newPassword": "Yangi parolni kiriting",
+  "finish": "Yakunlash",
+  "resendSMSCode": "Sms kodni qayta yuborish"
 }

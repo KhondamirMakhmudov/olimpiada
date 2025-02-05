@@ -176,7 +176,7 @@ const Home = () => {
             ) : (
               <div className="w-full">
                 <h1 className="text-2xl font-medium text-center mb-[20px]">
-                  {t("welcome")}
+                  {t("welcome")}!
                 </h1>
 
                 <div className="flex gap-x-[15px]">
@@ -184,14 +184,14 @@ const Home = () => {
                     onClick={() => router.push("/dashboard")}
                     className="bg-[#5D87FF] hover:bg-[#4570EA] py-[16px] w-full text-white rounded-md"
                   >
-                    Tizimga kirish
+                    {t("enter")}
                   </button>
 
                   <button
                     onClick={handleLogout}
                     className="bg-[#FA896B] hover:bg-[#E77F63] py-[16px] w-full text-white rounded-md"
                   >
-                    Tizimdan chiqish
+                    {t("left")}
                   </button>
                 </div>
               </div>

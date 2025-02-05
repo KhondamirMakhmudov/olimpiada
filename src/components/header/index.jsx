@@ -2,7 +2,9 @@ import LanguageDropdown from "../language";
 import Brand from "../brand";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 const Header = ({ color = "white" }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   return (
     <div className=" relative z-10 py-[10px]">
@@ -20,7 +22,7 @@ const Header = ({ color = "white" }) => {
                 : "bg-transparent text-black"
             }`}
           >
-            <Link href={"/about-us"}>Biz haqimizda</Link>{" "}
+            <Link href={"/about-us"}>{t("aboutus")}</Link>{" "}
           </li>
           <li
             className={`hover:underline cursor-pointer py-[8px] px-[10px] rounded-md ${
@@ -29,7 +31,7 @@ const Header = ({ color = "white" }) => {
                 : "bg-transparent text-black"
             }`}
           >
-            <Link href={"/faq"}>Savollarga javoblar</Link>{" "}
+            <Link href={"/faq"}>{t("faq")}</Link>{" "}
           </li>
           <li
             className={`hover:underline cursor-pointer py-[8px] px-[10px] rounded-md ${
@@ -38,7 +40,7 @@ const Header = ({ color = "white" }) => {
                 : "bg-transparent text-black"
             }`}
           >
-            <Link href={"/about-olympics"}>Olimpiada haqida</Link>{" "}
+            <Link href={"/about-olympics"}>{t("aboutOlympics")}</Link>{" "}
           </li>
         </ul>
 

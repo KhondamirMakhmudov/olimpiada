@@ -7,6 +7,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import Header from "@/components/header";
 const Index = () => {
   const router = useRouter();
   const { t } = useTranslation();
@@ -43,19 +44,22 @@ const Index = () => {
     );
   };
   return (
-    <div>
+    <div
+      className="bg-center bg-cover"
+      style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
+    >
+      <Header />
       <div
         className={
           "flex items-center justify-center h-screen bg-center bg-cover"
         }
-        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
       >
         <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
-          <div className="flex justify-center items-center mb-[30px]">
+          {/* <div className="flex justify-center items-center mb-[30px]">
             <Brand />
-          </div>{" "}
+          </div>{" "} */}
           <p className="text-2xl font-medium text-center mb-[20px]">
-            Parolni tiklash
+            {t("resetPassword")}
           </p>
           <div className="w-full mt-[30px]">
             <form
@@ -87,7 +91,7 @@ const Index = () => {
               </div>
 
               <button className="bg-[#5D87FF] hover:bg-[#4570EA]   text-white py-[8px] px-[16px] w-full rounded-[4px] transition-all duration-300">
-                Tasdiqlash kodini yuborish
+                {t("submit")}
               </button>
             </form>
           </div>

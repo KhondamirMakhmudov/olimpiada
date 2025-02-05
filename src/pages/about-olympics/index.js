@@ -14,7 +14,7 @@ const Index = () => {
       <main>
         <section>
           <div className="container mt-[50px] ">
-            <NavbarTitle>{t("olympicsTitle  ")}</NavbarTitle>{" "}
+            <NavbarTitle>{t("olympicsTitle")}</NavbarTitle>{" "}
             <p className=" my-[50px]">
               {t("aboutOlympicsContent1")}
               <strong>{t("aboutOlympicsContent2")}</strong>
