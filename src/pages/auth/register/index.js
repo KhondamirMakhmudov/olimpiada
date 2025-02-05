@@ -26,9 +26,7 @@ const Register = () => {
   const [regionDropdownOpen, setRegionDropdownOpen] = useState(false);
   const [districtDropdownOpen, setDistrictDropdownOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(
-    "Ta'lim dargohi tanlang"
-  );
+  const [selectedOption, setSelectedOption] = useState(t("chooseEducation"));
 
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
   const [selectedOptionCourse, setSelectedOptionCourse] =
@@ -39,20 +37,20 @@ const Register = () => {
     `${t("selectTypeOfPassport")}`
   );
 
-  const optionDocument = [t("certificate"), "Passport"];
-  const options = ["Litsey", "Maktab"];
+  const optionDocument = [`${t("certificate")}`, `${t("passport")}`];
+  const options = [t("litsey"), t("school")];
   const optionsCourse = [
-    { id: 1, name: "1-kurs" },
-    { id: 2, name: "2-kurs" },
-    { id: 3, name: "10-sinf" },
-    { id: 4, name: "11-sinf" },
-    { id: 5, name: "Bitirgan" },
+    { id: 1, name: `1-${t("course")}` },
+    { id: 2, name: `2-${t("course")}` },
+    { id: 3, name: `10-${t("class")}` },
+    { id: 4, name: `11-${t("class")}` },
+    { id: 5, name: `${t("finishedEducation")}` },
   ];
 
   const filteredCourses =
-    selectedOption === "Litsey"
+    selectedOption === t("litsey")
       ? optionsCourse.filter((course) => [1, 2, 5].includes(course.id))
-      : selectedOption === "Maktab"
+      : selectedOption === t("school")
       ? optionsCourse.filter((course) => [3, 4, 5].includes(course.id))
       : [];
 
@@ -106,10 +104,11 @@ const Register = () => {
   };
 
   const selectedRegionName =
-    regions.find((r) => r.id === selectedRegion)?.name || "Viloyatni tanlang";
+    regions.find((r) => r.id === selectedRegion)?.name ||
+    `${t("chooseRegion")}`;
   const selectedDistrictName =
     filteredDistricts.find((d) => d.id === selectedDistrict)?.name ||
-    (filteredDistricts.length ? "Hududni tanlang" : "Hudud mavjud emas");
+    (filteredDistricts.length ? `${t("chooseDistrict")}` : "Hudud mavjud emas");
 
   const { mutate: registerRequest, isLoading } = usePostQuery({
     listKeyId: KEYS.register,
