@@ -4,7 +4,7 @@ import useGetQuery from "@/hooks/api/useGetQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 
-import { get, isEmpty } from "lodash";
+import { get, isEmpty, isNil } from "lodash";
 import Link from "next/link";
 
 import { useState, useEffect, useContext } from "react";
@@ -18,13 +18,6 @@ const Index = () => {
   const { t } = useTranslation();
   const [tab, setTab] = useState("results");
   const { result } = useContext(UserProfileContext);
-  console.log(result);
-
-  const [isExiting, setIsExiting] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  const [showModal, setShowModal] = useState(false);
 
   const handleTab = (tab) => {
     setTab(tab);
@@ -42,6 +35,8 @@ const Index = () => {
     enabled: !!session?.accessToken,
   });
 
+  console.log(get(quizResult, "data.score"));
+
   const scores2_1 = get(result, "data.answer_more", []).filter(
     (item) => item.score === 2.1
   );
@@ -51,10 +46,6 @@ const Index = () => {
   const scores5_1 = get(result, "data.answer_more", []).filter(
     (item) => item.score === 5.1
   );
-
-  console.log("Scores 2.1:", scores2_1);
-  console.log("Scores 3.1:", scores3_1);
-  console.log("Scores 5.1:", scores5_1);
 
   return (
     <Dashboard>
@@ -165,10 +156,22 @@ const Index = () => {
               <div>
                 <p className="text-sm text-[#5A6A85]">{t("totalScore")}</p>
 
-                <p className="font-medium text-lg text-[#2A3547] dark:text-white">
-                  {parseFloat(get(quizResult, "data.score")).toFixed(2)}{" "}
-                  {t("score")}
-                </p>
+                {isNil(get(quizResult, "data.score")) ? (
+                  <div className="bg-[#539BFF] flex items-center gap-x-[4px] text-white py-1 px-2 rounded-md mt-[10px]">
+                    <Image
+                      src={"/icons/Error.svg"}
+                      alt={"error"}
+                      width={24}
+                      height={24}
+                    />
+                    <p className="text-sm">Siz hali test topshirmadingiz</p>
+                  </div>
+                ) : (
+                  <p className="font-medium text-lg text-[#2A3547] dark:text-white">
+                    {parseFloat(get(quizResult, "data.score")).toFixed(2)}{" "}
+                    {t("score")}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -180,8 +183,9 @@ const Index = () => {
       )}
 
       {tab === "my-answers" && (
-        <div className="grid grid-cols-12 gap-[30px] mt-[30px] ">
-          {/* <div className="col-span-6 space-y-[10px]">
+        <div>
+          <div className="grid grid-cols-12 gap-[30px] mt-[30px] ">
+            {/* <div className="col-span-6 space-y-[10px]">
             {get(quizResult, "data.correct_questions", []).map(
               (item, index) => (
                 <div
@@ -206,137 +210,150 @@ const Index = () => {
             )}
           </div> */}
 
-          {isEmpty(scores2_1) ? (
-            ""
-          ) : (
-            <div className="col-span-4 space-y-[10px]">
-              <p className="text-lg font-medium text-gray-600">
-                {scores2_1[0]["score"]} ballik
-              </p>
-              {scores2_1.map((item, index) => (
-                <div
-                  className={`border ${
-                    get(item, "is_correct") === true
-                      ? "border-[#13DEB9]"
-                      : "border-[#FA896B]"
-                  } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
-                  key={index}
-                >
-                  <div className="flex gap-x-[10px]">
-                    <p
-                      className={` ${
-                        get(item, "is_correct") === true
-                          ? "text-[#13DEB9]"
-                          : "text-[#FA896B]"
-                      } `}
-                    >
-                      {get(item, "order")}.{" "}
-                    </p>
-                    {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
-                  </div>
+            {isEmpty(scores2_1) ? (
+              ""
+            ) : (
+              <div className="col-span-4 space-y-[10px]">
+                <p className="text-lg font-medium text-gray-600">
+                  {scores2_1[0]["score"]} ballik
+                </p>
+                {scores2_1.map((item, index) => (
+                  <div
+                    className={`border ${
+                      get(item, "is_correct") === true
+                        ? "border-[#13DEB9]"
+                        : "border-[#FA896B]"
+                    } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
+                    key={index}
+                  >
+                    <div className="flex gap-x-[10px]">
+                      <p
+                        className={` ${
+                          get(item, "is_correct") === true
+                            ? "text-[#13DEB9]"
+                            : "text-[#FA896B]"
+                        } `}
+                      >
+                        {get(item, "order")}.{" "}
+                      </p>
+                      {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
+                    </div>
 
-                  <div>
-                    <Image
-                      src={`/icons/${
-                        get(item, "is_correct") === true ? "success" : "fail"
-                      }.svg`}
-                      alt="fail"
-                      width={26}
-                      height={26}
-                    />
+                    <div>
+                      <Image
+                        src={`/icons/${
+                          get(item, "is_correct") === true ? "success" : "fail"
+                        }.svg`}
+                        alt="fail"
+                        width={26}
+                        height={26}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          {isEmpty(scores3_1) ? (
-            ""
-          ) : (
-            <div className="col-span-4 space-y-[10px]">
-              <p className="text-lg font-medium text-gray-600">
-                {scores3_1[0]["score"]} ballik
-              </p>
-              {scores3_1.map((item, index) => (
-                <div
-                  className={`border ${
-                    get(item, "is_correct") === true
-                      ? "border-[#13DEB9]"
-                      : "border-[#FA896B]"
-                  } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
-                  key={index}
-                >
-                  <div className="flex gap-x-[10px]">
-                    <p
-                      className={` ${
-                        get(item, "is_correct") === true
-                          ? "text-[#13DEB9]"
-                          : "text-[#FA896B]"
-                      } `}
-                    >
-                      {get(item, "order")}.{" "}
-                    </p>
-                    {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
-                  </div>
+            {isEmpty(scores3_1) ? (
+              ""
+            ) : (
+              <div className="col-span-4 space-y-[10px]">
+                <p className="text-lg font-medium text-gray-600">
+                  {scores3_1[0]["score"]} ballik
+                </p>
+                {scores3_1.map((item, index) => (
+                  <div
+                    className={`border ${
+                      get(item, "is_correct") === true
+                        ? "border-[#13DEB9]"
+                        : "border-[#FA896B]"
+                    } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
+                    key={index}
+                  >
+                    <div className="flex gap-x-[10px]">
+                      <p
+                        className={` ${
+                          get(item, "is_correct") === true
+                            ? "text-[#13DEB9]"
+                            : "text-[#FA896B]"
+                        } `}
+                      >
+                        {get(item, "order")}.{" "}
+                      </p>
+                      {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
+                    </div>
 
-                  <div>
-                    <Image
-                      src={`/icons/${
-                        get(item, "is_correct") === true ? "success" : "fail"
-                      }.svg`}
-                      alt="fail"
-                      width={26}
-                      height={26}
-                    />
+                    <div>
+                      <Image
+                        src={`/icons/${
+                          get(item, "is_correct") === true ? "success" : "fail"
+                        }.svg`}
+                        alt="fail"
+                        width={26}
+                        height={26}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          {isEmpty(scores3_1) ? (
-            ""
-          ) : (
-            <div className="col-span-4 space-y-[10px]">
-              <p className="text-lg font-medium text-gray-600">
-                {scores5_1[0]["score"]} ballik
-              </p>
-              {scores5_1.map((item, index) => (
-                <div
-                  className={`border ${
-                    get(item, "is_correct") === true
-                      ? "border-[#13DEB9]"
-                      : "border-[#FA896B]"
-                  } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
-                  key={index}
-                >
-                  <div className="flex gap-x-[10px]">
-                    <p
-                      className={` ${
-                        get(item, "is_correct") === true
-                          ? "text-[#13DEB9]"
-                          : "text-[#FA896B]"
-                      } `}
-                    >
-                      {get(item, "order")}.{" "}
-                    </p>
-                    {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
-                  </div>
+            {isEmpty(scores3_1) ? (
+              ""
+            ) : (
+              <div className="col-span-4 space-y-[10px]">
+                <p className="text-lg font-medium text-gray-600">
+                  {scores5_1[0]["score"]} ballik
+                </p>
+                {scores5_1.map((item, index) => (
+                  <div
+                    className={`border ${
+                      get(item, "is_correct") === true
+                        ? "border-[#13DEB9]"
+                        : "border-[#FA896B]"
+                    } flex justify-between px-[10px] py-[12px] rounded-[4px]`}
+                    key={index}
+                  >
+                    <div className="flex gap-x-[10px]">
+                      <p
+                        className={` ${
+                          get(item, "is_correct") === true
+                            ? "text-[#13DEB9]"
+                            : "text-[#FA896B]"
+                        } `}
+                      >
+                        {get(item, "order")}.{" "}
+                      </p>
+                      {/* <p className="text-[#FA896B]">{get(item, "order")} - savol</p> */}
+                    </div>
 
-                  <div>
-                    <Image
-                      src={`/icons/${
-                        get(item, "is_correct") === true ? "success" : "fail"
-                      }.svg`}
-                      alt="fail"
-                      width={26}
-                      height={26}
-                    />
+                    <div>
+                      <Image
+                        src={`/icons/${
+                          get(item, "is_correct") === true ? "success" : "fail"
+                        }.svg`}
+                        alt="fail"
+                        width={26}
+                        height={26}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+
+            {isEmpty(scores2_1) && isEmpty(scores3_1) && isEmpty(scores5_1) && (
+              <div className="bg-[#539BFF] col-span-12 flex items-center gap-x-[4px] text-white py-1 px-2 rounded-md mt-[10px]">
+                <Image
+                  src={"/icons/Error.svg"}
+                  alt={"error"}
+                  width={24}
+                  height={24}
+                />
+                <p className="text-sm">Siz hali test topshirmadingiz</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </Dashboard>
