@@ -185,10 +185,10 @@ const Register = () => {
           </p>
         )}
 
-        <div className="w-[436px] h-auto bg-white  mx-auto rounded-[8px] p-[20px] ">
-          <div className="mb-[30px]  text-center">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto bg-white  mx-auto rounded-[8px] p-6 md:p-8  ">
+          {/* <div className="mb-[30px]  text-center">
             <Brand />
-          </div>
+          </div> */}
 
           <div className="flex">
             <button
