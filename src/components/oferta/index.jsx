@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function UserAgreement() {
+  const { t } = useTranslation();
   const [isChecked, setIsChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
@@ -41,8 +43,7 @@ export default function UserAgreement() {
         className="cursor-pointer text-sm my-[10px]"
         onClick={() => setIsModalOpen(true)}
       >
-        Shu bilan men foydalanuvchi shartnomasi va maxfiylik siyosatiga rozilik
-        bildiraman
+        {t("oferta")}
       </label>
 
       {/* Custom Modal */}

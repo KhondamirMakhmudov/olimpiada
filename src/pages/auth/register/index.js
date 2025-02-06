@@ -12,9 +12,11 @@ import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
 import { motion } from "framer-motion";
 import UserAgreement from "@/components/oferta";
+import Header from "@/components/header";
 
 const Register = () => {
   const { t } = useTranslation();
+  const [date, setDate] = useState("");
   const router = useRouter();
   const [tab, setTab] = useState("register");
   const regions = data.regions;
@@ -29,8 +31,9 @@ const Register = () => {
   const [selectedOption, setSelectedOption] = useState(t("chooseEducation"));
 
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
-  const [selectedOptionCourse, setSelectedOptionCourse] =
-    useState("Kurs/Sinf/Bitirgan");
+  const [selectedOptionCourse, setSelectedOptionCourse] = useState(
+    `${t("chooseTypeOfClass")}`
+  );
   const [dropdownselectedDocument, setDropdownSelectedDocument] =
     useState(false);
   const [selectedDocument, setSelectedDocument] = useState(
@@ -108,7 +111,7 @@ const Register = () => {
     `${t("chooseRegion")}`;
   const selectedDistrictName =
     filteredDistricts.find((d) => d.id === selectedDistrict)?.name ||
-    (filteredDistricts.length ? `${t("chooseDistrict")}` : "Hudud mavjud emas");
+    (filteredDistricts.length ? `${t("chooseDistrict")}` : `${t("noRegion")}`);
 
   const { mutate: registerRequest, isLoading } = usePostQuery({
     listKeyId: KEYS.register,
@@ -144,7 +147,7 @@ const Register = () => {
         {
           onSuccess: (data) => {
             console.log(data);
-            toast.success("Logged in successfully");
+            toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz");
             router.push(`/auth/recieve-code/${phone}`);
           },
           onError: (error) => {
@@ -168,16 +171,12 @@ const Register = () => {
       );
   };
   return (
-    <div className="">
-      <div className="absolute right-4 top-4">
-        <LanguageDropdown />
-      </div>
-      <div
-        className={
-          "bg-center flex items-center justify-center min-h-screen bg-cover bg-no-repeat"
-        }
-        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
-      >
+    <div
+      className="bg-no-repeat bg-center bg-cover "
+      style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
+    >
+      <Header />
+      <div className={" flex items-center justify-center min-h-screen "}>
         {submitError && (
           <p className="text-red-500 text-sm mt-1">
             {Object.entries(submitError)
@@ -267,7 +266,7 @@ const Register = () => {
                       required: "Phone number is required",
                     })}
                     className="w-full text-sm bg-white text-[#2A3547] py-[9px] pl-[5px]"
-                    placeholder="331234678"
+                    placeholder="---------"
                   />
                 </div>
                 {submitError?.phone && (
@@ -278,16 +277,19 @@ const Register = () => {
               </div>
               {/* Birthday */}
               <div className="">
-                <p className="text-sm text-gray-400 mb-1">
-                  Tug&apos;ilgan sanasi
-                </p>
                 <input
-                  type="date"
+                  type="text"
+                  value={date}
                   max="2010-12-31"
                   min="2005-12-31"
                   {...register("brithday", { required: true })}
-                  placeholder="Tug'ilgan kun"
-                  className="border border-[#EAEFF4] bg-white text-black rounded-[8px] w-full px-[8px] py-[8px]"
+                  onChange={(e) => setDate(e.target.value)}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!e.target.value) e.target.type = "text";
+                  }}
+                  placeholder={`${t("birthday")}`} // Custom placeholder
+                  className="border rounded px-3 py-2 w-full"
                 />
               </div>
 
@@ -377,7 +379,7 @@ const Register = () => {
                       })}
                       maxLength={7}
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-3 py-2"
-                      placeholder="5462312"
+                      placeholder="1234567"
                     />
                   </div>
 
