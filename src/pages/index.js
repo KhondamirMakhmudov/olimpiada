@@ -187,6 +187,7 @@ const Home = () => {
                   </button>
                 </form>
               </div>
+              <Modal />
             </div>
           ) : (
             <div className="text-center">
