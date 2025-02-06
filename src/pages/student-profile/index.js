@@ -10,54 +10,19 @@ import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
+import EditIcon from "@/components/icons/edit";
 
 const Index = () => {
   const { data: session } = useSession();
   const { t } = useTranslation();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userData, setUserData] = useState(null);
   const [accessToken, setAccessToken] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [hide, setHide] = useState(false);
 
-  // Read localStorage data on component mount
-  useEffect(() => {
-    const storedData = localStorage.getItem("dataRegister");
-    const hasModalBeenShown = localStorage.getItem("modalShown");
-
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
-        console.log("Parsed data from localStorage:", parsedData); // Debugging
-        setUserData(parsedData);
-
-        // Set accessToken from dataRegister
-        const tokenFromDataRegister = get(parsedData, "data.access_token");
-        if (tokenFromDataRegister) {
-          setAccessToken(tokenFromDataRegister);
-        }
-
-        // Show modal if it hasn't been shown before
-        if (!hasModalBeenShown) {
-          setShowModal(true);
-          localStorage.setItem("modalShown", "true");
-        }
-      } catch (error) {
-        console.error("Error parsing JSON from localStorage:", error);
-      }
-    }
-  }, []); // Empty dependency array to run only on mount
-
-  // Handle session-based accessToken
-  useEffect(() => {
-    if (session?.accessToken) {
-      setAccessToken(session.accessToken);
-      localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
-    }
-  }, [session]);
-
-  // Fetch student profile using accessToken
   const {
     data: studentProfile,
     isLoading,
@@ -66,9 +31,9 @@ const Index = () => {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
     },
-    enabled: !!accessToken, // Only fetch if accessToken is available
+    enabled: !!session?.accessToken, // Only fetch if accessToken is available
   });
 
   return (
@@ -101,7 +66,7 @@ const Index = () => {
       </div>
 
       <div className="my-[30px]  grid grid-cols-12 gap-x-[30px]">
-        <div className="col-span-9 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
+        <div className="col-span-7 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
           <div className="flex justify-between items-center p-[30px]">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
               {t("details")}
@@ -198,6 +163,70 @@ const Index = () => {
                 <p className="text-sm text-[#7C8FAC]">{t("address")}</p>
 
                 <p>{get(studentProfile, "data.address")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-span-5 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
+          <div className="flex  justify-between items-center p-[30px]">
+            <h3 className=" text-lg font-semibold text-black dark:text-white">
+              Login va parol
+            </h3>{" "}
+            <button
+              className="scale-100 active:scale-90 transition-all duration-200"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? (
+                <Image
+                  src={"/icons/eye.svg"}
+                  alt={"edit"}
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <Image
+                  src={"/icons/eye-closed.svg"}
+                  alt={"edit"}
+                  width={24}
+                  height={24}
+                />
+              )}
+            </button>
+          </div>
+
+          <div className="w-full h-[1px] bg-[#EAEFF4] ">
+            <div className="p-[30px]">
+              <div className="flex flex-col  py-[15px] space-y-[4px] text-black dark:text-white">
+                <label>Login</label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  disabled
+                  value={session?.login}
+                  className="w-1/3 py-[10px] px-[8px] dark:text-white rounded-md border bg-transparent"
+                />
+              </div>
+
+              <div className="flex flex-col  space-y-[4px] text-black dark:text-white">
+                <label>Password</label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  disabled
+                  value={session?.password}
+                  className="w-1/3 py-[10px] px-[8px] rounded-md border bg-transparent"
+                />
+              </div>
+
+              <div className="mt-[80px]">
+                <p className="text-sm mb-[10px] text-[#7C8FAC]">
+                  Agarda biz taqdim etgan parol sizga noqulaylik
+                  tug&apos;dirayotgan bo'lsa uni o&apos;zgartirishingiz mumkin
+                </p>
+                <Link href={"/auth/forget-password"}>
+                  <button className="flex items-center gap-x-[10px]  bg-[#539BFF] scale-100 active:scale-95 hover:bg-[#5197F9] transition-all duration-200 text-white py-[8px] px-[16px] rounded-md">
+                    Parolni o&apos;zgartirish
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

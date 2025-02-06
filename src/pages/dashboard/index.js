@@ -10,54 +10,20 @@ import { useTranslation } from "react-i18next";
 import Dashboard from "@/components/dashboard";
 import PieChartComponent from "@/components/charts/pie-chart";
 import DiagramChart from "@/components/charts/diagram";
-
+import { useSearchParams } from "next/navigation";
 export default function DashboardPage() {
   const { data: session } = useSession();
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const phone = searchParams.get("phone");
 
+  console.log(phone);
   const [isExiting, setIsExiting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [accessToken, setAccessToken] = useState("");
-  const [showModal, setShowModal] = useState(false);
 
-  // Read localStorage data on component mount
-  useEffect(() => {
-    const storedData = localStorage.getItem("dataRegister");
-    const hasModalBeenShown = localStorage.getItem("modalShown");
+  const [showModal, setShowModal] = useState(!!phone);
 
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
-        console.log("Parsed data from localStorage:", parsedData); // Debugging
-        setUserData(parsedData);
-
-        // Set accessToken from dataRegister
-        const tokenFromDataRegister = get(parsedData, "data.access_token");
-        if (tokenFromDataRegister) {
-          setAccessToken(tokenFromDataRegister);
-        }
-
-        // Show modal if it hasn't been shown before
-        if (!hasModalBeenShown) {
-          setShowModal(true);
-          localStorage.setItem("modalShown", "true");
-        }
-      } catch (error) {
-        console.error("Error parsing JSON from localStorage:", error);
-      }
-    }
-  }, []); // Empty dependency array to run only on mount
-
-  // Handle session-based accessToken
-  useEffect(() => {
-    if (session?.accessToken) {
-      setAccessToken(session.accessToken);
-      localStorage.removeItem("dataRegister"); // Remove dataRegister if session exists
-    }
-  }, [session]);
-
-  // Fetch student profile using accessToken
   const {
     data: studentProfile,
     isLoading,
@@ -66,17 +32,14 @@ export default function DashboardPage() {
     key: KEYS.studentProfile,
     url: URLS.studentProfile,
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
     },
-    enabled: !!accessToken, // Only fetch if accessToken is available
+    enabled: !!session?.accessToken, // Only fetch if accessToken is available
   });
 
   // Copy login/password to clipboard
   const handleCopy = () => {
-    const textToCopy = `Login: ${get(userData, "data.login")}\nPassword: ${get(
-      userData,
-      "data.password"
-    )}`;
+    const textToCopy = `Login: ${session.login}\nPassword: ${session.password}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -89,6 +52,7 @@ export default function DashboardPage() {
   // Close the modal
   const closeModal = () => {
     setIsExiting(true);
+
     setTimeout(() => {
       setIsExiting(false);
       setShowModal(false); // Close the modal
@@ -98,7 +62,7 @@ export default function DashboardPage() {
   return (
     <Dashboard>
       {/* Modal for showing login/password */}
-      {showModal && userData && (
+      {showModal && phone && (
         <div>
           <div
             className={`fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity duration-300 ${
@@ -113,7 +77,7 @@ export default function DashboardPage() {
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <div className="flex items-center gap-x-[5px]">
                 <h2 className="text-xl font-semibold mb-1 text-[#13DEB9]">
-                  {get(userData, "data.message")}
+                  Muvaqqiyatli ro&apos;yhatdan o&apos;tdingiz
                 </h2>
                 <Image
                   src={"/icons/success.svg"}
@@ -126,10 +90,10 @@ export default function DashboardPage() {
                 Sizning login parolingiz
               </h2>
               <p className="text-lg font-medium text-[#7C8FAC] mb-2">
-                Login: {get(userData, "data.login")}
+                Login: {session?.login}
               </p>
               <p className="text-lg font-medium text-[#7C8FAC] mb-4">
-                Parolingiz: {get(userData, "data.password")}
+                Parolingiz: {session?.password}
               </p>
               <p className="text-sm font-medium text-[#7C8FAC]">
                 Login va parolni o'zgartirmoqchi bo'lsangiz, bu jarayonni mening

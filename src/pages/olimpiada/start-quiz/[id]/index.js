@@ -3,7 +3,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { useContext, useEffect, useState } from "react";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
 import { useTheme } from "next-themes";
@@ -107,7 +107,7 @@ const Index = () => {
 
   const onSubmit = () => {
     // Ensure accessToken is available
-    if (!accessToken) {
+    if (!session?.accessToken) {
       console.error("Access token is missing.");
       return;
     }
@@ -132,7 +132,7 @@ const Index = () => {
         attributes: payload,
         config: {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${session?.accessToken}`,
           },
         },
       },
@@ -158,6 +158,14 @@ const Index = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (
+      get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
+    ) {
+      setTimeLeft(0);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -300,131 +308,190 @@ const Index = () => {
       ) : (
         <div>
           <div className="my-[30px] ">
-            <div className="grid grid-cols-12 gap-x-[30px]">
-              <div className="col-span-8 space-y-[30px]">
-                {get(data, "data", []).length > 0 && (
-                  <div
-                    className={`border p-[30px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
-                    key={currentQuizIndex}
-                  >
-                    <div className="text-xl mb-[8px]">
-                      <p className="mb-[15px] dark:text-white text-black">
-                        {currentQuizIndex + 1} - savol :
-                      </p>
-                      <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
-                        {parse(
-                          get(data, "data", [])[currentQuizIndex]?.question,
-                          ""
-                        )}
-                      </div>
-                      {/* Quizzes */}
-                      <ul className="mt-[30px] space-y-[10px]">
-                        {["A", "B", "C", "D"].map((option, index) => (
-                          <li
-                            key={index}
-                            className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
-                              selectedAnswers[
-                                get(data, "data", [])[currentQuizIndex]?.id
-                              ] === option
-                                ? "bg-blue-500 text-white"
-                                : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
-                            }`}
-                            onClick={() =>
-                              handleAnswer(
-                                get(data, "data", [])[currentQuizIndex]?.id,
-                                option
-                              )
-                            }
-                          >
-                            <div>
-                              {parse(
-                                get(data, "data", [])[currentQuizIndex][option],
-                                ""
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex justify-between mt-[20px]">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentQuizIndex === 0}
-                    className={` text-white px-4 py-2 rounded-md  ${
-                      currentQuizIndex === 0 ? "bg-gray-400" : "bg-blue-500"
-                    }`}
-                  >
-                    Oldingisi
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={currentQuizIndex === totalQuizzes - 1}
-                    className={` text-white px-4 py-2 rounded-md  ${
-                      currentQuizIndex === totalQuizzes - 1
-                        ? "bg-gray-400"
-                        : "bg-blue-500"
-                    }`}
-                  >
-                    Keyingisi
-                  </button>
-                </div>
-              </div>
-
-              <div
-                className={`col-span-4 rounded-md self-start p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
-              >
-                <div className="flex items-center flex-col justify-center mt-[30px]">
-                  <div className="relative">
-                    <CircularProgressbar
-                      value={percentage}
-                      styles={buildStyles({
-                        pathColor: "#6366F1",
-                        textColor: `${theme === "light" ? "#000" : "#fff"}`,
-                        trailColor: "#E5E7EB",
-                        textSize: "14px",
-                      })}
-                      className="w-[200px] h-[200px] text-center"
-                    />
-                    <p className="absolute top-[90px] right-0 left-[75px] text-xl dark:text-white text-black">{`${String(
-                      Math.floor((timeLeft % 3600) / 60)
-                    ).padStart(2, "0")}:${String(timeLeft % 60).padStart(
-                      2,
-                      "0"
-                    )}`}</p>
-                  </div>
-
-                  <div className="grid grid-cols-8 mt-[40px] gap-[10px] ">
-                    {get(data, "data", []).map((item, index) => (
-                      <div
-                        key={index}
-                        className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer         ${
-                          currentQuizIndex === index
-                            ? "bg-green-500 text-white border-green-500" // Highlight the current question
-                            : answeredQuestions.includes(item.id)
-                            ? "bg-blue-500 text-white border-blue-500" // Highlight answered questions
-                            : "bg-transparent border-gray-300 text-gray-500"
-                        }`}
-                        onClick={() => setCurrentQuizIndex(index)}
-                      >
-                        {index + 1}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-[40px] flex justify-center">
-                    <button
-                      className="bg-red-500 text-white px-[20px] py-[10px] rounded-md hover:bg-red-600"
-                      onClick={handleLogoutClick}
+            {isEmpty(get(data, "data.message", "")) ? (
+              <div className="grid grid-cols-12 gap-x-[30px]">
+                <div className="col-span-8 space-y-[30px]">
+                  {get(data, "data", []).length > 0 && (
+                    <div
+                      className={`border p-[30px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
+                      key={currentQuizIndex}
                     >
-                      Yakunlash
+                      <div className="text-xl mb-[8px]">
+                        <p className="mb-[15px] dark:text-white text-black">
+                          {currentQuizIndex + 1} - savol :
+                        </p>
+                        <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
+                          {parse(
+                            get(data, "data", [])[currentQuizIndex]?.question,
+                            ""
+                          )}
+                        </div>
+                        {/* Quizzes */}
+                        <ul className="mt-[30px] space-y-[10px]">
+                          {["A", "B", "C", "D"].map((option, index) => (
+                            <li
+                              key={index}
+                              className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
+                                selectedAnswers[
+                                  get(data, "data", [])[currentQuizIndex]?.id
+                                ] === option
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
+                              }`}
+                              onClick={() =>
+                                handleAnswer(
+                                  get(data, "data", [])[currentQuizIndex]?.id,
+                                  option
+                                )
+                              }
+                            >
+                              <div>
+                                {parse(
+                                  get(data, "data", [])[currentQuizIndex][
+                                    option
+                                  ],
+                                  ""
+                                )}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between mt-[20px]">
+                    <button
+                      onClick={handlePrevious}
+                      disabled={currentQuizIndex === 0}
+                      className={` text-white px-4 py-2 rounded-md  ${
+                        currentQuizIndex === 0 ? "bg-gray-400" : "bg-blue-500"
+                      }`}
+                    >
+                      Oldingisi
+                    </button>
+                    <button
+                      onClick={handleNext}
+                      disabled={currentQuizIndex === totalQuizzes - 1}
+                      className={` text-white px-4 py-2 rounded-md  ${
+                        currentQuizIndex === totalQuizzes - 1
+                          ? "bg-gray-400"
+                          : "bg-blue-500"
+                      }`}
+                    >
+                      Keyingisi
                     </button>
                   </div>
                 </div>
+
+                <div
+                  className={`col-span-4 rounded-md self-start p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
+                >
+                  <div className="flex items-center flex-col justify-center mt-[30px]">
+                    <div className="relative">
+                      <CircularProgressbar
+                        value={percentage}
+                        styles={buildStyles({
+                          pathColor: "#6366F1",
+                          textColor: `${theme === "light" ? "#000" : "#fff"}`,
+                          trailColor: "#E5E7EB",
+                          textSize: "14px",
+                        })}
+                        className="w-[200px] h-[200px] text-center"
+                      />
+                      <p className="absolute top-[90px] right-0 left-[75px] text-xl dark:text-white text-black">{`${String(
+                        Math.floor((timeLeft % 3600) / 60)
+                      ).padStart(2, "0")}:${String(timeLeft % 60).padStart(
+                        2,
+                        "0"
+                      )}`}</p>
+                    </div>
+
+                    <div className="grid grid-cols-8 mt-[40px] gap-[10px] ">
+                      {get(data, "data", []).map((item, index) => (
+                        <div
+                          key={index}
+                          className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer         ${
+                            currentQuizIndex === index
+                              ? "bg-green-500 text-white border-green-500" // Highlight the current question
+                              : answeredQuestions.includes(item.id)
+                              ? "bg-blue-500 text-white border-blue-500" // Highlight answered questions
+                              : "bg-transparent border-gray-300 text-gray-500"
+                          }`}
+                          onClick={() => setCurrentQuizIndex(index)}
+                        >
+                          {index + 1}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-[40px] flex justify-center">
+                      <button
+                        className="bg-red-500 text-white px-[20px] py-[10px] rounded-md hover:bg-red-600"
+                        onClick={handleLogoutClick}
+                      >
+                        Yakunlash
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <div>
+                  <div
+                    className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}
+                  >
+                    <div className={"space-y-[15px]"}>
+                      <p
+                        className={
+                          "text-[18px] dark:text-white text-black font-semibold"
+                        }
+                      >
+                        {t("testStart")}
+                      </p>
+
+                      <div className="flex gap-x-[12px] items-center">
+                        <Link href={"/"} className="text-[#5A6A85BF]">
+                          {t("homePage")}
+                        </Link>
+                        <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
+                        <p className="text-black dark:text-white">
+                          {t("testStart")}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className={"absolute right-[40px] bottom-0"}>
+                      <Image
+                        src={"/icons/user-profile-bg.svg"}
+                        alt={"user-profile-bg"}
+                        width={168}
+                        height={165}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-x-[20px] items-center">
+                    <div className="text-white bg-[#FFAE1F] flex gap-x-[10px] py-[20px] px-[10px] rounded-[10px]">
+                      <Image
+                        src={"/icons/Error.svg"}
+                        alt={"error"}
+                        width={24}
+                        height={24}
+                      />
+                      <p>{get(data, "data.message", "")}</p>
+                    </div>
+
+                    <Link href={"/results"} className="h-full">
+                      <button className="h-full py-[20px] px-[20px] bg-[#12DEB9] hover:bg-[#10C7A6] transition-all duration-300 rounded-[10px] text-white flex items-center">
+                        Test natijasini bilish
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           {isModalOpen && (
             <>

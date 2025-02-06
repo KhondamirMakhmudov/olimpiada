@@ -30,13 +30,18 @@ export default NextAuth({
           });
 
           const data = await response.json();
-          console.log(data); // Debugging response
+          console.log("Response Data:", data); // Debugging response
 
           if (!response.ok) {
             throw new Error(data.message || "Login failed");
           }
 
-          return { token: data.access_token, phone };
+          return {
+            token: data.access_token,
+            phone,
+            login: data.login || phone, // Assuming `login` exists in response
+            password: data.password || password, // Assuming `password` exists in response
+          };
         } catch (error) {
           console.error("Login Error:", error.message);
           throw new Error(error.message || "Something went wrong");
@@ -49,16 +54,20 @@ export default NextAuth({
       if (user) {
         token.accessToken = user.token;
         token.phone = user.phone;
+        token.login = user.login;
+        token.password = user.password;
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.phone = token.phone;
+      session.login = token.login;
+      session.password = token.password;
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return baseUrl; // This ensures it redirects to NEXTAUTH_URL
+      return baseUrl; // Ensures redirection to NEXTAUTH_URL
     },
   },
   secret:
