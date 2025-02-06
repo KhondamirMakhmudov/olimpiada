@@ -539,7 +539,7 @@ const Register = () => {
                 )}
               </div>
 
-              {selectedOption === "Ta'lim dargohi tanlang" ? (
+              {selectedOption === `${t("chooseEducation")}` ? (
                 ""
               ) : (
                 <motion.div
