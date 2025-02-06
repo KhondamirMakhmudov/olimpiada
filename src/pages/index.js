@@ -126,6 +126,7 @@ const Home = () => {
                           maxLength="9"
                           {...register("phone", { required: true })}
                           className="  w-full bg-white text-sm text-black py-[9px] pl-[5px]"
+                          placeholder="---------"
                         />
                       </div>
                       {/* <PhoneInput
@@ -144,6 +145,7 @@ const Home = () => {
                       <input
                         type="password"
                         {...register("password", { required: true })}
+                        placeholder="********"
                         className="border border-[#EAEFF4] bg-white rounded-[8px] text-black  w-full px-[8px] py-[8px]"
                       />
                     </div>

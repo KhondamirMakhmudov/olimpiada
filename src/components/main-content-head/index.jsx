@@ -172,9 +172,9 @@ const MainContentHead = ({ toggleSidebar }) => {
               </div>
               <div>
                 <p className="text-black dark:text-white font-semibold">
-                  Mening sahifam
+                  {t("myPage")}
                 </p>
-                <p className="text-[#7C8FAC] text-sm">Sozlamalar</p>
+                <p className="text-[#7C8FAC] text-sm">{t("settings")}</p>
               </div>
             </button>
 
@@ -202,24 +202,22 @@ const MainContentHead = ({ toggleSidebar }) => {
               }`}
             >
               <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
-                <h2 className="text-xl font-semibold mb-1">
-                  Web sahifadan chiqish
-                </h2>
+                <h2 className="text-xl font-semibold mb-1">{t("exitWeb")}</h2>
                 <p className="text-lg font-medium text-[#7C8FAC] mb-4">
-                  Haqiqatan ham sahifani tark etmoqchimisiz?
+                  {t("exitWebDesc")}
                 </p>
                 <div className="flex justify-end gap-x-[10px]">
                   <button
                     onClick={handleLogout}
                     className="bg-green-500  text-white py-2 px-4 rounded"
                   >
-                    Ha
+                    {t("yes")}
                   </button>
                   <button
                     onClick={closeModal}
                     className="bg-gray-300 text-black py-2 px-4 rounded"
                   >
-                    Yo&apos;q
+                    {t("no")}
                   </button>
                 </div>
               </div>

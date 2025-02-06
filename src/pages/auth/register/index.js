@@ -591,7 +591,7 @@ const Register = () => {
               <UserAgreement />
 
               <button className="bg-[#5D87FF] hover:bg-[#4570EA] transition-all duration-300 text-white py-[8px] px-[16px] w-full rounded-[4px]">
-                Kirish
+                {t("enter")}
               </button>
             </form>
           </div>

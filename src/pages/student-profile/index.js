@@ -78,15 +78,15 @@ const Index = () => {
       >
         <div className={"space-y-[15px]"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
-            Foydalanuvchi profili
+            {t("userProfile")}
           </p>
 
           <div className="flex gap-x-[12px] items-center">
             <Link href={"/"} className="text-[#5A6A85BF]">
-              Bosh sahifa
+              {t("homePage")}
             </Link>
             <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
-            <p className="text-black dark:text-white">Mening sahifam</p>
+            <p className="text-black dark:text-white">{t("myPage")}</p>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ const Index = () => {
         <div className="col-span-9 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
           <div className="flex justify-between items-center p-[30px]">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
-              tafsilotlar
+              {t("details")}
             </h3>
             <ul className="flex gap-x-[15px]">
               <li>
@@ -153,7 +153,7 @@ const Index = () => {
               <div className="space-y-[4px] text-black dark:text-white">
                 <h4 className="">{get(studentProfile, "data.full_name")}</h4>
                 <p className="text-sm text-[#7C8FAC]">
-                  Ta'lim dargohi:{" "}
+                  {t("educationalInstitution")}
                   <span className="capitalize">
                     {get(studentProfile, "data.academy_or_school")}
                   </span>
@@ -166,17 +166,17 @@ const Index = () => {
 
             <div className="grid grid-cols-3 gap-[20px] my-[30px] text-black dark:text-white">
               <div className="col-span-1">
-                <p className="text-sm text-[#7C8FAC]">Telefon raqam</p>
+                <p className="text-sm text-[#7C8FAC]">{t("phone number")}</p>
                 <p>+{get(studentProfile, "data.phone")}</p>
               </div>
 
               <div className="col-span-1">
-                <p className="text-sm text-[#7C8FAC]">Elektron pochta</p>
+                <p className="text-sm text-[#7C8FAC]">{t("email")}</p>
                 <p>{get(studentProfile, "data.email")}</p>
               </div>
 
               <div className="col-span-1">
-                <p className="text-sm text-[#7C8FAC]">Tug&apos;ilgan sanasi</p>
+                <p className="text-sm text-[#7C8FAC]">{t("birthday")}</p>
                 <p>
                   {dayjs(get(studentProfile, "data.brithday")).format(
                     "DD.MM.YYYY"
@@ -185,17 +185,17 @@ const Index = () => {
               </div>
 
               <div className="col-span-1">
-                <p className="text-sm text-[#7C8FAC]">Viloyati</p>
+                <p className="text-sm text-[#7C8FAC]">{t("region")}</p>
                 <p>{get(studentProfile, "data.region")}</p>
               </div>
 
               <div className="col-span-1">
-                <p className="text-sm text-[#7C8FAC]">Tuman/shahar</p>
+                <p className="text-sm text-[#7C8FAC]">{t("district")}</p>
                 <p>{get(studentProfile, "data.districts")}</p>
               </div>
 
               <div className="col-span-3">
-                <p className="text-sm text-[#7C8FAC]">Manzil</p>
+                <p className="text-sm text-[#7C8FAC]">{t("address")}</p>
 
                 <p>{get(studentProfile, "data.address")}</p>
               </div>
