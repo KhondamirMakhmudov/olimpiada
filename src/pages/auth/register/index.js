@@ -278,16 +278,10 @@ const Register = () => {
               {/* Birthday */}
               <div className="">
                 <input
-                  type="text"
-                  value={date}
+                  type="date"
                   max="2010-12-31"
                   min="2005-12-31"
                   {...register("brithday", { required: true })}
-                  onChange={(e) => setDate(e.target.value)}
-                  onFocus={(e) => (e.target.type = "date")}
-                  onBlur={(e) => {
-                    if (!e.target.value) e.target.type = "text";
-                  }}
                   placeholder={`${t("birthday")}`} // Custom placeholder
                   className="border rounded px-3 py-2 w-full"
                 />

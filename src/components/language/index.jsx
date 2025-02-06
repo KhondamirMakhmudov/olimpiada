@@ -6,7 +6,6 @@ import LangIcon from "../icons/lang";
 
 const LanguageDropdown = () => {
   const { i18n } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   const setLang = useSettingsStore((state) => get(state, "setLang", () => {}));
 
   const languages = [
@@ -14,7 +13,9 @@ const LanguageDropdown = () => {
     { code: "ru", name: "Russian" },
   ];
 
-  const [selectedLanguage, setSelectedLanguage] = useState(null); // Initially null
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [isOpen, setIsOpen] = useState(false); // Declare isOpen
+  const [isHydrated, setIsHydrated] = useState(false); // Ensure hydration is complete
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -23,43 +24,43 @@ const LanguageDropdown = () => {
         languages.find((lang) => lang.code === storedLang) || languages[0];
 
       setSelectedLanguage(initialLang);
-      i18n.changeLanguage(initialLang.code); // Update i18n
+      i18n.changeLanguage(initialLang.code); // Change i18n language
       setLang(initialLang.code); // Update global state
-    }
-  }, []);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+      setIsHydrated(true); // Hydration is complete
+    }
+  }, [i18n, setLang]); // Dependencies to re-run the effect if needed
+
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const selectLanguage = (language) => {
     setSelectedLanguage(language);
-    setIsOpen(false);
     if (typeof window !== "undefined") {
-      localStorage.setItem("lang", language.code); // Store selected language
+      localStorage.setItem("lang", language.code);
     }
-    setLang(language.code); // Update global state
-    i18n.changeLanguage(language.code); // Update i18n
+    setLang(language.code);
+    i18n.changeLanguage(language.code);
   };
 
-  if (!selectedLanguage) return null; // Prevent rendering until language is set
+  // Prevent rendering until hydration is complete
+  if (!isHydrated || !selectedLanguage) return null;
 
   return (
     <div className="relative inline-block">
-      {/* Selected Language */}
       <button
         onClick={toggleDropdown}
         className="bg-white hover:bg-[#d8d9db] dark:bg-[#26334A] p-2 rounded-full transform duration-200 active:scale-90 scale-100 flex items-center gap-x-[5px]"
       >
         <LangIcon color={"#5A6A85"} />
         <p className="uppercase text-sm text-black dark:text-white">
-          {selectedLanguage.code}
+          {selectedLanguage?.code}
         </p>
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute right-0 mt-1 left-0 z-50 bg-white dark:bg-[#26334A] border border-gray-300 shadow-md">
           {languages
-            .filter((language) => language.code !== selectedLanguage.code) // Hide the selected language
+            .filter((language) => language.code !== selectedLanguage.code)
             .map((language) => (
               <button
                 key={language.code}
