@@ -61,147 +61,131 @@ const Home = () => {
   return (
     <div
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
-      className="bg-center bg-cover bg-no-repeat"
+      className="bg-center bg-cover bg-no-repeat min-h-screen flex flex-col"
     >
       <Header />
-      <div className="h-screen bg-center bg-cover bg-no-repeat flex items-center justify-center">
-        <div className={""}>
-          <div
-            className={"w-[436px]  bg-white mx-auto  rounded-[8px] p-[30px]"}
-          >
-            {session === null ? (
-              <div className="w-full">
-                <div className="flex">
-                  <button
-                    onClick={() => {
-                      handleTab("login");
-                      router.push("/");
-                    }}
-                    className={`py-[8px] px-[16px]  w-1/3  ${
-                      tab === "login"
-                        ? "bg-[#5D87FF] text-white"
-                        : "text-[#5A6A85]  hover:bg-[#ECF2FF]"
-                    } rounded-[4px] text-lg active:scale-90 scale-100 transition-all capitalize duration-300`}
-                  >
-                    {t("login")}
-                  </button>
+      <div className="flex flex-grow items-center justify-center p-4">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white mx-auto rounded-lg p-6 md:p-8 shadow-lg">
+          {session === null ? (
+            <div className="w-full">
+              {/* Tab Buttons */}
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    handleTab("login");
+                    router.push("/");
+                  }}
+                  className={`py-2 px-4 w-1/3 rounded-md text-lg transition-all duration-300 capitalize ${
+                    tab === "login"
+                      ? "bg-[#5D87FF] text-white"
+                      : "text-[#5A6A85] hover:bg-[#ECF2FF]"
+                  }`}
+                >
+                  {t("login")}
+                </button>
 
-                  <button
-                    onClick={() => {
-                      handleTab("register");
-                      router.push("/auth/register");
-                    }}
-                    className={`py-[8px] px-[16px]  w-2/3  ${
-                      tab === "register"
-                        ? "bg-[#5D87FF] text-white"
-                        : "text-[#5A6A85] hover:bg-[#ECF2FF]"
-                    } rounded-[4px] active:scale-90 scale-100 transition-all duration-300`}
-                  >
-                    {t("sign in")}
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    handleTab("register");
+                    router.push("/auth/register");
+                  }}
+                  className={`py-2 px-4 w-2/3 rounded-md transition-all duration-300 ${
+                    tab === "register"
+                      ? "bg-[#5D87FF] text-white"
+                      : "text-[#5A6A85] hover:bg-[#ECF2FF]"
+                  }`}
+                >
+                  {t("sign in")}
+                </button>
+              </div>
 
-                <div className="w-full mt-[30px]">
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-[20px] border p-[16px] rounded-[4px]"
-                  >
-                    <div className="bg-white">
-                      <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
-                        {t("phone number")}
-                      </p>
+              {/* Form Section */}
+              <div className="w-full mt-6">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-5 border p-4 rounded-md"
+                >
+                  <div>
+                    <label className="block mb-2 text-sm font-semibold text-[#2A3547]">
+                      {t("phone number")}
+                    </label>
 
-                      <div className="border border-[#EAEFF4] flex gap-x-[10px] items-center rounded-[8px] px-[8px] ">
-                        <Image
-                          src={"/icons/uzb-flag.svg"}
-                          alt="flag"
-                          width={30}
-                          height={30}
-                        />
-
-                        <div className="w-[1px] h-[40px] bg-[#EAEFF4]  "></div>
-                        <span className="text-gray-700 text-sm">+998</span>
-                        <input
-                          type="tel"
-                          maxLength="9"
-                          {...register("phone", { required: true })}
-                          className="  w-full bg-white text-sm text-black py-[9px] pl-[5px]"
-                          placeholder="---------"
-                        />
-                      </div>
-                      {/* <PhoneInput
-                    defaultCountry="uz"
-                    value={phone}
-                    {...register("phone", { required: true })}
-                    onChange={(phone) => setPhone(phone)}
-                  /> */}
-                    </div>
-
-                    <div className="bg-white">
-                      <p className="mb-[8px] text-sm text-[#2A3547] font-semibold">
-                        {t("password")}
-                      </p>
-
+                    <div className="border border-[#EAEFF4] flex items-center rounded-md px-3 py-2">
+                      <Image
+                        src="/icons/uzb-flag.svg"
+                        alt="flag"
+                        width={30}
+                        height={30}
+                      />
+                      <div className="w-px h-10 bg-[#EAEFF4] mx-2"></div>
+                      <span className="text-gray-700 text-sm">+998</span>
                       <input
-                        type="password"
-                        {...register("password", { required: true })}
-                        placeholder="********"
-                        className="border border-[#EAEFF4] bg-white rounded-[8px] text-black  w-full px-[8px] py-[8px]"
+                        type="tel"
+                        maxLength="9"
+                        {...register("phone", { required: true })}
+                        className="w-full bg-white text-sm text-black p-2 focus:outline-none"
+                        placeholder="---------"
                       />
                     </div>
+                  </div>
 
-                    <div className="mt-[20px] flex justify-between">
-                      <label className="custom-checkbox flex gap-x-[10px] items-center">
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={handleCheckboxChange}
-                        />{" "}
-                        <span className="checkmark"></span>
-                        <p className="text-sm text-dark">{t("remember")}</p>
-                      </label>
+                  <div>
+                    <label className="block mb-2 text-sm font-semibold text-[#2A3547]">
+                      {t("password")}
+                    </label>
+                    <input
+                      type="password"
+                      {...register("password", { required: true })}
+                      placeholder="********"
+                      className="border border-[#EAEFF4] bg-white rounded-md text-black w-full px-3 py-2 focus:outline-none"
+                    />
+                  </div>
 
-                      <Link
-                        href={"/auth/forget-password"}
-                        className="text-[#5D87FF] font-medium hover:underline transform duration-200"
-                      >
-                        {t("forget password")}
-                      </Link>
-                    </div>
+                  <div className="flex flex-wrap justify-between items-center mt-4">
+                    <label className="flex items-center space-x-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                        className="w-4 h-4"
+                      />
+                      <span>{t("remember")}</span>
+                    </label>
 
-                    <button className="bg-[#5D87FF] hover:bg-[#4570EA]  capitalize text-white py-[8px] px-[16px] w-full rounded-[4px] transition-all duration-300">
-                      {t("login")}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            ) : (
-              <div className="w-full">
-                <h1 className="text-2xl font-medium text-center mb-[20px]">
-                  {t("welcome")}!
-                </h1>
+                    <Link
+                      href="/auth/forget-password"
+                      className="text-[#5D87FF] font-medium hover:underline transition duration-200"
+                    >
+                      {t("forget password")}
+                    </Link>
+                  </div>
 
-                <div className="flex gap-x-[15px]">
-                  <button
-                    onClick={() => router.push("/dashboard")}
-                    className="bg-[#5D87FF] hover:bg-[#4570EA] py-[16px] w-full text-white rounded-md"
-                  >
-                    {t("enter")}
+                  <button className="w-full bg-[#5D87FF] hover:bg-[#4570EA] text-white py-2 rounded-md transition-all duration-300">
+                    {t("login")}
                   </button>
-
-                  <button
-                    onClick={handleLogout}
-                    className="bg-[#FA896B] hover:bg-[#E77F63] py-[16px] w-full text-white rounded-md"
-                  >
-                    {t("left")}
-                  </button>
-                </div>
+                </form>
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="text-center">
+              <h1 className="text-2xl font-medium mb-5">{t("welcome")}!</h1>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => router.push("/dashboard")}
+                  className="bg-[#5D87FF] hover:bg-[#4570EA] py-3 w-full text-white rounded-md transition-all"
+                >
+                  {t("enter")}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="bg-[#FA896B] hover:bg-[#E77F63] py-3 w-full text-white rounded-md transition-all"
+                >
+                  {t("left")}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-
-        <Modal />
       </div>
     </div>
   );
