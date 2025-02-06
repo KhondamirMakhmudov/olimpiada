@@ -17,7 +17,7 @@ const Home = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("login");
-
+  const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const {
     register,
@@ -133,12 +133,34 @@ const Home = () => {
                     <label className="block mb-2 text-sm font-semibold text-[#2A3547]">
                       {t("password")}
                     </label>
-                    <input
-                      type="password"
-                      {...register("password", { required: true })}
-                      placeholder="********"
-                      className="border border-[#EAEFF4] bg-white rounded-md text-black w-full px-3 py-2 focus:outline-none"
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        {...register("password", { required: true })}
+                        placeholder="********"
+                        className="border border-[#EAEFF4] bg-white rounded-md text-black w-full px-3 py-2 focus:outline-none relative"
+                      />
+                      <div
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute top-3 right-3 bottom-0 cursor-pointer"
+                      >
+                        {showPassword ? (
+                          <Image
+                            src={"/icons/eye.svg"}
+                            alt={"edit"}
+                            width={18}
+                            height={18}
+                          />
+                        ) : (
+                          <Image
+                            src={"/icons/eye-closed.svg"}
+                            alt={"edit"}
+                            width={18}
+                            height={18}
+                          />
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap justify-between items-center mt-4">
