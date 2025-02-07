@@ -10,4 +10,5 @@ export const KEYS = {
   resendSMSCode: "resendSMSCode",
   forgetPassword: "forgetPassword",
   resendSMSCodeForget: "resendSMSCodeForget",
+  registerDate: "registerDate",
 };

@@ -10,4 +10,5 @@ export const URLS = {
   resendSMSCode: "/student/resend-sms-code/",
   forgetPassword: "/student/forgot-password/",
   newPassword: "/student/reset-password/",
+  registerDate: "/student/register_date/",
 };

@@ -11,6 +11,10 @@ import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
 import Modal from "@/components/modal";
 import Header from "@/components/header";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import { get } from "lodash";
 
 const Home = () => {
   const { data: session } = useSession();
