@@ -15,7 +15,7 @@ const Index = () => {
         <section>
           <div className="container mt-[50px] ">
             <NavbarTitle>{t("olympicsTitle")}</NavbarTitle>{" "}
-            <p className=" my-[50px]">
+            <p className=" lg:text-base text-sm  my-[50px]">
               {t("aboutOlympicsContent1")}
               <strong>{t("aboutOlympicsContent2")}</strong>
             </p>
@@ -25,43 +25,27 @@ const Index = () => {
         <section className="container my-[50px] ">
           <TitleLittleContent>{t("aboutOlympicsTitle")}</TitleLittleContent>
 
-          <div className="grid grid-cols-12 self-baseline gap-[30px] mt-[30px]">
-            <div className="col-span-4 shadow-2xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#5B72EE] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent3")}</p>
-            </div>
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#12DEB9] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent4")}</p>
-            </div>
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#FFAE1F] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent5")}</p>
-            </div>
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#49BEFF] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent6")}</p>
-            </div>
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#FFACC6] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent7")}</p>
-            </div>
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#8D7DE8] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent8")}</p>
-            </div>
-
-            <div className="col-span-4 shadow-xl rounded-md flex items-start gap-x-[10px]">
-              <div className="bg-[#8BD7E8] p-[10px] inline-block  text-xl w-[20px] h-full text-white "></div>
-
-              <p className="p-[10px] text-sm">{t("aboutOlympicsContent9")}</p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {[
+              { color: "#5B72EE", content: "aboutOlympicsContent3" },
+              { color: "#12DEB9", content: "aboutOlympicsContent4" },
+              { color: "#FFAE1F", content: "aboutOlympicsContent5" },
+              { color: "#49BEFF", content: "aboutOlympicsContent6" },
+              { color: "#FFACC6", content: "aboutOlympicsContent7" },
+              { color: "#8D7DE8", content: "aboutOlympicsContent8" },
+              { color: "#8BD7E8", content: "aboutOlympicsContent9" },
+            ].map(({ color, content }, index) => (
+              <div
+                key={index}
+                className="shadow-xl rounded-md flex items-start gap-x-3 p-4 pb-0 pl-0"
+              >
+                <div
+                  className="p-2 w-6 h-full rounded-tl-md rounded-bl-md text-white flex items-center justify-center "
+                  style={{ backgroundColor: color }}
+                ></div>
+                <p className="text-sm py-[10px]">{t(content)}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -69,142 +53,110 @@ const Index = () => {
           <div className="container">
             <TitleLittleContent>{t("aboutOlympicsTitle1")}</TitleLittleContent>
 
-            <div className="grid grid-cols-12 items-center gap-x-[30px]">
-              <div className="col-span-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10">
+              <div className="flex justify-center">
                 <Image
-                  src={"/images/first-step.png"}
+                  src="/images/first-step.png"
                   alt="about-us-img"
                   width={470}
                   height={416}
+                  className="w-full max-w-[470px] h-auto"
                 />
               </div>
 
-              <div className="col-span-8">
-                <motion.p
-                  initial={{ opacity: 0, translateY: "30px" }}
-                  animate={{ opacity: 1, translateY: "0px" }}
-                  transition={{ duration: 0.5 }}
-                  className="my-[10px] text-lg text-[#696984]"
-                >
-                  {t("aboutOlympics10")}
-                </motion.p>
-              </div>
+              <motion.p
+                initial={{ opacity: 0, translateY: 30 }}
+                animate={{ opacity: 1, translateY: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-base sm:text-lg text-[#696984] text-center md:text-left"
+              >
+                {t("aboutOlympics10")}
+              </motion.p>
             </div>
 
-            <div className="grid grid-cols-12 items-center gap-x-[30px]">
-              <div className="col-span-8">
-                <motion.p
-                  initial={{ opacity: 0, translateY: "30px" }}
-                  animate={{ opacity: 1, translateY: "0px" }}
-                  transition={{ duration: 0.5 }}
-                  className="my-[10px] text-lg text-[#696984]"
-                >
-                  {t("aboutOlympics11")}
-                </motion.p>
-              </div>
-
-              <div className="col-span-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10">
+              <div className="order-1 md:order-2 flex justify-center">
                 <Image
-                  src={"/images/second-step.png"}
+                  src="/images/second-step.png"
                   alt="about-us-img"
                   width={470}
                   height={416}
+                  className="w-full max-w-[470px] h-auto"
                 />
               </div>
+
+              <motion.p
+                initial={{ opacity: 0, translateY: 30 }}
+                animate={{ opacity: 1, translateY: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-base sm:text-lg text-[#696984] text-center md:text-left order-2 md:order-1"
+              >
+                {t("aboutOlympics11")}
+              </motion.p>
             </div>
           </div>
         </section>
 
-        <section className=" my-[50px]">
-          <div className="container">
+        <section className="my-[50px]">
+          <div className="container px-4">
             <TitleLittleContent>{t("aboutOlympicsTitle2")}</TitleLittleContent>
 
             <motion.p
-              initial={{ opacity: 0, translateY: "30px" }}
-              animate={{ opacity: 1, translateY: "0px" }}
+              initial={{ opacity: 0, translateY: 30 }}
+              animate={{ opacity: 1, translateY: 0 }}
               transition={{ duration: 0.5 }}
-              className="my-[10px] text-lg text-[#696984]"
+              className="my-[10px] text-base md:text-lg text-[#696984] text-center md:text-left"
             >
               {t("aboutOlympics12")}
             </motion.p>
 
             <motion.p
-              initial={{ opacity: 0, translateY: "30px" }}
-              animate={{ opacity: 1, translateY: "0px" }}
+              initial={{ opacity: 0, translateY: 30 }}
+              animate={{ opacity: 1, translateY: 0 }}
               transition={{ duration: 0.5 }}
-              className="my-[10px] text-lg text-[#696984]"
+              className="my-[10px] text-base md:text-lg text-[#696984] text-center md:text-left"
             >
               {t("aboutOlympics13")}
             </motion.p>
           </div>
 
-          <div className="grid container grid-cols-12 gap-[30px] items-center">
-            <div className="col-span-6">
+          {/* Image & List Section */}
+          <div className="container grid grid-cols-1 md:grid-cols-2 gap-[30px] items-center mt-8">
+            {/* Image moves to top on smaller screens */}
+            <div className="flex justify-center">
               <Image
-                src={"/images/prices.png"}
+                src="/images/prices.png"
                 alt="prices"
                 width={568}
                 height={651}
+                className="w-full max-w-[500px] h-auto"
               />
             </div>
 
-            <div className="col-span-6">
-              <ul>
-                <li className="flex items-start gap-x-[10px]">
-                  <Image
-                    src={"/images/winner-1.png"}
-                    alt="prices"
-                    width={50}
-                    height={50}
-                  />
-
-                  <motion.p
-                    initial={{ opacity: 0, translateY: "30px" }}
-                    animate={{ opacity: 1, translateY: "0px" }}
-                    transition={{ duration: 0.5 }}
-                    className="my-[10px] text-lg text-[#696984]"
-                  >
-                    {t("winner1")}
-                  </motion.p>
-                </li>
-
-                <li className="flex items-start gap-x-[10px]">
-                  <Image
-                    src={"/images/winner-2.png"}
-                    alt="prices"
-                    width={50}
-                    height={50}
-                  />
-
-                  <motion.p
-                    initial={{ opacity: 0, translateY: "30px" }}
-                    animate={{ opacity: 1, translateY: "0px" }}
-                    transition={{ duration: 0.5 }}
-                    className="my-[10px] text-lg text-[#696984]"
-                  >
-                    {t("winner2")}
-                  </motion.p>
-                </li>
-
-                <li className="flex items-start gap-x-[10px]">
-                  <Image
-                    src={"/images/winner-3.png"}
-                    alt="prices"
-                    width={50}
-                    height={50}
-                  />
-
-                  <motion.p
-                    initial={{ opacity: 0, translateY: "30px" }}
-                    animate={{ opacity: 1, translateY: "0px" }}
-                    transition={{ duration: 0.5 }}
-                    className="my-[10px] text-lg text-[#696984]"
-                  >
-                    {t("winner3")}
-                  </motion.p>
-                </li>
+            {/* Winner List */}
+            <div>
+              <ul className="space-y-4">
+                {[1, 2, 3].map((num) => (
+                  <li key={num} className="flex items-start gap-x-4">
+                    <Image
+                      src={`/images/winner-${num}.png`}
+                      alt={`winner-${num}`}
+                      width={50}
+                      height={50}
+                      className="w-[40px] md:w-[50px] h-auto"
+                    />
+                    <motion.p
+                      initial={{ opacity: 0, translateY: 30 }}
+                      animate={{ opacity: 1, translateY: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="text-base md:text-lg text-[#696984]"
+                    >
+                      {t(`winner${num}`)}
+                    </motion.p>
+                  </li>
+                ))}
               </ul>
-              <p className="my-[20px] text-[#696984] max-w-[500px]">
+              <p className="my-5 text-[#696984] max-w-[500px] text-center md:text-left">
                 {t("winnerDesc")}
               </p>
             </div>
