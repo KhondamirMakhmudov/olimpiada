@@ -77,7 +77,7 @@ export default function DashboardPage() {
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <div className="flex items-center gap-x-[5px]">
                 <h2 className="text-xl font-semibold mb-1 text-[#13DEB9]">
-                  Muvaqqiyatli ro&apos;yhatdan o&apos;tdingiz
+                  {t("successRegister")}
                 </h2>
                 <Image
                   src={"/icons/success.svg"}
@@ -87,30 +87,29 @@ export default function DashboardPage() {
                 />
               </div>
               <h2 className="text-xl font-semibold mb-1">
-                Sizning login parolingiz
+                {t("userLoginandPassword")}
               </h2>
               <p className="text-lg font-medium text-[#7C8FAC] mb-2">
-                Login: {session?.login}
+                {t("yourLogin")}: {session?.login}
               </p>
               <p className="text-lg font-medium text-[#7C8FAC] mb-4">
-                Parolingiz: {session?.password}
+                {t("yourPassword")}: {session?.password}
               </p>
               <p className="text-sm font-medium text-[#7C8FAC]">
-                Login va parolni o'zgartirmoqchi bo'lsangiz, bu jarayonni mening
-                sahifamda bajarasiz
+                {t("WantchangePassword")}
               </p>
               <div className="flex justify-end gap-x-[10px] mt-4">
                 <button
                   onClick={handleCopy}
                   className="bg-green-500 text-white py-2 px-4 rounded"
                 >
-                  {copied ? "Nusxa Olindi!" : "Nusxa olish"}
+                  {copied ? `${t("copied")}` : `${t("copy")}`}
                 </button>
                 <button
                   onClick={closeModal}
                   className="bg-gray-300 text-black py-2 px-4 rounded"
                 >
-                  Tushunarli
+                  {t("got it")}
                 </button>
               </div>
             </div>
@@ -133,7 +132,7 @@ export default function DashboardPage() {
             <p
               className={"text-[18px] dark:text-white text-black font-semibold"}
             >
-              {t("welcome")}, {get(studentProfile, "data.full_name")}
+              {t("welcome")}! {get(studentProfile, "data.full_name")}
             </p>
           </div>
           <a

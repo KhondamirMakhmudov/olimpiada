@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { useForm } from "react-hook-form";
-import { data } from "@/data/region";
+import { regionsUz } from "@/data/region";
+import { regionsRu } from "@/data/regions_ru";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
 import { motion } from "framer-motion";
@@ -16,12 +17,12 @@ import Header from "@/components/header";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
 const Register = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [date, setDate] = useState("");
   const router = useRouter();
   const [tab, setTab] = useState("register");
-  const regions = data.regions;
-  const districts = data.districts;
+  // const regions = regionsUz.regions;
+  // const districts = regionsUz.districts;
   const [submitError, setSubmitError] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
@@ -31,6 +32,8 @@ const Register = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(t("chooseEducation"));
   const [showPage, setShowPage] = useState(false);
+  const [regions, setRegions] = useState(regionsUz.regions);
+  const [districts, setDistricts] = useState(regionsUz.districts);
 
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
   const [selectedOptionCourse, setSelectedOptionCourse] = useState(
@@ -107,6 +110,21 @@ const Register = () => {
   const handleTab = (tab) => {
     setTab(tab);
   };
+  useEffect(() => {
+    if (i18n.language === "ru") {
+      setRegions(regionsRu.regions);
+    } else {
+      setRegions(regionsUz.regions);
+    }
+  }, [i18n.language]);
+
+  useEffect(() => {
+    if (i18n.language === "ru") {
+      setDistricts(regionsRu.district);
+    } else {
+      setDistricts(regionsUz.districts);
+    }
+  }, [i18n.language]);
 
   const selectedRegionName =
     regions.find((r) => r.id === selectedRegion)?.name ||
@@ -185,14 +203,14 @@ const Register = () => {
   useEffect(() => {
     const now = new Date();
     const startDate = new Date(get(registerDate, "data[0].start_date"));
-    const endDate = new Date(get(registerDate, "data[0  ].end_date"));
+    const endDate = new Date(get(registerDate, "data[0].end_date"));
 
     if (now >= startDate && now <= endDate) {
       setShowPage(true);
     } else {
       setShowPage(false);
     }
-  }, [data]);
+  }, [registerDate]);
 
   return (
     <div
@@ -245,7 +263,7 @@ const Register = () => {
           </div>
 
           <div className="w-full mt-[30px]">
-            {!showPage ? (
+            {showPage ? (
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-[10px] border p-[16px] rounded-[4px]"
