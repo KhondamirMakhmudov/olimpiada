@@ -23,6 +23,8 @@ const Register = () => {
   const [tab, setTab] = useState("register");
   // const regions = regionsUz.regions;
   // const districts = regionsUz.districts;
+  const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(null);
+  const [openTypeOfEducation, setOpenTypeOfEducation] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
@@ -54,6 +56,8 @@ const Register = () => {
     { id: 4, name: `11-${t("class")}` },
     { id: 5, name: `${t("finishedEducation")}` },
   ];
+
+  const educationTypes = ["Русский язык", "O'zbek tili"];
 
   const filteredCourses =
     selectedOption === t("litsey")
@@ -158,6 +162,7 @@ const Register = () => {
     formData.append("academy_or_school", selectedOption);
     formData.append("class_name", selectedOptionCourse);
     formData.append("document_type", selectedDocument),
+      formData.append("type_of_education", selectedTypeOfEducation),
       formData.append("document", fullDocument),
       registerRequest(
         {
@@ -535,6 +540,53 @@ const Register = () => {
                     className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                     placeholder={`${t("address")}`}
                   />
+                </div>
+                {/* Ta'lim turi */}
+
+                <div className="relative w-full">
+                  {/* Tanlangan ta'lim turi yoki default "Ta'lim turi" */}
+                  <div
+                    onClick={() => setOpenTypeOfEducation(!openTypeOfEducation)}
+                    className="w-full flex items-center justify-between cursor-pointer px-4 py-2 border border-[#EAEFF4] rounded-lg shadow-sm bg-white"
+                  >
+                    {selectedTypeOfEducation || "Ta'lim turi"}
+                    <svg
+                      className={`w-5 h-5 transform duration-200 ${
+                        openTypeOfEducation ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Dropdown menyu */}
+                  {openTypeOfEducation && (
+                    <ul className="absolute left-0 mt-2 w-full border border-gray-300 bg-white shadow-md rounded-lg z-10">
+                      {educationTypes.map((type) => (
+                        <li
+                          key={type}
+                          onClick={() => {
+                            setSelectedTypeOfEducation(type);
+                            setOpenTypeOfEducation(false);
+                          }}
+                          className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                            selectedTypeOfEducation === type ? "font-bold" : ""
+                          }`}
+                        >
+                          {type}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 {/* Ta'lim dargohi */}
                 <div className="relative text-[#2A3547] cursor-pointer">

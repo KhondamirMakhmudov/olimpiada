@@ -48,140 +48,92 @@ const Index = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-[30px] my-[30px]">
-        <div className="col-span-12 bg-white dark:bg-[#26334AFF] self-start border  border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md ">
-          <div className="p-[30px]">
+      <div className="grid grid-cols-12 gap-6 my-6 md:gap-4 md:my-4 sm:gap-2 sm:my-2">
+        <div className="col-span-12 bg-white dark:bg-[#26334AFF] self-start border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md ">
+          <div className="p-6 md:p-4 sm:p-3">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
               {t("reminder")}
             </h3>
           </div>
           <div className="w-full h-[1px] bg-[#EAEFF4] dark:bg-[#2A3447FF]"></div>
-          <ul className="space-y-[10px] p-[30px]">
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-                className="w-[24px] h-[24px]"
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("first_reminder")}
-              </p>
-            </li>
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("second_reminder")}
-              </p>
-            </li>
-
-            {/* <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("third_reminder")}
-              </p>
-            </li> */}
-
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-                className="w-[24px] h-[24px]"
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("fourth_reminder")}
-              </p>
-            </li>
-
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-                className="w-[24px] h-[24px]"
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("fifth_reminder")}
-              </p>
-            </li>
-
-            <li className="flex items-start gap-x-[10px]">
-              <Image
-                src={"/icons/remind.svg"}
-                alt={"remind"}
-                width={24}
-                height={24}
-                className="w-[24px] h-[24px]"
-              />
-              <p className="text-sm text-[#5A6A85] dark:text-white">
-                {t("sixth_reminder")}
-              </p>
-            </li>
+          <ul className="space-y-4 p-6 md:p-4 sm:p-3">
+            {[
+              "first_reminder",
+              "second_reminder",
+              "fourth_reminder",
+              "fifth_reminder",
+              "sixth_reminder",
+            ].map((reminder) => (
+              <li
+                key={reminder}
+                className="flex items-start gap-x-4 md:gap-x-3 sm:gap-x-2"
+              >
+                <Image
+                  src={"/icons/remind.svg"}
+                  alt={"remind"}
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 sm:w-5 sm:h-5"
+                />
+                <p className="text-sm text-[#5A6A85] dark:text-white">
+                  {t(reminder)}
+                </p>
+              </li>
+            ))}
           </ul>
 
           {get(data, "data", []).map((item) => (
             <div
               key={get(item, "id")}
-              className={`  px-[30px] mb-[30px] rounded-[8px]  `}
+              className="px-6 mb-6 md:px-4 md:mb-4 sm:px-3 sm:mb-3 rounded-lg"
             >
               <div>
-                <div className="grid grid-cols-3 place-items-center gap-x-[15px]  my-[15px]">
-                  <div className="col-span-1  flex items-baseline gap-x-[12px]">
-                    <div className="w-[10px] h-[10px] rounded-full bg-[#539BFF]"></div>
-                    <div>
-                      <h3 className="text-[#868EAB] text-sm">
-                        {t("leadTime")}
-                      </h3>
-                      <p className="font-semibold text-lg dark:text-white text-black ">
-                        {get(item, "duration_in_minutes", "")} {t("minut")}
-                      </p>
+                <div className="grid grid-cols-3 place-items-center gap-4 md:gap-3 sm:gap-2 my-4 md:my-3 sm:my-2">
+                  {[
+                    {
+                      label: "leadTime",
+                      color: "#539BFF",
+                      value: `${get(item, "duration_in_minutes", "")} ${t(
+                        "minut"
+                      )}`,
+                    },
+                    {
+                      label: "startDate",
+                      color: "#12DEB9",
+                      value: dayjs(get(item, "start_date", "")).format(
+                        "DD.MM.YYYY"
+                      ),
+                    },
+                    {
+                      label: "endDate",
+                      color: "#EB0000",
+                      value: dayjs(get(item, "end_date", "")).format(
+                        "DD.MM.YYYY"
+                      ),
+                    },
+                  ].map(({ label, color, value }) => (
+                    <div
+                      key={label}
+                      className="col-span-1 flex items-baseline gap-x-3 md:gap-x-2 sm:gap-x-1"
+                    >
+                      <div
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{ backgroundColor: color }}
+                      ></div>
+                      <div>
+                        <h3 className="text-[#868EAB] text-sm ">{t(label)}</h3>
+                        <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base">
+                          {value}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="col-span-1  flex items-baseline gap-x-[12px]">
-                    <div className="w-[10px] h-[10px] rounded-full bg-[#12DEB9]"></div>
-                    <div>
-                      <h3 className="text-[#868EAB] text-sm ">
-                        {t("startDate")}
-                      </h3>
-                      <p className="font-semibold text-lg dark:text-white text-black">
-                        {dayjs(get(item, "start_date", "")).format(
-                          "DD.MM.YYYY"
-                        )}{" "}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="col-span-1  flex items-baseline gap-x-[12px]">
-                    <div className="w-[10px] h-[10px] rounded-full bg-[#EB0000]"></div>
-                    <div>
-                      <h3 className="text-[#868EAB] text-sm">{t("endDate")}</h3>
-                      <p className="font-semibold text-lg dark:text-white text-black">
-                        {dayjs(get(item, "end_date", "")).format("DD.MM.YYYY")}{" "}
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-
                 <button
                   onClick={() =>
                     router.push(`olimpiada/start-quiz/${get(item, "id", [])}`)
                   }
-                  className="py-[8px] w-full px-[10px] bg-[#5D87FF] rounded-[4px] text-white"
+                  className="py-2 w-full px-4 bg-[#5D87FF] rounded text-white text-sm md:text-base"
                 >
                   {t("startTheTest")}
                 </button>
@@ -189,7 +141,7 @@ const Index = () => {
             </div>
           ))}
         </div>
-        <div className="col-span-10 self-start grid grid-cols-10  "></div>
+        <div className="col-span-10 self-start grid grid-cols-10"></div>
       </div>
     </Dashboard>
   );
