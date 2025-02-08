@@ -126,5 +126,6 @@
   "enterSMSCode": "Введите СМС-код",
   "newPassword": "Введите новый пароль",
   "finish": "Заканчивать",
-  "resendSMSCode": "Повторно отправить SMS-код"
+  "resendSMSCode": "Повторно отправить SMS-код",
+  "doNotTestYet": "Вы еще не прошли тест."
 }

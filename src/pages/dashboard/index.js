@@ -168,9 +168,9 @@ export default function DashboardPage() {
             </div>
             <div>
               <h4 className="text-lg md:text-[21px] dark:text-white text-black font-semibold">
-                $63,489.50
+                103 ball
               </h4>
-              <p className="text-sm text-[#7C8FAC]">Total Earnings</p>
+              <p className="text-sm text-[#7C8FAC]">Umumiy ball</p>
             </div>
           </div>
         </div>

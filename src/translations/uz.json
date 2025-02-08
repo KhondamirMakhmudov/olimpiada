@@ -126,5 +126,6 @@
   "enterSMSCode": "SMS Kodni Kiriting",
   "newPassword": "Yangi parolni kiriting",
   "finish": "Yakunlash",
-  "resendSMSCode": "Sms kodni qayta yuborish"
+  "resendSMSCode": "Sms kodni qayta yuborish",
+  "doNotTestYet": "Siz hali test topshirmadingiz"
 }

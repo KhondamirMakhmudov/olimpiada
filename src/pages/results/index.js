@@ -50,9 +50,9 @@ const Index = () => {
   return (
     <Dashboard>
       <div
-        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}
+        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]  -z-0 relative h-[125px] `}
       >
-        <div className={"space-y-[15px]"}>
+        <div className={"space-y-[15px] z-20"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
             {t("resultsPage")}
           </p>
@@ -66,7 +66,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className={"absolute right-[40px] bottom-0"}>
+        <div className={"absolute md:right-[40px] right-3 -z-10 bottom-0"}>
           <Image
             src={"/icons/user-profile-bg.svg"}
             alt={"user-profile-bg"}
@@ -129,7 +129,7 @@ const Index = () => {
           >
             <GridIcon color={tab === "results" ? "white " : "black"} />
 
-            <p>{t("testResults")}</p>
+            <p className="text-sm">{t("testResults")}</p>
           </button>
 
           <button
@@ -142,14 +142,14 @@ const Index = () => {
           >
             <AnswerIcon color={tab === "my-answers" ? "white" : "black"} />
 
-            <p>{t("myAnswers")}</p>
+            <p className="text-sm">{t("myAnswers")}</p>
           </button>
         </div>
       </div>
 
       {tab === "results" && (
         <div className="grid grid-cols-12 gap-[30px]">
-          <div className="py-[16px] shadow-lg my-[50px] col-span-4 rounded-md">
+          <div className="py-[16px] shadow-lg my-[50px] col-span-12 md:col-span-6 lg:col-span-4 rounded-md">
             <div className="flex gap-x-[30px] items-center">
               <div className="w-[3px] h-[50px] bg-orange-400"></div>
 
@@ -164,7 +164,7 @@ const Index = () => {
                       width={24}
                       height={24}
                     />
-                    <p className="text-sm">Siz hali test topshirmadingiz</p>
+                    <p className="text-sm">{t("doNotTestYet")}</p>
                   </div>
                 ) : (
                   <p className="font-medium text-lg text-[#2A3547] dark:text-white">
@@ -325,7 +325,7 @@ const Index = () => {
                   width={24}
                   height={24}
                 />
-                <p className="text-sm">Siz hali test topshirmadingiz</p>
+                <p className="text-sm">{t("doNotTestYet")}</p>
               </div>
             )}
           </div>

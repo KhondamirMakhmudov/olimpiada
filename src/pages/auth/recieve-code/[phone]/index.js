@@ -9,8 +9,10 @@ import { UserProfileContext } from "@/context/responseProvider";
 import { get } from "lodash";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { phone } = router.query;
   const { setResult } = useContext(UserProfileContext);
@@ -143,23 +145,19 @@ const Index = () => {
 
   return (
     <div
-      className={
-        "flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat"
-      }
+      className="flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat px-4"
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
-      <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
-        <div className="flex justify-center items-center mb-[30px]">
+      <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white mx-auto rounded-lg p-6 sm:p-8">
+        <div className="flex justify-center items-center mb-6">
           <Brand />
         </div>
 
-        <p className="text-sm text-center mt-[30px] mb-[8px]">
-          SMS Kodni Kiriting
-        </p>
+        <p className="text-sm text-center mt-4 mb-2">{t("enterSMSCode")}</p>
 
-        <div className="border p-[16px]">
-          <div className="flex flex-col items-center justify-center ">
-            <div className="bg-white p-6 rounded-lg ">
+        <div className="border p-4 sm:p-6 rounded-md">
+          <div className="flex flex-col items-center justify-center">
+            <div className="bg-white p-4 sm:p-6 rounded-lg">
               <div className="flex justify-center space-x-2 mb-6">
                 {code.map((digit, index) => (
                   <input
@@ -170,13 +168,15 @@ const Index = () => {
                     value={digit}
                     onChange={(e) => handleChange(e.target.value, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
-                    className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 ))}
               </div>
               <div className="flex justify-center items-center mb-6">
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
-                <span className="text-gray-600 text-sm">{formattedTime}</span>
+                <span className="text-gray-600 text-xs sm:text-sm">
+                  {formattedTime}
+                </span>
                 <hr className="border-t border-gray-300 flex-grow mx-2" />
               </div>
               <button
@@ -187,13 +187,13 @@ const Index = () => {
                     ? onSubmitResendedCode
                     : onSubmit
                 }
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-sm sm:text-base"
               >
                 {isCodeComplete
-                  ? "Tasdiqlash"
+                  ? t("submit")
                   : timer === 0
-                  ? "Sms kodni qayta yuborish"
-                  : "TASDIQLASH"}
+                  ? t("resendSMSCode")
+                  : t("submit")}
               </button>
             </div>
           </div>

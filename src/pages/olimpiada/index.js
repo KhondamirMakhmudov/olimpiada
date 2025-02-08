@@ -23,14 +23,14 @@ const Index = () => {
   return (
     <Dashboard>
       <div
-        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}
+        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px] -z-0  relative h-[125px] `}
       >
         <div className={"space-y-[15px]"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
             {t("olympics")}
           </p>
 
-          <div className="flex gap-x-[12px] items-center">
+          <div className="flex gap-x-[12px] items-center z-30">
             <Link href={"/"} className="text-[#5A6A85BF]">
               {t("homePage")}
             </Link>
@@ -39,7 +39,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className={"absolute right-[40px] bottom-0"}>
+        <div className={"absolute md:right-[40px] right-3 -z-10 bottom-0"}>
           <Image
             src={"/icons/user-profile-bg.svg"}
             alt={"user-profile-bg"}
@@ -85,10 +85,10 @@ const Index = () => {
           {get(data, "data", []).map((item) => (
             <div
               key={get(item, "id")}
-              className="px-6 mb-6 md:px-4 md:mb-4 sm:px-3 sm:mb-3 rounded-lg"
+              className="px-6 mb-6 md:px-4 md:mb-4 sm:px-2 sm:mb-2 rounded-lg"
             >
               <div>
-                <div className="grid grid-cols-3 place-items-center gap-4 md:gap-3 sm:gap-2 my-4 md:my-3 sm:my-2">
+                <div className=" flex flex-wrap justify-between md:grid grid-cols-3 lg:place-items-center place-items-start gap-4 md:gap-3 sm:gap-2 my-4 md:my-3 sm:my-2">
                   {[
                     {
                       label: "leadTime",
@@ -114,15 +114,17 @@ const Index = () => {
                   ].map(({ label, color, value }) => (
                     <div
                       key={label}
-                      className="col-span-1 flex items-baseline gap-x-3 md:gap-x-2 sm:gap-x-1"
+                      className="col-span-1 flex lg:items-baseline  gap-x-3 md:gap-x-2 sm:gap-x-1"
                     >
                       <div
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: color }}
                       ></div>
                       <div>
-                        <h3 className="text-[#868EAB] text-sm ">{t(label)}</h3>
-                        <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base">
+                        <h3 className="text-[#868EAB] text-sm sm:text-xs">
+                          {t(label)}
+                        </h3>
+                        <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base sm:text-sm">
                           {value}
                         </p>
                       </div>
@@ -133,7 +135,7 @@ const Index = () => {
                   onClick={() =>
                     router.push(`olimpiada/start-quiz/${get(item, "id", [])}`)
                   }
-                  className="py-2 w-full px-4 bg-[#5D87FF] rounded text-white text-sm md:text-base"
+                  className="py-2 w-full px-4 bg-[#5D87FF] rounded text-white text-sm md:text-base sm:text-sm hover:bg-[#4570EA] transition-all duration-300"
                 >
                   {t("startTheTest")}
                 </button>

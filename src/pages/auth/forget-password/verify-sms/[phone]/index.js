@@ -117,24 +117,20 @@ const Index = () => {
 
   return (
     <div
-      className="bg-center bg-cover bg-no-repeat"
+      className="min-h-screen bg-center bg-cover bg-no-repeat flex flex-col px-4 sm:px-6"
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
       <Header />
-      <div className={"flex items-center justify-center h-screen "}>
-        <div className="w-[436px] bg-white mx-auto rounded-[8px] p-[30px] ">
-          {/* <div className="flex justify-center items-center mb-[30px]">
-            <Brand />
-          </div> */}
-
-          <p className="text-sm text-center mt-[30px] mb-[8px]">
+      <div className="flex flex-grow items-center justify-center">
+        <div className="w-full max-w-sm sm:max-w-md md:max-w-lg bg-white mx-auto rounded-lg p-6 sm:p-8 shadow-md">
+          <p className="text-sm sm:text-base text-center mt-4 sm:mt-6 mb-2 sm:mb-4">
             {t("enterSMSCode")}
           </p>
 
-          <div className="border p-[16px]">
-            <div className="flex flex-col items-center justify-center ">
-              <div className="bg-white p-6 rounded-lg ">
-                <div className="flex justify-center space-x-2 mb-6">
+          <div className="border p-4 sm:p-6 rounded-md">
+            <div className="flex flex-col items-center justify-center">
+              <div className="bg-white p-4 sm:p-6 rounded-lg">
+                <div className="flex justify-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
                   {code.map((digit, index) => (
                     <input
                       key={index}
@@ -144,18 +140,22 @@ const Index = () => {
                       value={digit}
                       onChange={(e) => handleChange(e.target.value, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
-                      className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                   ))}
                 </div>
-                <div className="flex justify-center items-center mb-6">
+
+                <div className="flex justify-center items-center mb-4 sm:mb-6">
                   <hr className="border-t border-gray-300 flex-grow mx-2" />
-                  <span className="text-gray-600 text-sm">{formattedTime}</span>
+                  <span className="text-gray-600 text-xs sm:text-sm">
+                    {formattedTime}
+                  </span>
                   <hr className="border-t border-gray-300 flex-grow mx-2" />
                 </div>
+
                 <button
                   onClick={onSubmit}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 sm:py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition-all duration-300"
                 >
                   {t("submit")}
                 </button>

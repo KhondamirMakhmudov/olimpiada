@@ -11,9 +11,9 @@ const PieChartComponent = () => {
   }, []);
 
   const data = [
-    { name: "Group A", value: 500 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
+    { name: "2.1 ballik savollar", value: 10 },
+    { name: "3.1 ballik savollar", value: 10 },
+    { name: "5.1 ballik savollar", value: 10 },
   ];
   const COLORS = ["#5D87FF", "#48BDFD", "#12DEB9"];
 
