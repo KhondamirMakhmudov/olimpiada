@@ -35,6 +35,7 @@ const LanguageDropdown = () => {
 
   const selectLanguage = (language) => {
     setSelectedLanguage(language);
+    setIsOpen(false);
     if (typeof window !== "undefined") {
       localStorage.setItem("lang", language.code);
     }

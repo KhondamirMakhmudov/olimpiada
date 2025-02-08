@@ -89,7 +89,7 @@ const Login = () => {
               <button
                 onClick={() => {
                   handleTab("register");
-                  router.push("/auth/register");
+                  router.push("/register");
                 }}
                 className={`py-[8px] px-[16px]  w-2/3  ${
                   tab === "register"

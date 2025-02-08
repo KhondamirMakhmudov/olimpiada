@@ -549,7 +549,7 @@ const Register = () => {
                     onClick={() => setOpenTypeOfEducation(!openTypeOfEducation)}
                     className="w-full flex items-center justify-between cursor-pointer px-4 py-2 border border-[#EAEFF4] rounded-lg shadow-sm bg-white"
                   >
-                    {selectedTypeOfEducation || "Ta'lim turi"}
+                    {selectedTypeOfEducation || `${t("LangOfEducation")}`}
                     <svg
                       className={`w-5 h-5 transform duration-200 ${
                         openTypeOfEducation ? "rotate-180" : ""

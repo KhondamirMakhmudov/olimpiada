@@ -127,5 +127,6 @@
   "newPassword": "Yangi parolni kiriting",
   "finish": "Yakunlash",
   "resendSMSCode": "Sms kodni qayta yuborish",
-  "doNotTestYet": "Siz hali test topshirmadingiz"
+  "doNotTestYet": "Siz hali test topshirmadingiz",
+  "LangOfEducation": "Ta'lim tili"
 }

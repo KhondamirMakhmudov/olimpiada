@@ -127,5 +127,6 @@
   "newPassword": "Введите новый пароль",
   "finish": "Заканчивать",
   "resendSMSCode": "Повторно отправить SMS-код",
-  "doNotTestYet": "Вы еще не прошли тест."
+  "doNotTestYet": "Вы еще не прошли тест.",
+  "LangOfEducation": "Язык обучения"
 }

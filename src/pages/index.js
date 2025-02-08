@@ -91,7 +91,7 @@ const Home = () => {
                 <button
                   onClick={() => {
                     handleTab("register");
-                    router.push("/auth/register");
+                    router.push("/register");
                   }}
                   className={`py-2 px-4 w-2/3 rounded-md transition-all duration-300 ${
                     tab === "register"
