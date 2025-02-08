@@ -118,90 +118,70 @@ export default function DashboardPage() {
       )}
 
       {/* Rest of the dashboard content */}
-      <div
-        className={`p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF] my-[30px] rounded-[12px] relative h-[200px]`}
-      >
-        <div className={"space-y-[60px]"}>
-          <div className={"flex gap-x-[12px] items-center"}>
+      <div className="p-5 md:p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF] my-5 md:my-[30px] rounded-[12px] relative min-h-[200px] md:h-[200px]">
+        <div className="space-y-5 md:space-y-[60px]">
+          <div className="flex gap-x-3 md:gap-x-[12px] items-center">
             <Image
-              src={"/images/user-welcome.png"}
-              alt={"welcome"}
+              src="/images/user-welcome.png"
+              alt="welcome"
               width={40}
               height={40}
+              className="w-8 h-8 md:w-10 md:h-10"
             />
-            <p
-              className={"text-[18px] dark:text-white text-black font-semibold"}
-            >
+            <p className="text-[16px] md:text-[18px] dark:text-white text-black font-semibold">
               {t("welcome")}! {get(studentProfile, "data.full_name")}
             </p>
           </div>
           <a
             target="_blank"
-            href={"https://t.me/iq_mathbot"}
-            className="mt-[60px] block"
+            href="https://t.me/iq_mathbot"
+            className="block md:mt-[60px]"
           >
-            <button
-              className={
-                "py-[8px] px-[16px] text-white bg-[#5D87FF] rounded-[4px]"
-              }
-            >
+            <button className="py-2 px-4 md:py-[8px] md:px-[16px] text-white bg-[#5D87FF] rounded-[4px] text-sm md:text-base">
               {t("telegram_bot")}
             </button>
           </a>
         </div>
-        <div className={"absolute right-0 bottom-0"}>
+        <div className="absolute right-0 bottom-0 w-[150px] md:w-[326px]">
           <Image
-            src={"/icons/welcome-bg.svg"}
-            alt={"welcome"}
+            src="/icons/welcome-bg.svg"
+            alt="welcome"
             width={326}
             height={96}
+            className="w-full h-auto"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-[30px]">
-        <div
-          className={`col-span-4 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-[30px]`}
-        >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12 gap-5 md:gap-[30px]">
+        {/* First Card */}
+        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-5 md:p-[30px]">
           <div>
-            <h1 className={"text-lg dark:text-white text-black font-semibold"}>
+            <h1 className="text-base md:text-lg dark:text-white text-black font-semibold">
               {t("questions")}
             </h1>
           </div>
           <PieChartComponent />
-          <div className={"flex items-end gap-x-[12px]"}>
-            <div className={"bg-[#ECF2FF] p-[10px] rounded-[8px] inline-block"}>
-              <Image
-                src={"/icons/grid.svg"}
-                alt={"grid"}
-                width={24}
-                height={24}
-              />
+          <div className="flex items-end gap-x-3 md:gap-x-[12px]">
+            <div className="bg-[#ECF2FF] p-2 md:p-[10px] rounded-[8px] inline-block">
+              <Image src="/icons/grid.svg" alt="grid" width={24} height={24} />
             </div>
             <div>
-              <h4
-                className={
-                  "text-[21px] dark:text-white text-black font-semibold"
-                }
-              >
+              <h4 className="text-lg md:text-[21px] dark:text-white text-black font-semibold">
                 $63,489.50
               </h4>
-              <p className={"text-sm text-[#7C8FAC]"}>Total Earnings</p>
+              <p className="text-sm text-[#7C8FAC]">Total Earnings</p>
             </div>
           </div>
         </div>
-        <div
-          className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md"
-          }
-        >
+
+        {/* Second Card */}
+        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 p-5 md:p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md">
           <DiagramChart />
         </div>
-        <div
-          className={
-            "col-span-4 p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md"
-          }
-        >
+
+        {/* Third Card */}
+        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 p-5 md:p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md">
           {/* <ReactApexChart /> */}
         </div>
       </div>
