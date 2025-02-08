@@ -37,13 +37,13 @@ const Index = () => {
 
   console.log(get(quizResult, "data.score"));
 
-  const scores2_1 = get(result, "data.answer_more", []).filter(
+  const scores2_1 = get(quizResult, "data.answer_more", []).filter(
     (item) => item.score === 2.1
   );
-  const scores3_1 = get(result, "data.answer_more", []).filter(
+  const scores3_1 = get(quizResult, "data.answer_more", []).filter(
     (item) => item.score === 3.1
   );
-  const scores5_1 = get(result, "data.answer_more", []).filter(
+  const scores5_1 = get(quizResult, "data.answer_more", []).filter(
     (item) => item.score === 5.1
   );
 
@@ -188,7 +188,7 @@ const Index = () => {
             {isEmpty(scores2_1) ? (
               ""
             ) : (
-              <div className="col-span-4 space-y-[10px]">
+              <div className="lg:col-span-4 md:col-span-6 col-span-12 space-y-[10px]">
                 <p className="text-lg font-medium text-gray-600">
                   {scores2_1[0]["score"]} ballik
                 </p>
@@ -232,7 +232,7 @@ const Index = () => {
             {isEmpty(scores3_1) ? (
               ""
             ) : (
-              <div className="col-span-4 space-y-[10px]">
+              <div className="lg:col-span-4 md:col-span-6 col-span-12 space-y-[10px]">
                 <p className="text-lg font-medium text-gray-600">
                   {scores3_1[0]["score"]} ballik
                 </p>
@@ -276,7 +276,7 @@ const Index = () => {
             {isEmpty(scores3_1) ? (
               ""
             ) : (
-              <div className="col-span-4 space-y-[10px]">
+              <div className="lg:col-span-4 md:col-span-6 col-span-12 space-y-[10px]">
                 <p className="text-lg font-medium text-gray-600">
                   {scores5_1[0]["score"]} ballik
                 </p>

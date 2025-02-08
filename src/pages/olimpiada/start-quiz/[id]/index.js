@@ -70,32 +70,26 @@ const Index = () => {
     );
   };
 
-  // Function to handle the "Previous" button click
   const handlePrevious = () => {
     setCurrentQuizIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  // Add event listener for keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Enter" && currentQuizIndex < totalQuizzes - 1) {
-        // Enter key for "Next"
         handleNext();
       } else if (
         event.key === "ArrowRight" &&
         currentQuizIndex < totalQuizzes - 1
       ) {
-        // Right Arrow key for "Next"
         handleNext();
       } else if (event.key === "ArrowLeft" && currentQuizIndex > 0) {
-        // Left Arrow key for "Previous"
         handlePrevious();
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
 
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -106,7 +100,6 @@ const Index = () => {
   });
 
   const onSubmit = () => {
-    // Ensure accessToken is available
     if (!session?.accessToken) {
       console.error("Access token is missing.");
       return;
@@ -309,29 +302,27 @@ const Index = () => {
         <div>
           <div className="my-[30px] ">
             {isEmpty(get(data, "data.message", "")) ? (
-              <div className="grid grid-cols-12 gap-x-[30px]">
-                <div className="col-span-8 space-y-[30px]">
+              <div className="grid sm:grid-cols-1 md:grid-cols-12 gap-x-[20px] gap-y-[20px]">
+                {/* Quiz Section */}
+                <div className="sm:col-span-12 md:col-span-8 space-y-[20px] order-2 md:order-none">
                   {get(data, "data", []).length > 0 && (
-                    <div
-                      className={`border p-[30px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
-                      key={currentQuizIndex}
-                    >
-                      <div className="text-xl mb-[8px]">
+                    <div className="border p-[20px] sm:p-[15px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF]">
+                      <div className="text-lg sm:text-base mb-[8px]">
                         <p className="mb-[15px] dark:text-white text-black">
                           {currentQuizIndex + 1} - savol :
                         </p>
-                        <div className="text-xl font-semibold mt-[30px] dark:text-white text-black">
+                        <div className="text-lg sm:text-base font-semibold mt-[20px] dark:text-white text-black">
                           {parse(
                             get(data, "data", [])[currentQuizIndex]?.question,
                             ""
                           )}
                         </div>
                         {/* Quizzes */}
-                        <ul className="mt-[30px] space-y-[10px]">
+                        <ul className="mt-[20px] space-y-[10px]">
                           {["A", "B", "C", "D"].map((option, index) => (
                             <li
                               key={index}
-                              className={`border cursor-pointer transform duration-200 p-[16px] rounded-md dark:text-white text-black  ${
+                              className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
                                 selectedAnswers[
                                   get(data, "data", [])[currentQuizIndex]?.id
                                 ] === option
@@ -360,11 +351,12 @@ const Index = () => {
                     </div>
                   )}
 
-                  <div className="flex justify-between mt-[20px]">
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-between mt-[15px] sm:mt-[10px]">
                     <button
                       onClick={handlePrevious}
                       disabled={currentQuizIndex === 0}
-                      className={` text-white px-4 py-2 rounded-md  ${
+                      className={`text-white px-4 py-2 rounded-md ${
                         currentQuizIndex === 0 ? "bg-gray-400" : "bg-blue-500"
                       }`}
                     >
@@ -373,7 +365,7 @@ const Index = () => {
                     <button
                       onClick={handleNext}
                       disabled={currentQuizIndex === totalQuizzes - 1}
-                      className={` text-white px-4 py-2 rounded-md  ${
+                      className={`text-white px-4 py-2 rounded-md ${
                         currentQuizIndex === totalQuizzes - 1
                           ? "bg-gray-400"
                           : "bg-blue-500"
@@ -384,54 +376,65 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div
-                  className={`col-span-4 rounded-md self-start p-[30px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF] `}
-                >
-                  <div className="flex items-center flex-col justify-center mt-[30px]">
-                    <div className="relative">
+                {/* Timer & Navigation */}
+                <div className="sm:col-span-12 md:col-span-4 order-1 md:order-none rounded-md self-start p-[20px] sm:p-[15px] bg-white border-[#EAEFF4] border dark:bg-[#26334AFF] dark:border-[#2A3447FF]">
+                  <div className="flex flex-col items-center justify-center space-y-5 p-4 w-full">
+                    {/* Timer */}
+                    <div className="relative w-44 h-44 hidden sm:block">
+                      {" "}
+                      {/* faqat katta ekranda ko'rinadi */}
                       <CircularProgressbar
                         value={percentage}
                         styles={buildStyles({
                           pathColor: "#6366F1",
-                          textColor: `${theme === "light" ? "#000" : "#fff"}`,
+                          textColor: theme === "light" ? "#000" : "#fff",
                           trailColor: "#E5E7EB",
-                          textSize: "14px",
+                          textSize: "16px",
                         })}
-                        className="w-[200px] h-[200px] text-center"
+                        className="w-full h-full"
                       />
-                      <p className="absolute top-[90px] right-0 left-[75px] text-xl dark:text-white text-black">{`${String(
-                        Math.floor((timeLeft % 3600) / 60)
-                      ).padStart(2, "0")}:${String(timeLeft % 60).padStart(
-                        2,
-                        "0"
-                      )}`}</p>
+                      <p className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-black dark:text-white">
+                        {`${String(Math.floor((timeLeft % 3600) / 60)).padStart(
+                          2,
+                          "0"
+                        )}:${String(timeLeft % 60).padStart(2, "0")}`}
+                      </p>
                     </div>
 
-                    <div className="grid grid-cols-8 mt-[40px] gap-[10px] ">
+                    {/* Mobil timer */}
+                    <div className="text-2xl font-semibold text-black dark:text-white sm:hidden">
+                      {`${String(Math.floor((timeLeft % 3600) / 60)).padStart(
+                        2,
+                        "0"
+                      )}:${String(timeLeft % 60).padStart(2, "0")}`}
+                    </div>
+
+                    {/* Finish Button */}
+                    <button
+                      className="w-full bg-red-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-red-600"
+                      onClick={handleLogoutClick}
+                    >
+                      Yakunlash
+                    </button>
+
+                    {/* Quiz Number Buttons */}
+                    <div className="flex-wrap flex gap-3">
                       {get(data, "data", []).map((item, index) => (
                         <div
                           key={index}
-                          className={`w-[40px] col-span-1 h-[40px] flex items-center justify-center rounded-full border cursor-pointer         ${
-                            currentQuizIndex === index
-                              ? "bg-green-500 text-white border-green-500" // Highlight the current question
-                              : answeredQuestions.includes(item.id)
-                              ? "bg-blue-500 text-white border-blue-500" // Highlight answered questions
-                              : "bg-transparent border-gray-300 text-gray-500"
-                          }`}
+                          className={`w-12 h-12 flex items-center justify-center rounded-full border cursor-pointer text-lg font-medium
+                              ${
+                                currentQuizIndex === index
+                                  ? "bg-green-500 text-white border-green-500"
+                                  : answeredQuestions.includes(item.id)
+                                  ? "bg-blue-500 text-white border-blue-500"
+                                  : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300"
+                              }`}
                           onClick={() => setCurrentQuizIndex(index)}
                         >
                           {index + 1}
                         </div>
                       ))}
-                    </div>
-
-                    <div className="mt-[40px] flex justify-center">
-                      <button
-                        className="bg-red-500 text-white px-[20px] py-[10px] rounded-md hover:bg-red-600"
-                        onClick={handleLogoutClick}
-                      >
-                        Yakunlash
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -472,8 +475,9 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-x-[20px] items-center">
-                    <div className="text-white bg-[#FFAE1F] flex gap-x-[10px] py-[20px] px-[10px] rounded-[10px]">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-x-5 items-center">
+                    {/* Error Message Box */}
+                    <div className="text-white bg-[#FFAE1F] flex gap-x-2 sm:gap-x-3 p-4 rounded-lg w-full sm:w-auto">
                       <Image
                         src={"/icons/Error.svg"}
                         alt={"error"}
@@ -483,8 +487,9 @@ const Index = () => {
                       <p>{get(data, "data.message", "")}</p>
                     </div>
 
-                    <Link href={"/results"} className="h-full">
-                      <button className="h-full py-[20px] px-[20px] bg-[#12DEB9] hover:bg-[#10C7A6] transition-all duration-300 rounded-[10px] text-white flex items-center">
+                    {/* Results Button */}
+                    <Link href={"/results"} className="w-full sm:w-auto">
+                      <button className="w-full sm:w-auto py-4 px-6 bg-[#12DEB9] hover:bg-[#10C7A6] transition-all duration-300 rounded-lg text-white flex items-center justify-center">
                         Test natijasini bilish
                       </button>
                     </Link>
@@ -495,17 +500,21 @@ const Index = () => {
           </div>
           {isModalOpen && (
             <>
+              {/* Overlay Background */}
               <div
                 className={`fixed inset-0 bg-black bg-opacity-90 z-50 transition-opacity duration-300 ${
                   isExiting ? "opacity-0" : "opacity-40"
                 }`}
               ></div>
+
+              {/* Modal Container */}
               <div
-                className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-300 ${
+                className={`fixed inset-0 flex items-center justify-center z-50 mx-[10px] md:mx-0 transition-all duration-300 ${
                   isExiting ? "scale-95 opacity-0" : "scale-100 opacity-100"
                 }`}
               >
-                <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+                {/* Modal Box */}
+                <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:w-[400px] md:w-[500px]">
                   <h2 className="text-xl font-semibold mb-1">
                     Testni yakunlash
                   </h2>
@@ -513,16 +522,18 @@ const Index = () => {
                     Testni yakunlashga aminmisiz? "Ha" tugmasini bosganingizdan
                     so&apos;ng siz test jarayoniga qayta olmaysiz.
                   </p>
-                  <div className="flex justify-end gap-x-[10px]">
+
+                  {/* Buttons */}
+                  <div className="flex flex-col sm:flex-row justify-end gap-3">
                     <button
                       onClick={onSubmit}
-                      className="bg-green-500  text-white py-2 px-4 rounded"
+                      className="bg-green-500 text-white py-2 px-4 rounded w-full sm:w-auto"
                     >
                       Ha
                     </button>
                     <button
                       onClick={closeModal}
-                      className="bg-gray-300 text-black py-2 px-4 rounded"
+                      className="bg-gray-300 text-black py-2 px-4 rounded w-full sm:w-auto"
                     >
                       Yo&apos;q
                     </button>
