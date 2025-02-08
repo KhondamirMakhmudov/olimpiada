@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 const Index = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const router = useRouter();
   const { data, isLoading, isFetching } = useGetQuery({
@@ -63,9 +63,9 @@ const Index = () => {
               "fourth_reminder",
               "fifth_reminder",
               "sixth_reminder",
-            ].map((reminder) => (
+            ].map((reminder, index) => (
               <li
-                key={reminder}
+                key={index}
                 className="flex items-start gap-x-4 md:gap-x-3 sm:gap-x-2"
               >
                 <Image
@@ -75,9 +75,38 @@ const Index = () => {
                   height={24}
                   className="w-6 h-6 sm:w-5 sm:h-5"
                 />
-                <p className="text-sm text-[#5A6A85] dark:text-white">
-                  {t(reminder)}
-                </p>
+                {reminder === "fifth_reminder" ? (
+                  <div>
+                    {i18n.language === "uz" ? (
+                      <div className="text-sm text-[#5A6A85] dark:text-white ">
+                        Ikkinchi bosqich haqida va boshqa qiziqtirgan
+                        savollaringizga bu havola orqali{" "}
+                        <Link
+                          href={"https://iq-math.uz/about-olympics"}
+                          className="hover:underline"
+                        >
+                          'https://iq-math.uz/about-olympics'
+                        </Link>{" "}
+                        javob olishingiz mumkin.
+                      </div>
+                    ) : (
+                      <div className="text-sm text-[#5A6A85] dark:text-white ">
+                        Информацию о втором этапе и ответы на другие
+                        интересующие вас вопросы можно найти по этой ссылке:
+                        <Link
+                          href={"https://iq-math.uz/about-olympics"}
+                          className="hover:underline"
+                        >
+                          'https://iq-math.uz/about-olympics'
+                        </Link>{" "}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-sm text-[#5A6A85] dark:text-white">
+                    {t(reminder)}
+                  </p>
+                )}
               </li>
             ))}
           </ul>
@@ -103,6 +132,7 @@ const Index = () => {
                       value: dayjs(get(item, "start_date", "")).format(
                         "DD.MM.YYYY"
                       ),
+                      time: dayjs(get(item, "start_date", "")).format("HH:mm"),
                     },
                     {
                       label: "endDate",
@@ -110,8 +140,9 @@ const Index = () => {
                       value: dayjs(get(item, "end_date", "")).format(
                         "DD.MM.YYYY"
                       ),
+                      time: dayjs(get(item, "end_date", "")).format("HH:mm"),
                     },
-                  ].map(({ label, color, value }) => (
+                  ].map(({ label, color, value, time }) => (
                     <div
                       key={label}
                       className="col-span-1 flex lg:items-baseline  gap-x-3 md:gap-x-2 sm:gap-x-1"
@@ -124,9 +155,14 @@ const Index = () => {
                         <h3 className="text-[#868EAB] text-sm sm:text-xs">
                           {t(label)}
                         </h3>
-                        <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base sm:text-sm">
-                          {value}
-                        </p>
+                        <div className="flex gap-x-[5px] ">
+                          <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base sm:text-sm">
+                            {value}
+                          </p>
+                          <p className="font-semibold !text-sm mt-[2px] dark:text-white !text-gray-400 text-sm md:text-base sm:text-sm">
+                            {time}
+                          </p>{" "}
+                        </div>
                       </div>
                     </div>
                   ))}

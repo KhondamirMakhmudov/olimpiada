@@ -1,12 +1,23 @@
 import Brand from "../brand";
 import DashboardNav from "../dashboard-nav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThemeProvider } from "next-themes";
 import Sidebar from "./sidebar";
 import MainContent from "./main";
 
 const Dashboard = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarOpen(window.innerWidth > 1024); // Open on mobile, closed on desktop
+    };
+
+    handleResize(); // Set initial state based on current screen size
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <ThemeProvider defaultTheme="light" attribute="class">

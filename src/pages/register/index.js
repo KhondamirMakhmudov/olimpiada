@@ -32,20 +32,16 @@ const Register = () => {
   const [regionDropdownOpen, setRegionDropdownOpen] = useState(false);
   const [districtDropdownOpen, setDistrictDropdownOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(t("chooseEducation"));
+  const [selectedOption, setSelectedOption] = useState(null);
   const [showPage, setShowPage] = useState(false);
   const [regions, setRegions] = useState(regionsUz.regions);
   const [districts, setDistricts] = useState(regionsUz.districts);
 
   const [dropdownOpenCourse, setDropdownOpenCourse] = useState(false);
-  const [selectedOptionCourse, setSelectedOptionCourse] = useState(
-    `${t("chooseTypeOfClass")}`
-  );
+  const [selectedOptionCourse, setSelectedOptionCourse] = useState(null);
   const [dropdownselectedDocument, setDropdownSelectedDocument] =
     useState(false);
-  const [selectedDocument, setSelectedDocument] = useState(
-    `${t("selectTypeOfPassport")}`
-  );
+  const [selectedDocument, setSelectedDocument] = useState(null);
 
   const optionDocument = [`${t("certificate")}`, `${t("passport")}`];
   const options = [t("litsey"), t("school")];
@@ -155,8 +151,8 @@ const Register = () => {
     formData.append("full_name", full_name);
     formData.append("email", email);
     formData.append("phone", `${String(998) + String(phone)}`);
-    formData.append("region", selectedRegion);
-    formData.append("districts", selectedDistrict);
+    formData.append("region", selectedRegionName);
+    formData.append("districts", selectedDistrictName);
     formData.append("address", address);
     formData.append("brithday", brithday);
     formData.append("academy_or_school", selectedOption);
@@ -196,6 +192,8 @@ const Register = () => {
       );
   };
 
+  console.log(selectedRegionName, "selectedRegionName");
+
   const {
     data: registerDate,
     isLoading: isLoadingRegisterDate,
@@ -219,11 +217,11 @@ const Register = () => {
 
   return (
     <div
-      className="bg-no-repeat bg-center bg-cover "
+      className="bg-no-repeat bg-center bg-cover min-h-screen flex flex-col"
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
       <Header />
-      <div className={" flex items-center justify-center min-h-screen "}>
+      <div className={" flex flex-grow items-center justify-center "}>
         {submitError && (
           <p className="text-red-500 text-sm mt-1">
             {Object.entries(submitError)
@@ -342,7 +340,9 @@ const Register = () => {
                     onClick={() => setDropdownSelectedDocument((prev) => !prev)}
                     className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
                   >
-                    <span>{selectedDocument}</span>
+                    <span>
+                      {selectedDocument || `${t("selectTypeOfPassport")}`}
+                    </span>
                     <svg
                       className={`w-5 h-5 transform ${
                         dropdownselectedDocument ? "rotate-180" : ""
@@ -376,7 +376,7 @@ const Register = () => {
                   )}
                 </div>
 
-                {selectedDocument === `${t("selectTypeOfPassport")}` ? (
+                {selectedDocument === null ? (
                   ""
                 ) : (
                   <motion.div
@@ -393,11 +393,11 @@ const Register = () => {
                             value: /^[A-Z]{2}$/,
                             message: "Ikkita katta harf bo'lishi kerak",
                           },
-                          onChange: (e) =>
-                            setValue(
-                              "document",
-                              e.target.value + watch("documentNumber") || ""
-                            ),
+                          onChange: (e) => {
+                            const uppercasedValue =
+                              e.target.value.toUpperCase();
+                            setValue("documentPrefix", uppercasedValue); // Qiymatni katta harfga o‘girib qayta o‘rnatish
+                          },
                         })}
                         maxLength={2}
                         className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-16 px-3 py-2 text-center"
@@ -445,9 +445,7 @@ const Register = () => {
                       onClick={() => setRegionDropdownOpen((prev) => !prev)}
                       className="w-full  border border-[#EAEFF4] px-4 py-2 rounded-md bg-white cursor-pointer flex justify-between items-center"
                     >
-                      <p className="text-[#2A3547]">
-                        {selectedRegionName || "Viloyat"}
-                      </p>
+                      <p className="text-[#2A3547]">{selectedRegionName}</p>
                       <svg
                         className={`w-5 h-5 transform duration-200 ${
                           regionDropdownOpen ? "rotate-180" : ""
@@ -541,60 +539,14 @@ const Register = () => {
                     placeholder={`${t("address")}`}
                   />
                 </div>
-                {/* Ta'lim turi */}
 
-                <div className="relative w-full">
-                  {/* Tanlangan ta'lim turi yoki default "Ta'lim turi" */}
-                  <div
-                    onClick={() => setOpenTypeOfEducation(!openTypeOfEducation)}
-                    className="w-full flex items-center justify-between cursor-pointer px-4 py-2 border border-[#EAEFF4] rounded-lg shadow-sm bg-white"
-                  >
-                    {selectedTypeOfEducation || `${t("LangOfEducation")}`}
-                    <svg
-                      className={`w-5 h-5 transform duration-200 ${
-                        openTypeOfEducation ? "rotate-180" : ""
-                      }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Dropdown menyu */}
-                  {openTypeOfEducation && (
-                    <ul className="absolute left-0 mt-2 w-full border border-gray-300 bg-white shadow-md rounded-lg z-10">
-                      {educationTypes.map((type) => (
-                        <li
-                          key={type}
-                          onClick={() => {
-                            setSelectedTypeOfEducation(type);
-                            setOpenTypeOfEducation(false);
-                          }}
-                          className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
-                            selectedTypeOfEducation === type ? "font-bold" : ""
-                          }`}
-                        >
-                          {type}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
                 {/* Ta'lim dargohi */}
                 <div className="relative text-[#2A3547] cursor-pointer">
                   <div
                     onClick={() => setDropdownOpen((prev) => !prev)}
                     className="w-full  px-4 py-2 border border-[#EAEFF4] text-[#2A3547] rounded-md bg-white focus:outline-none flex items-center justify-between"
                   >
-                    <span>{selectedOption}</span>
+                    <span>{selectedOption || `${t("chooseEducation")}`}</span>
                     <svg
                       className={`w-5 h-5 transform ${
                         dropdownOpen ? "rotate-180" : ""
@@ -628,7 +580,7 @@ const Register = () => {
                   )}
                 </div>
 
-                {selectedOption === `${t("chooseEducation")}` ? (
+                {selectedOption === null ? (
                   ""
                 ) : (
                   <motion.div
@@ -641,7 +593,9 @@ const Register = () => {
                       onClick={() => setDropdownOpenCourse((prev) => !prev)}
                       className="w-full text-left px-4 py-2 border border-[#EAEFF4] rounded-md bg-white focus:outline-none flex items-center justify-between"
                     >
-                      <span>{selectedOptionCourse}</span>
+                      <span>
+                        {selectedOptionCourse || `${t("chooseTypeOfClass")}`}
+                      </span>
                       <svg
                         className={`w-5 h-5 transform ${
                           dropdownOpenCourse ? "rotate-180" : ""
@@ -676,6 +630,53 @@ const Register = () => {
                     )}
                   </motion.div>
                 )}
+
+                {/* Ta'lim turi */}
+
+                <div className="relative w-full">
+                  {/* Tanlangan ta'lim turi yoki default "Ta'lim turi" */}
+                  <div
+                    onClick={() => setOpenTypeOfEducation(!openTypeOfEducation)}
+                    className="w-full flex items-center justify-between cursor-pointer px-4 py-2 border border-[#EAEFF4] rounded-lg shadow-sm bg-white"
+                  >
+                    {selectedTypeOfEducation || `${t("LangOfEducation")}`}
+                    <svg
+                      className={`w-5 h-5 transform duration-200 ${
+                        openTypeOfEducation ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+
+                  {openTypeOfEducation && (
+                    <ul className="absolute left-0 mt-2 w-full border border-gray-300 bg-white shadow-md rounded-lg z-10">
+                      {educationTypes.map((type) => (
+                        <li
+                          key={type}
+                          onClick={() => {
+                            setSelectedTypeOfEducation(type);
+                            setOpenTypeOfEducation(false);
+                          }}
+                          className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                            selectedTypeOfEducation === type ? "font-bold" : ""
+                          }`}
+                        >
+                          {type}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
                 <UserAgreement />
 
