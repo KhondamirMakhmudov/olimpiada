@@ -155,11 +155,11 @@ const Index = () => {
                         <h3 className="text-[#868EAB] text-sm sm:text-xs">
                           {t(label)}
                         </h3>
-                        <div className="flex gap-x-[5px] ">
+                        <div className="flex gap-x-[5px] items-center">
                           <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base sm:text-sm">
                             {value}
                           </p>
-                          <p className="font-semibold !text-sm mt-[2px] dark:text-white !text-gray-400 text-sm md:text-base sm:text-sm">
+                          <p className="font-semibold !text-sm  dark:text-white !text-gray-400 text-sm md:text-base sm:text-sm">
                             {time}
                           </p>{" "}
                         </div>
