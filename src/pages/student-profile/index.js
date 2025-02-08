@@ -65,38 +65,34 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="my-[30px]  grid grid-cols-12 gap-x-[30px]">
-        <div className="col-span-7 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
-          <div className="flex justify-between items-center p-[30px]">
+      <div className="my-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6">
+        {/* Left Section */}
+        <div className="col-span-full sm:col-span-2 lg:col-span-7 bg-white dark:bg-[#26334AFF] border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
+          <div className="flex justify-between items-center p-6">
             <h3 className="capitalize text-lg font-semibold text-black dark:text-white">
               {t("details")}
             </h3>
-            <ul className="flex gap-x-[15px]">
+            <ul className="flex gap-4">
               <li>
-                {" "}
                 <Image
-                  src={"/icons/Edit.svg"}
-                  alt={"edit"}
+                  src="/icons/Edit.svg"
+                  alt="edit"
                   width={24}
                   height={24}
                 />
               </li>
-
               <li>
-                {" "}
                 <Image
-                  src={"/icons/View.svg"}
-                  alt={"edit"}
+                  src="/icons/View.svg"
+                  alt="view"
                   width={24}
                   height={24}
                 />
               </li>
-
               <li>
-                {" "}
                 <Image
-                  src={"/icons/Share.svg"}
-                  alt={"Share"}
+                  src="/icons/Share.svg"
+                  alt="share"
                   width={24}
                   height={24}
                 />
@@ -104,19 +100,13 @@ const Index = () => {
             </ul>
           </div>
 
-          <div className="w-full h-[1px] bg-[#EAEFF4] mb-[30px]"></div>
+          <div className="w-full h-[1px] bg-[#EAEFF4] mb-6"></div>
 
-          <div className="p-[30px]">
-            <div className="flex gap-x-[12px]">
-              <Image
-                src={"/icons/user.svg"}
-                alt={"user"}
-                width={70}
-                height={70}
-              />
-
-              <div className="space-y-[4px] text-black dark:text-white">
-                <h4 className="">{get(studentProfile, "data.full_name")}</h4>
+          <div className="p-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Image src="/icons/user.svg" alt="user" width={70} height={70} />
+              <div className="space-y-1 text-black dark:text-white">
+                <h4>{get(studentProfile, "data.full_name")}</h4>
                 <p className="text-sm text-[#7C8FAC]">
                   {t("educationalInstitution")}
                   <span className="capitalize">
@@ -129,18 +119,16 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-[20px] my-[30px] text-black dark:text-white">
-              <div className="col-span-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6 text-black dark:text-white">
+              <div>
                 <p className="text-sm text-[#7C8FAC]">{t("phone number")}</p>
                 <p>+{get(studentProfile, "data.phone")}</p>
               </div>
-
-              <div className="col-span-1">
+              <div>
                 <p className="text-sm text-[#7C8FAC]">{t("email")}</p>
                 <p>{get(studentProfile, "data.email")}</p>
               </div>
-
-              <div className="col-span-1">
+              <div>
                 <p className="text-sm text-[#7C8FAC]">{t("birthday")}</p>
                 <p>
                   {dayjs(get(studentProfile, "data.brithday")).format(
@@ -148,46 +136,38 @@ const Index = () => {
                   )}
                 </p>
               </div>
-
-              <div className="col-span-1">
+              <div>
                 <p className="text-sm text-[#7C8FAC]">{t("region")}</p>
                 <p>{get(studentProfile, "data.region")}</p>
               </div>
-
-              <div className="col-span-1">
+              <div>
                 <p className="text-sm text-[#7C8FAC]">{t("district")}</p>
                 <p>{get(studentProfile, "data.districts")}</p>
               </div>
-
-              <div className="col-span-3">
+              <div className="col-span-full">
                 <p className="text-sm text-[#7C8FAC]">{t("address")}</p>
-
                 <p>{get(studentProfile, "data.address")}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="col-span-5 bg-white dark:bg-[#26334AFF]  border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
-          <div className="flex  justify-between items-center p-[30px]">
-            <h3 className=" text-lg font-semibold text-black dark:text-white">
+        {/* Right Section */}
+        <div className="col-span-full sm:col-span-2 lg:col-span-5 bg-white dark:bg-[#26334AFF] border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
+          <div className="flex justify-between items-center p-6">
+            <h3 className="text-lg font-semibold text-black dark:text-white">
               Login va parol
-            </h3>{" "}
+            </h3>
             <button
               className="scale-100 active:scale-90 transition-all duration-200"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? (
-                <Image
-                  src={"/icons/eye.svg"}
-                  alt={"edit"}
-                  width={24}
-                  height={24}
-                />
+                <Image src="/icons/eye.svg" alt="show" width={24} height={24} />
               ) : (
                 <Image
-                  src={"/icons/eye-closed.svg"}
-                  alt={"edit"}
+                  src="/icons/eye-closed.svg"
+                  alt="hide"
                   width={24}
                   height={24}
                 />
@@ -195,39 +175,39 @@ const Index = () => {
             </button>
           </div>
 
-          <div className="w-full h-[1px] bg-[#EAEFF4] ">
-            <div className="p-[30px]">
-              <div className="flex flex-col  py-[15px] space-y-[4px] text-black dark:text-white">
-                <label>Login</label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  disabled
-                  value={session?.login}
-                  className="w-1/3 py-[10px] px-[8px] dark:text-white rounded-md border bg-transparent"
-                />
-              </div>
+          <div className="w-full h-[1px] bg-[#EAEFF4]"></div>
 
-              <div className="flex flex-col  space-y-[4px] text-black dark:text-white">
-                <label>Password</label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  disabled
-                  value={session?.password}
-                  className="w-1/3 py-[10px] px-[8px] rounded-md border bg-transparent"
-                />
-              </div>
+          <div className="p-6">
+            <div className="flex flex-col py-3 space-y-2 text-black dark:text-white">
+              <label>Login</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                disabled
+                value={session?.login}
+                className="w-full sm:w-1/2 py-2 px-3 dark:text-white rounded-md border bg-transparent"
+              />
+            </div>
 
-              <div className="mt-[80px]">
-                <p className="text-sm mb-[10px] text-[#7C8FAC]">
-                  Agarda biz taqdim etgan parol sizga noqulaylik
-                  tug&apos;dirayotgan bo'lsa uni o&apos;zgartirishingiz mumkin
-                </p>
-                <Link href={"/auth/forget-password"}>
-                  <button className="flex items-center gap-x-[10px]  bg-[#539BFF] scale-100 active:scale-95 hover:bg-[#5197F9] transition-all duration-200 text-white py-[8px] px-[16px] rounded-md">
-                    Parolni o&apos;zgartirish
-                  </button>
-                </Link>
-              </div>
+            <div className="flex flex-col space-y-2 text-black dark:text-white">
+              <label>Password</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                disabled
+                value={session?.password}
+                className="w-full sm:w-1/2 py-2 px-3 rounded-md border bg-transparent"
+              />
+            </div>
+
+            <div className="mt-10">
+              <p className="text-sm mb-2 text-[#7C8FAC]">
+                Agarda biz taqdim etgan parol sizga noqulaylik
+                tug&apos;dirayotgan bo'lsa, uni o&apos;zgartirishingiz mumkin.
+              </p>
+              <Link href="/auth/forget-password">
+                <button className="flex items-center gap-2 bg-[#539BFF] scale-100 active:scale-95 hover:bg-[#5197F9] transition-all duration-200 text-white py-2 px-4 rounded-md">
+                  Parolni o&apos;zgartirish
+                </button>
+              </Link>
             </div>
           </div>
         </div>
