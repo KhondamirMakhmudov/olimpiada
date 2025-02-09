@@ -17,7 +17,7 @@ const Header = ({ color = "white" }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative z-20 py-3 bg-gray-100 bg-opacity-40">
+    <header className="relative z-20 py-3 bg-white ">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Brand />
 
