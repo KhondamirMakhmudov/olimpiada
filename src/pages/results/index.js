@@ -35,8 +35,6 @@ const Index = () => {
     enabled: !!session?.accessToken,
   });
 
-  console.log(get(quizResult, "data.score"));
-
   const scores2_1 = get(quizResult, "data.answer_more", []).filter(
     (item) => item.score === 2.1
   );

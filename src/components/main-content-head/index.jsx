@@ -51,7 +51,7 @@ const MainContentHead = ({ toggleSidebar }) => {
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log("Parsed data from localStorage:", parsedData);
+
         setUserData(parsedData);
 
         const tokenFromDataRegister = get(parsedData, "data.access_token");

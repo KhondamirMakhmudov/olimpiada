@@ -137,7 +137,6 @@ const Index = () => {
           localStorage.removeItem("timeLeft");
           localStorage.removeItem("selectedAnswers");
           localStorage.removeItem("answeredQuestions");
-          console.log("Answers submitted successfully!");
         },
         onError: (error) => {
           setIsSubmitting(false);
