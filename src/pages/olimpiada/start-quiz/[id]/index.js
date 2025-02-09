@@ -319,7 +319,7 @@ const Index = () => {
                     <div className="border p-[20px] sm:p-[15px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF]">
                       <div className="text-lg sm:text-base mb-[8px]">
                         <p className="mb-[15px] dark:text-white text-black">
-                          {currentQuizIndex + 1} - savol :
+                          {currentQuizIndex + 1} - {t("question")} :
                         </p>
                         {i18n.language === "uz" ? (
                           <div className="text-lg sm:text-base font-semibold mt-[20px] dark:text-white text-black">
@@ -545,13 +545,17 @@ const Index = () => {
                         width={24}
                         height={24}
                       />
-                      <p>{get(data, "data.message", "")}</p>
+                      <p>
+                        {i18n === "uz"
+                          ? get(data, "data.message", "")
+                          : `${t("alreadyPassedTest")}`}
+                      </p>
                     </div>
 
                     {/* Results Button */}
                     <Link href={"/results"} className="w-full sm:w-auto">
                       <button className="w-full sm:w-auto py-4 px-6 bg-[#12DEB9] hover:bg-[#10C7A6] transition-all duration-300 rounded-lg text-white flex items-center justify-center">
-                        Test natijasini bilish
+                        {t("knowAboutResult")}
                       </button>
                     </Link>
                   </div>
@@ -577,11 +581,10 @@ const Index = () => {
                 {/* Modal Box */}
                 <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:w-[400px] md:w-[500px]">
                   <h2 className="text-xl font-semibold mb-1">
-                    Testni yakunlash
+                    {t("finishTest")}
                   </h2>
                   <p className="text-lg font-medium text-[#7C8FAC] mb-4">
-                    Testni yakunlashga aminmisiz? "Ha" tugmasini bosganingizdan
-                    so&apos;ng siz test jarayoniga qayta olmaysiz.
+                    {t("areYouSure")}
                   </p>
 
                   {/* Buttons */}
@@ -590,13 +593,13 @@ const Index = () => {
                       onClick={onSubmit}
                       className="bg-green-500 text-white py-2 px-4 rounded w-full sm:w-auto"
                     >
-                      Ha
+                      {t("yes")}
                     </button>
                     <button
                       onClick={closeModal}
                       className="bg-gray-300 text-black py-2 px-4 rounded w-full sm:w-auto"
                     >
-                      Yo&apos;q
+                      {t("no")}
                     </button>
                   </div>
                 </div>

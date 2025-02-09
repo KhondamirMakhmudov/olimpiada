@@ -156,7 +156,7 @@ const Index = () => {
         <div className="col-span-full sm:col-span-2 lg:col-span-5 bg-white dark:bg-[#26334AFF] border border-[#EAEFF4] dark:border-[#2A3447FF] rounded-md">
           <div className="flex justify-between items-center p-6">
             <h3 className="text-lg font-semibold text-black dark:text-white">
-              Login va parol
+              {t("confidentiality")}
             </h3>
             <button
               className="scale-100 active:scale-90 transition-all duration-200"
@@ -179,7 +179,7 @@ const Index = () => {
 
           <div className="p-6">
             <div className="flex flex-col py-3 space-y-2 text-black dark:text-white">
-              <label>Login</label>
+              <label>{t("yourLogin")}</label>
               <input
                 type={showPassword ? "text" : "password"}
                 disabled
@@ -189,7 +189,7 @@ const Index = () => {
             </div>
 
             <div className="flex flex-col space-y-2 text-black dark:text-white">
-              <label>Password</label>
+              <label>{t("yourPassword")}</label>
               <input
                 type={showPassword ? "text" : "password"}
                 disabled
@@ -200,12 +200,11 @@ const Index = () => {
 
             <div className="mt-10">
               <p className="text-sm mb-2 text-[#7C8FAC]">
-                Agarda biz taqdim etgan parol sizga noqulaylik
-                tug&apos;dirayotgan bo'lsa, uni o&apos;zgartirishingiz mumkin.
+                {t("wantToChangePassword")}
               </p>
               <Link href="/auth/forget-password">
                 <button className="flex items-center gap-2 bg-[#539BFF] scale-100 active:scale-95 hover:bg-[#5197F9] transition-all duration-200 text-white py-2 px-4 rounded-md">
-                  Parolni o&apos;zgartirish
+                  {t("changePassword")}
                 </button>
               </Link>
             </div>
