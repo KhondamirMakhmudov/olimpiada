@@ -233,7 +233,7 @@ const Register = () => {
           </p>
         )}
 
-        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto bg-white  mx-auto md:my-0 my-[50px] rounded-[8px] p-6 md:p-8  ">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto bg-white  mx-auto md:my-0 my- rounded-[8px] p-6 md:p-8  ">
           {/* <div className="mb-[30px]  text-center">
             <Brand />
           </div> */}

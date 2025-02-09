@@ -13,8 +13,8 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { UserProfileContext } from "@/context/responseProvider";
 import Link from "next/link";
-import Image from "next/image";
 import dayjs from "dayjs";
+import Image from "next/image";
 const Index = () => {
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
@@ -41,6 +41,15 @@ const Index = () => {
     setIsModalOpen(true);
   };
 
+  const {
+    data: dateOfOlympics,
+    isLoading: isLoadingDateOfRegister,
+    isFetching: isFetchingDateOfRegister,
+  } = useGetQuery({
+    key: KEYS.olimpiadaQuizList,
+    url: URLS.olimpiadaQuizList,
+  });
+
   const closeModal = () => {
     setIsExiting(true);
     setTimeout(() => {
@@ -48,15 +57,6 @@ const Index = () => {
       setIsExiting(false);
     }, 300);
   };
-
-  const {
-    data: dateOfOlympics,
-    isLoading: isLoadingOlympics,
-    isFetching: isFetchingOlympics,
-  } = useGetQuery({
-    key: KEYS.olimpiadaQuizList,
-    url: URLS.olimpiadaQuizList,
-  });
 
   const { data, isLoading, isFetching, isError, error } = useGetQuery({
     key: KEYS.quizTest,
@@ -66,7 +66,6 @@ const Index = () => {
     },
     enabled: !!id,
   });
-  console.log(selectedAnswers, "selectedAnswers");
 
   const errorMessage = error?.response?.data?.message;
 
@@ -233,7 +232,7 @@ const Index = () => {
   }, []);
 
   // Javob tanlanganda, uni localStorage'da saqlash
-  const handleAnswer = (questionIndex, answerKey) => {
+  const handleAnswer = (questionIndex, answer) => {
     if (
       !questionIndex ||
       questionIndex === "null" ||
@@ -242,16 +241,13 @@ const Index = () => {
       console.warn("Invalid Quiz ID:", questionIndex);
       return;
     }
-
-    // Map localized options (A_uz, B_uz, etc.) to standard options (A, B, etc.)
-    const standardizedAnswer = answerKey.charAt(0);
-
     setSelectedAnswers((prev) => {
       const updatedAnswers = {
         ...prev,
-        [questionIndex]: standardizedAnswer,
+        [questionIndex]: answer,
       };
 
+      // Javoblarni localStorage'ga saqlash
       if (typeof window !== "undefined") {
         localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       }
@@ -262,6 +258,7 @@ const Index = () => {
       setAnsweredQuestions((prev) => {
         const updatedQuestions = [...prev, questionIndex];
 
+        // Javob berilgan savollarni localStorage'ga saqlash
         if (typeof window !== "undefined") {
           localStorage.setItem(
             "answeredQuestions",
@@ -317,21 +314,23 @@ const Index = () => {
               width={24}
               height={24}
             />
-            {get(dateOfOlympics, "data", []).map((item) => (
-              <p>
-                {i18n.language === "uz"
-                  ? `Testni
+            <div>
+              {get(dateOfOlympics, "data", []).map((item, index) => (
+                <p key={index}>
+                  {i18n.language === "uz"
+                    ? `Testni
                 ${dayjs(get(item, "start_date", "")).format("DD.MM.YYYY")} dan
                 ${dayjs(get(item, "end_date", "")).format(
                   "DD.MM.YYYY"
                 )} gacha test topshirishingiz mumkin bo'ladi`
-                  : `Тест можно будет пройти с ${dayjs(
-                      get(item, "start_date", "")
-                    ).format("DD.MM.YYYY")} по ${dayjs(
-                      get(item, "end_date", "")
-                    ).format("DD.MM.YYYY")}.`}
-              </p>
-            ))}
+                    : `Тест можно будет пройти с ${dayjs(
+                        get(item, "start_date", "")
+                      ).format("DD.MM.YYYY")} по ${dayjs(
+                        get(item, "end_date", "")
+                      ).format("DD.MM.YYYY")}.`}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
