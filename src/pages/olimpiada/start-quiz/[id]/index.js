@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { UserProfileContext } from "@/context/responseProvider";
 import Link from "next/link";
 import Image from "next/image";
+import dayjs from "dayjs";
 const Index = () => {
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
@@ -47,6 +48,15 @@ const Index = () => {
       setIsExiting(false);
     }, 300);
   };
+
+  const {
+    data: dateOfOlympics,
+    isLoading: isLoadingOlympics,
+    isFetching: isFetchingOlympics,
+  } = useGetQuery({
+    key: KEYS.olimpiadaQuizList,
+    url: URLS.olimpiadaQuizList,
+  });
 
   const { data, isLoading, isFetching, isError, error } = useGetQuery({
     key: KEYS.quizTest,
@@ -223,7 +233,7 @@ const Index = () => {
   }, []);
 
   // Javob tanlanganda, uni localStorage'da saqlash
-  const handleAnswer = (questionIndex, answer) => {
+  const handleAnswer = (questionIndex, answerKey) => {
     if (
       !questionIndex ||
       questionIndex === "null" ||
@@ -233,16 +243,15 @@ const Index = () => {
       return;
     }
 
-    // Extract the first character (e.g., "A_uz" => "A")
-    const simplifiedAnswer = answer.split("_")[0];
+    // Map localized options (A_uz, B_uz, etc.) to standard options (A, B, etc.)
+    const standardizedAnswer = answerKey.charAt(0);
 
     setSelectedAnswers((prev) => {
       const updatedAnswers = {
         ...prev,
-        [questionIndex]: simplifiedAnswer, // Store the simplified answer
+        [questionIndex]: standardizedAnswer,
       };
 
-      // Save to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       }
@@ -253,7 +262,6 @@ const Index = () => {
       setAnsweredQuestions((prev) => {
         const updatedQuestions = [...prev, questionIndex];
 
-        // Save to localStorage
         if (typeof window !== "undefined") {
           localStorage.setItem(
             "answeredQuestions",
@@ -309,7 +317,21 @@ const Index = () => {
               width={24}
               height={24}
             />
-            <p>{errorMessage}</p>
+            {get(dateOfOlympics, "data", []).map((item) => (
+              <p>
+                {i18n.language === "uz"
+                  ? `Test topshirish uchun hali "start" berilmadi.
+                ${dayjs(get(item, "start_date", "")).format("DD.MM.YYYY")} dan
+                ${dayjs(get(item, "end_date", "")).format(
+                  "DD.MM.YYYY"
+                )} gacha test topshirishingiz mumkin bo'ladi`
+                  : ` «Старт» для сдачи теста пока не дан. Тест можно будет пройти с ${dayjs(
+                      get(item, "start_date", "")
+                    ).format("DD.MM.YYYY")} по ${dayjs(
+                      get(item, "end_date", "")
+                    ).format("DD.MM.YYYY")}.`}
+              </p>
+            ))}
           </div>
         </div>
       ) : (
