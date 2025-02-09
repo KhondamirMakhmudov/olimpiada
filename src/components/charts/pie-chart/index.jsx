@@ -85,7 +85,7 @@ const PieChartComponent = () => {
       ],
       colors: ["#548CFF", "#63C5DA", "#00D4FF"],
       stroke: {
-        width: 5, // Creates gaps between slices
+        width: 3, // Creates gaps between slices
         colors: ["#ffffff"], // White gap effect
       },
       plotOptions: {
@@ -157,7 +157,11 @@ const PieChartComponent = () => {
           legend: {
             show: true,
             position: "top",
-            fontSize: "14px",
+            fontSize: "15px",
+            formatter: function (seriesName, opts) {
+              const value = opts.w.globals.series[opts.seriesIndex]; // Har bir qism uchun qiymatni olish
+              return `${seriesName}: ${value} `; // Legend'da ko'rsatish
+            },
           },
           tooltip: {
             enabled: true,

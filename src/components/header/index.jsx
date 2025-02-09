@@ -27,7 +27,7 @@ const Header = ({ color = "white" }) => {
             <Link
               key={href}
               href={href}
-              className={`py-2 px-3 rounded-md uppercase text-sm transition ${
+              className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
                 router.pathname === href
                   ? "bg-[#3965c6] text-white"
                   : "text-black "
