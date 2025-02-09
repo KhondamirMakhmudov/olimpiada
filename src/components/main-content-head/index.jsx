@@ -182,7 +182,7 @@ const MainContentHead = ({ toggleSidebar }) => {
 
             <button
               onClick={handleLogoutClick}
-              className=" text-[#FA896B] py-[8px] w-full border border-[#FA896B] rounded-md hover:bg-[#FA896B] hover:text-white transform duration-200"
+              className=" text-[#FA896B] py-[8px] w-full bg-[#FA896B] text-white rounded-md hover:bg-[#FA714B]  transform duration-200"
             >
               Chiqish
             </button>
