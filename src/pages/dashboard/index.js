@@ -11,6 +11,7 @@ import Dashboard from "@/components/dashboard";
 import PieChartComponent from "@/components/charts/pie-chart";
 import DiagramChart from "@/components/charts/diagram";
 import { useSearchParams } from "next/navigation";
+import { PieChart } from "recharts";
 export default function DashboardPage() {
   const { data: session } = useSession();
   const { t } = useTranslation();
@@ -155,34 +156,18 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12 gap-5 md:gap-[30px]">
         {/* First Card */}
-        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-5 md:p-[30px]">
+        <div className="col-span-1 md:col-span-6 lg:col-span-6 xl:col-span-6 shadow-lg bg-white dark:bg-[#26334AFF] rounded-[12px] p-5 md:p-[30px]">
           <div>
             <h1 className="text-base md:text-lg dark:text-white text-black font-semibold">
               {t("questions")}
             </h1>
           </div>
           <PieChartComponent />
-          <div className="flex items-end gap-x-3 md:gap-x-[12px]">
-            <div className="bg-[#ECF2FF] p-2 md:p-[10px] rounded-[8px] inline-block">
-              <Image src="/icons/grid.svg" alt="grid" width={24} height={24} />
-            </div>
-            <div>
-              <h4 className="text-lg md:text-[21px] dark:text-white text-black font-semibold">
-                103 ball
-              </h4>
-              <p className="text-sm text-[#7C8FAC]">Umumiy ball</p>
-            </div>
-          </div>
         </div>
 
         {/* Second Card */}
-        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 p-5 md:p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md">
+        <div className="col-span-1 md:col-span-6 lg:col-span-6 xl:col-span-6 p-5 md:p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md">
           <DiagramChart />
-        </div>
-
-        {/* Third Card */}
-        <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-4 p-5 md:p-[30px] bg-white dark:bg-[#26334AFF] shadow-lg rounded-md">
-          {/* <ReactApexChart /> */}
         </div>
       </div>
     </Dashboard>
