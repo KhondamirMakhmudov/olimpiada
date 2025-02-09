@@ -70,7 +70,7 @@ const Home = () => {
       <Header />
       <div className="flex flex-grow items-center justify-center p-4">
         <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white mx-auto rounded-lg p-6 md:p-8 shadow-lg">
-          {session === null ? (
+          {!session?.accessToken ? (
             <div className="w-full">
               {/* Tab Buttons */}
               <div className="flex">

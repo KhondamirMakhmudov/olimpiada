@@ -18,8 +18,6 @@ const Index = () => {
     url: URLS.olimpiadaQuizList,
   });
 
-  console.log(data);
-
   return (
     <Dashboard>
       <div
