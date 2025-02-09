@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 
 const PieChartComponent = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: session } = useSession();
   const {
     data: quizResult,
@@ -29,13 +29,46 @@ const PieChartComponent = () => {
   });
 
   const [chartData, setChartData] = useState({
-    series: [0, 0], // Default values
+    series: [0, 0], // Example values
     options: {
       chart: {
-        type: "pie",
+        type: "donut",
       },
-      labels: ["To'g'ri javoblar", "Noto'g'ri javoblar"],
-      colors: ["#28a745", "#dc3545"],
+      labels:
+        i18n.language === "uz"
+          ? ["To'g'ri javoblar", "Noto'g'ri javoblar"]
+          : ["Правильные ответы", "Неправильные ответы"],
+      colors: ["#548CFF", "#63C5DA"],
+      stroke: {
+        width: 5, // Creates gaps between slices
+        colors: ["#ffffff"], // White gap effect
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "85%", // Controls ring thickness
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+        style: {
+          fontSize: "14px",
+          fontWeight: "bold",
+        },
+        formatter: (val) => `${val.toFixed(1)}%`, // Shows percentage
+      },
+      legend: {
+        show: true,
+        position: "top",
+        fontSize: "14px",
+      },
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: (val) => `${val} ta `, // Tooltip format
+        },
+      },
     },
   });
 
@@ -43,14 +76,44 @@ const PieChartComponent = () => {
     series: [10, 10, 10], // Static values: 5.1, 3.1, 2.1 ball questions
     options: {
       chart: {
-        type: "pie",
+        type: "donut",
       },
       labels: [
         "5.1 ballik savollar",
         "3.1 ballik savollar",
         "2.1 ballik savollar",
       ],
-      colors: ["#007bff", "#28a745", "#dc3545"], // Blue, Green, Red
+      colors: ["#548CFF", "#63C5DA", "#00D4FF"],
+      stroke: {
+        width: 5, // Creates gaps between slices
+        colors: ["#ffffff"], // White gap effect
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "85%", // Controls ring thickness
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+        style: {
+          fontSize: "14px",
+          fontWeight: "bold",
+        },
+        formatter: (val) => `${val.toFixed(1)}%`, // Shows percentage
+      },
+      legend: {
+        show: true,
+        position: "top",
+        fontSize: "14px",
+      },
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: (val) => `${val} ta `, // Tooltip format
+        },
+      },
     },
   };
 
@@ -66,26 +129,57 @@ const PieChartComponent = () => {
       setChartData({
         series: [correctCount, incorrectCount], // Wrap numbers in an array
         options: {
-          chart: { type: "pie" },
-          labels: ["To'g'ri javoblar", "Noto'g'ri javoblar"],
-          colors: ["#28a745", "#dc3545"],
+          chart: { type: "donut" },
+          labels:
+            i18n.language === "uz"
+              ? ["To'g'ri javoblar", "Noto'g'ri javoblar"]
+              : ["Правильные ответы", "Неправильные ответы"],
+          colors: ["#63C5DA", "#00D4FF"],
+          stroke: {
+            width: 5, // Creates gaps between slices
+            colors: ["#ffffff"], // White gap effect
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: "85%", // Controls ring thickness
+              },
+            },
+          },
+          dataLabels: {
+            enabled: false,
+            style: {
+              fontSize: "14px",
+              fontWeight: "bold",
+            },
+            formatter: (val) => `${val.toFixed(1)}%`, // Shows percentage
+          },
+          legend: {
+            show: true,
+            position: "top",
+            fontSize: "14px",
+          },
+          tooltip: {
+            enabled: true,
+            y: {
+              formatter: (val) => `${val} ta `, // Tooltip format
+            },
+          },
         },
       });
     }
   }, [quizResult]);
 
-  if (isLoading || isFetching) return <p>Yuklanmoqda</p>;
-
   return (
-    <>
+    <div>
       {isNil(get(quizResult, "data.score")) ? (
         <div>
           <div className="w-full max-w-md mx-auto">
             <Chart
               options={chartDataDefault.options}
               series={chartDataDefault.series}
-              type="pie"
-              height={350}
+              type="donut"
+              height={250}
             />
           </div>
           <div className="flex items-end gap-x-3 md:gap-x-[12px]">
@@ -96,7 +190,7 @@ const PieChartComponent = () => {
               <h4 className="text-lg md:text-[21px] dark:text-white text-black font-semibold">
                 103 {t("score")}
               </h4>
-              <p className="text-sm text-[#7C8FAC]">Umumiy ball</p>
+              <p className="text-sm text-[#7C8FAC]">{t("totalScores")}</p>
             </div>
           </div>
         </div>
@@ -106,7 +200,7 @@ const PieChartComponent = () => {
             <Chart
               options={chartData.options}
               series={chartData.series}
-              type="pie"
+              type="donut"
               height={350}
             />
           </div>
@@ -119,12 +213,12 @@ const PieChartComponent = () => {
                 {parseFloat(get(quizResult, "data.score")).toFixed(2)}{" "}
                 {t("score")}
               </h4>
-              <p className="text-sm text-[#7C8FAC]">To&apos;plangan ball</p>
+              <p className="text-sm text-[#7C8FAC]">{t("SumScore")}</p>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -70,6 +70,7 @@ const Index = () => {
             alt={"user-profile-bg"}
             width={168}
             height={165}
+            className="md:blur-0 blur-sm"
           />
         </div>
       </div>

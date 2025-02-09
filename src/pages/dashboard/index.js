@@ -121,7 +121,7 @@ export default function DashboardPage() {
 
       {/* Rest of the dashboard content */}
       <div className="p-5 md:p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF] my-5 md:my-[30px] rounded-[12px] relative min-h-[200px] md:h-[200px]">
-        <div className="space-y-5 md:space-y-[60px]">
+        <div className="space-y-5 md:space-y-[60px] ">
           <div className="flex gap-x-3 md:gap-x-[12px] items-center">
             <Image
               src="/images/user-welcome.png"

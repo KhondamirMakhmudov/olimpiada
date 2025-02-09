@@ -39,9 +39,9 @@ const Index = () => {
   return (
     <Dashboard>
       <div
-        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}
+        className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px] z-10  relative h-[125px] `}
       >
-        <div className={"space-y-[15px]"}>
+        <div className={"space-y-[15px] z-20"}>
           <p className={"text-[18px] dark:text-white text-black font-semibold"}>
             {t("userProfile")}
           </p>
@@ -55,12 +55,13 @@ const Index = () => {
           </div>
         </div>
 
-        <div className={"absolute right-[40px] bottom-0"}>
+        <div className={"absolute right-[40px] bottom-0 -z-10"}>
           <Image
             src={"/icons/user-profile-bg.svg"}
             alt={"user-profile-bg"}
             width={168}
             height={165}
+            className="md:blur-0 blur-sm"
           />
         </div>
       </div>
@@ -103,7 +104,7 @@ const Index = () => {
           <div className="w-full h-[1px] bg-[#EAEFF4] mb-6"></div>
 
           <div className="p-6">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex sm:flex-wrap flex-col sm:flex-row gap-4">
               <Image src="/icons/user.svg" alt="user" width={70} height={70} />
               <div className="space-y-1 text-black dark:text-white">
                 <h4>{get(studentProfile, "data.full_name")}</h4>
@@ -119,11 +120,12 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6 text-black dark:text-white">
+            <div className="flex flex-wrap justify-between gap-[30px] my-6 text-black dark:text-white">
               <div>
                 <p className="text-sm text-[#7C8FAC]">{t("phone number")}</p>
                 <p>+{get(studentProfile, "data.phone")}</p>
               </div>
+
               <div>
                 <p className="text-sm text-[#7C8FAC]">{t("email")}</p>
                 <p>{get(studentProfile, "data.email")}</p>

@@ -232,13 +232,17 @@ const Index = () => {
       console.warn("Invalid Quiz ID:", questionIndex);
       return;
     }
+
+    // Extract the first character (e.g., "A_uz" => "A")
+    const simplifiedAnswer = answer.split("_")[0];
+
     setSelectedAnswers((prev) => {
       const updatedAnswers = {
         ...prev,
-        [questionIndex]: answer,
+        [questionIndex]: simplifiedAnswer, // Store the simplified answer
       };
 
-      // Javoblarni localStorage'ga saqlash
+      // Save to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       }
@@ -249,7 +253,7 @@ const Index = () => {
       setAnsweredQuestions((prev) => {
         const updatedQuestions = [...prev, questionIndex];
 
-        // Javob berilgan savollarni localStorage'ga saqlash
+        // Save to localStorage
         if (typeof window !== "undefined") {
           localStorage.setItem(
             "answeredQuestions",
@@ -475,7 +479,7 @@ const Index = () => {
                       {get(data, "data", []).map((item, index) => (
                         <div
                           key={index}
-                          className={`w-12 h-12 flex items-center justify-center rounded-full border cursor-pointer text-lg font-medium
+                          className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer text-sm font-medium
                               ${
                                 currentQuizIndex === index
                                   ? "bg-green-500 text-white border-green-500"
@@ -504,9 +508,9 @@ const Index = () => {
               <div>
                 <div>
                   <div
-                    className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}
+                    className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] z-10`}
                   >
-                    <div className={"space-y-[15px]"}>
+                    <div className={"space-y-[15px] z-20"}>
                       <p
                         className={
                           "text-[18px] dark:text-white text-black font-semibold"
@@ -526,12 +530,13 @@ const Index = () => {
                       </div>
                     </div>
 
-                    <div className={"absolute right-[40px] bottom-0"}>
+                    <div className={"absolute right-[40px] bottom-0 -z-10"}>
                       <Image
                         src={"/icons/user-profile-bg.svg"}
                         alt={"user-profile-bg"}
                         width={168}
                         height={165}
+                        className="md:blur-0 blur-sm"
                       />
                     </div>
                   </div>
