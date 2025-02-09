@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ThemeChanger from "../theme-switcher";
 
 import useGetQuery from "../../hooks/api/useGetQuery";
@@ -17,13 +17,32 @@ const MainContentHead = ({ toggleSidebar }) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-
+  const profileRef = useRef(null);
   const { t } = useTranslation();
 
-  const [copied, setCopied] = useState(false);
-  const [userData, setUserData] = useState(null);
   const [accessToken, setAccessToken] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const handleProfile = () => {
+    setOpenProfile(!openProfile);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setOpenProfile(false);
+      }
+    }
+
+    if (openProfile) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openProfile]);
 
   useEffect(() => {
     const storedData = localStorage.getItem("dataRegister");
@@ -69,10 +88,6 @@ const MainContentHead = ({ toggleSidebar }) => {
     },
     enabled: !!accessToken, // Only fetch if accessToken is available
   });
-
-  const handleProfile = () => {
-    setOpenProfile(!openProfile);
-  };
 
   const handleLogout = async () => {
     await signOut({
@@ -128,7 +143,10 @@ const MainContentHead = ({ toggleSidebar }) => {
         </button>
 
         {openProfile && (
-          <div className="absolute bg-white dark:bg-[#26334A] border rounded-md  min-w-[300px] -bottom-[300px] shadow-lg -left-[130px] p-[30px] z-50">
+          <div
+            ref={profileRef}
+            className="absolute bg-white dark:bg-[#26334A] border rounded-md  min-w-[300px] -bottom-[300px] shadow-lg -left-[130px] p-[30px] z-50"
+          >
             <div className="flex gap-x-[12px]">
               <Image
                 src={"/icons/user.svg"}

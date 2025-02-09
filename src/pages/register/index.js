@@ -16,6 +16,8 @@ import UserAgreement from "@/components/oferta";
 import Header from "@/components/header";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const Register = () => {
   const { t, i18n } = useTranslation();
   const [date, setDate] = useState("");
@@ -142,19 +144,20 @@ const Register = () => {
     email,
     phone,
     address,
-    brithday,
+
     documentPrefix,
     documentNumber,
   }) => {
     let formData = new FormData();
     const fullDocument = `${documentPrefix}${documentNumber}`;
+    const formattedDate = date.toISOString().split("T")[0];
     formData.append("full_name", full_name);
     formData.append("email", email);
     formData.append("phone", `${String(998) + String(phone)}`);
     formData.append("region", selectedRegionName);
     formData.append("districts", selectedDistrictName);
     formData.append("address", address);
-    formData.append("brithday", brithday);
+    formData.append("brithday", formattedDate);
     formData.append("academy_or_school", selectedOption);
     formData.append("class_name", selectedOptionCourse);
     formData.append("document_type", selectedDocument),
@@ -192,7 +195,7 @@ const Register = () => {
       );
   };
 
-  console.log(selectedRegionName, "selectedRegionName");
+  console.log(date, "birthday");
 
   const {
     data: registerDate,
@@ -322,14 +325,20 @@ const Register = () => {
                   )}
                 </div>
                 {/* Birthday */}
-                <div className="">
-                  <input
-                    type="date"
-                    max="2010-12-31"
-                    min="2005-12-31"
-                    {...register("brithday", { required: true })}
-                    placeholder={`${t("birthday")}`} // Custom placeholder
-                    className="border rounded px-3 py-2 w-full"
+                <div className="w-full cursor-pointer">
+                  <DatePicker
+                    selected={date}
+                    onChange={(date) => setDate(date)}
+                    dateFormat="dd.MM.yyyy"
+                    placeholderText={`${t("birthday")}`}
+                    className="border p-2 rounded w-full"
+                    minDate={new Date(2005, 11, 31)}
+                    maxDate={new Date(2010, 11, 31)}
+                    showYearDropdown
+                    scrollableYearDropdown
+                    yearDropdownItemNumber={6}
+                    showMonthDropdown
+                    wrapperClassName="w-full"
                   />
                 </div>
 
