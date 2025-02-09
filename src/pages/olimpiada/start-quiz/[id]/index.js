@@ -320,12 +320,12 @@ const Index = () => {
             {get(dateOfOlympics, "data", []).map((item) => (
               <p>
                 {i18n.language === "uz"
-                  ? `Test topshirish uchun hali "start" berilmadi.
+                  ? `Testni
                 ${dayjs(get(item, "start_date", "")).format("DD.MM.YYYY")} dan
                 ${dayjs(get(item, "end_date", "")).format(
                   "DD.MM.YYYY"
                 )} gacha test topshirishingiz mumkin bo'ladi`
-                  : ` «Старт» для сдачи теста пока не дан. Тест можно будет пройти с ${dayjs(
+                  : `Тест можно будет пройти с ${dayjs(
                       get(item, "start_date", "")
                     ).format("DD.MM.YYYY")} по ${dayjs(
                       get(item, "end_date", "")
