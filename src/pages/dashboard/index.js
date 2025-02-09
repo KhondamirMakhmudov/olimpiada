@@ -71,44 +71,45 @@ export default function DashboardPage() {
             }`}
           ></div>
           <div
-            className={`fixed top-7 w-full left-0 flex items-center justify-center z-50 transition-all duration-300 ${
+            className={`fixed top-7 w-full left-1/2 transform -translate-x-1/2 flex items-center justify-center z-50 transition-all duration-300 ${
               isExiting ? "scale-95 opacity-0" : "scale-100 opacity-100"
             }`}
           >
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full sm:w-3/4 md:w-2/3 lg:w-1/3 max-w-[90%]">
               <div className="flex items-center gap-x-[5px]">
-                <h2 className="text-xl font-semibold mb-1 text-[#13DEB9]">
+                <h2 className="text-lg sm:text-xl font-semibold mb-1 text-[#13DEB9]">
                   {t("successRegister")}
                 </h2>
                 <Image
                   src={"/icons/success.svg"}
                   alt="success"
-                  width={26}
-                  height={26}
+                  width={24}
+                  height={24}
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-1">
+              <h2 className="lg:text-lg md:text-base text-sm font-semibold mb-1">
                 {t("userLoginandPassword")}
               </h2>
-              <p className="text-lg font-medium text-[#7C8FAC] mb-2">
+              <p className="md:text-base lg:text-lg text-sm  font-medium text-[#7C8FAC] mb-2">
                 {t("yourLogin")}: {session?.login}
               </p>
-              <p className="text-lg font-medium text-[#7C8FAC] mb-4">
+              <p className="md:text-base lg:text-lg text-sm  font-medium text-[#7C8FAC] mb-4">
                 {t("yourPassword")}: {session?.password}
               </p>
-              <p className="text-sm font-medium text-[#7C8FAC]">
+              <p className="text-xs sm:text-sm font-medium text-[#7C8FAC]">
                 {t("WantchangePassword")}
               </p>
-              <div className="flex justify-end gap-x-[10px] mt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-y-2 sm:gap-y-0 gap-x-2 mt-4">
                 <button
                   onClick={handleCopy}
-                  className="bg-green-500 text-white py-2 px-4 rounded"
+                  className="bg-green-500 text-white py-2 px-4 rounded w-full sm:w-auto"
                 >
                   {copied ? `${t("copied")}` : `${t("copy")}`}
                 </button>
                 <button
                   onClick={closeModal}
-                  className="bg-gray-300 text-black py-2 px-4 rounded"
+                  className="bg-gray-300 text-black py-2 px-4 rounded w-full sm:w-auto"
                 >
                   {t("got it")}
                 </button>

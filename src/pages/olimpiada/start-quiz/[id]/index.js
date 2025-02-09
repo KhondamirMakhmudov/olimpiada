@@ -9,13 +9,13 @@ import parse from "html-react-parser";
 import { useTheme } from "next-themes";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import usePostQuery from "@/hooks/api/usePostQuery";
-import storage from "@/services/storage";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { UserProfileContext } from "@/context/responseProvider";
 import Link from "next/link";
 import Image from "next/image";
 const Index = () => {
+  const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
   const { data: session } = useSession();
   const { theme } = useTheme();
@@ -30,7 +30,6 @@ const Index = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [accessToken, setAccessToken] = useState("");
   const [isExiting, setIsExiting] = useState(false);
 
   const handleProfile = () => {
@@ -49,8 +48,6 @@ const Index = () => {
     }, 300);
   };
 
-  const { t } = useTranslation();
-
   const { data, isLoading, isFetching, isError, error } = useGetQuery({
     key: KEYS.quizTest,
     url: `${URLS.quizTest}${id}/`,
@@ -59,6 +56,7 @@ const Index = () => {
     },
     enabled: !!id,
   });
+  console.log(selectedAnswers, "selectedAnswers");
 
   const errorMessage = error?.response?.data?.message;
 
@@ -105,12 +103,17 @@ const Index = () => {
       return;
     }
 
-    const answers = Object.entries(selectedAnswers).map(
-      ([questionIndex, answer]) => ({
-        quiz_id: parseInt(questionIndex),
-        answer,
+    const answers = Object.entries(selectedAnswers)
+      .filter(([questionIndex, answer]) => {
+        const valid = questionIndex && !isNaN(parseInt(questionIndex));
+        if (!valid)
+          console.warn("Removing Invalid Answer:", questionIndex, answer);
+        return valid;
       })
-    );
+      .map(([questionIndex, answer]) => ({
+        quiz_id: parseInt(questionIndex, 10),
+        answer,
+      }));
 
     const payload = {
       answers,
@@ -221,6 +224,14 @@ const Index = () => {
 
   // Javob tanlanganda, uni localStorage'da saqlash
   const handleAnswer = (questionIndex, answer) => {
+    if (
+      !questionIndex ||
+      questionIndex === "null" ||
+      questionIndex === "undefined"
+    ) {
+      console.warn("Invalid Quiz ID:", questionIndex);
+      return;
+    }
     setSelectedAnswers((prev) => {
       const updatedAnswers = {
         ...prev,
@@ -310,42 +321,93 @@ const Index = () => {
                         <p className="mb-[15px] dark:text-white text-black">
                           {currentQuizIndex + 1} - savol :
                         </p>
-                        <div className="text-lg sm:text-base font-semibold mt-[20px] dark:text-white text-black">
-                          {parse(
-                            get(data, "data", [])[currentQuizIndex]?.question,
-                            ""
-                          )}
-                        </div>
+                        {i18n.language === "uz" ? (
+                          <div className="text-lg sm:text-base font-semibold mt-[20px] dark:text-white text-black">
+                            {parse(
+                              get(data, "data", [])[currentQuizIndex]
+                                ?.question_uz,
+                              ""
+                            ) || ""}
+                          </div>
+                        ) : (
+                          <div className="text-lg sm:text-base font-semibold mt-[20px] dark:text-white text-black">
+                            {parse(
+                              get(data, "data", [])[currentQuizIndex]
+                                ?.question_ru,
+                              ""
+                            ) || ""}
+                          </div>
+                        )}
                         {/* Quizzes */}
-                        <ul className="mt-[20px] space-y-[10px]">
-                          {["A", "B", "C", "D"].map((option, index) => (
-                            <li
-                              key={index}
-                              className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
-                                selectedAnswers[
-                                  get(data, "data", [])[currentQuizIndex]?.id
-                                ] === option
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
-                              }`}
-                              onClick={() =>
-                                handleAnswer(
-                                  get(data, "data", [])[currentQuizIndex]?.id,
-                                  option
-                                )
-                              }
-                            >
-                              <div>
-                                {parse(
-                                  get(data, "data", [])[currentQuizIndex][
-                                    option
-                                  ],
-                                  ""
-                                )}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
+                        {i18n.language === "uz" ? (
+                          <ul className="mt-[20px] space-y-[10px]">
+                            {["A_uz", "B_uz", "C_uz", "D_uz"].map(
+                              (option, index) => (
+                                <li
+                                  key={index}
+                                  className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
+                                    selectedAnswers[
+                                      get(data, "data", [])[currentQuizIndex]
+                                        ?.id
+                                    ] === option
+                                      ? "bg-blue-500 text-white"
+                                      : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
+                                  }`}
+                                  onClick={() =>
+                                    handleAnswer(
+                                      get(data, "data", [])[currentQuizIndex]
+                                        ?.id,
+                                      option
+                                    )
+                                  }
+                                >
+                                  <div>
+                                    {parse(
+                                      get(data, "data", [])[currentQuizIndex][
+                                        option
+                                      ],
+                                      ""
+                                    )}
+                                  </div>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        ) : (
+                          <ul className="mt-[20px] space-y-[10px]">
+                            {["A_ru", "B_ru", "C_ru", "D_ru"].map(
+                              (option, index) => (
+                                <li
+                                  key={index}
+                                  className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
+                                    selectedAnswers[
+                                      get(data, "data", [])[currentQuizIndex]
+                                        ?.id
+                                    ] === option
+                                      ? "bg-blue-500 text-white"
+                                      : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
+                                  }`}
+                                  onClick={() =>
+                                    handleAnswer(
+                                      get(data, "data", [])[currentQuizIndex]
+                                        ?.id,
+                                      option
+                                    )
+                                  }
+                                >
+                                  <div>
+                                    {parse(
+                                      get(data, "data", [])[currentQuizIndex][
+                                        option
+                                      ],
+                                      ""
+                                    )}
+                                  </div>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   )}
@@ -408,14 +470,6 @@ const Index = () => {
                       )}:${String(timeLeft % 60).padStart(2, "0")}`}
                     </div>
 
-                    {/* Finish Button */}
-                    <button
-                      className="w-full bg-red-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-red-600"
-                      onClick={handleLogoutClick}
-                    >
-                      Yakunlash
-                    </button>
-
                     {/* Quiz Number Buttons */}
                     <div className="flex-wrap flex gap-3">
                       {get(data, "data", []).map((item, index) => (
@@ -435,6 +489,14 @@ const Index = () => {
                         </div>
                       ))}
                     </div>
+
+                    {/* Finish Button */}
+                    <button
+                      className=" bg-red-500 text-white py-2 w-1/2 rounded-md text-lg font-semibold hover:bg-red-600"
+                      onClick={handleLogoutClick}
+                    >
+                      Yakunlash
+                    </button>
                   </div>
                 </div>
               </div>
