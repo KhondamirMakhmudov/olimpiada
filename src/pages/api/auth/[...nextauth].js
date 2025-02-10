@@ -64,6 +64,9 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
+      if (Date.now() / 1000 > token.expiresAt) {
+        return null; // 2 soat o‘tgach, sessiyani tozalash
+      }
       session.accessToken = token.accessToken;
       session.phone = token.phone;
       session.login = token.login;
@@ -78,7 +81,7 @@ export default NextAuth({
     process.env.NEXTAUTH_SECRET ||
     "a1d808591edf4ecda7262ad750234b7c5d777f05f76dca55123dd50b1e65568c",
   pages: {
-    signIn: "/dashboard",
+    signIn: "/",
     signOut: "https://iq-math.uz",
   },
 });
