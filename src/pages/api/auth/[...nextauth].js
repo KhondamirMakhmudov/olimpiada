@@ -2,6 +2,10 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export default NextAuth({
+  session: {
+    strategy: "jwt",
+    maxAge: 7200, // 2 soat (7200 sekund)
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
