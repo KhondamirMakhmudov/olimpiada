@@ -64,10 +64,11 @@ const Index = () => {
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,
     },
-    enabled: !!id,
+    enabled: !!id && !!session?.accessToken,
   });
 
   const errorMessage = error?.response?.data?.message;
+  console.log(errorMessage);
 
   const totalQuizzes = get(data, "data", []).length;
 
@@ -162,6 +163,8 @@ const Index = () => {
       }
     );
   };
+
+  console.log(error);
 
   useEffect(() => {
     if (
