@@ -82,7 +82,7 @@ const Index = () => {
                         savollaringizga bu havola orqali{" "}
                         <Link
                           href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline"
+                          className="hover:underline text-[#5D87FF]"
                         >
                           'https://iq-math.uz/about-olympics'
                         </Link>{" "}
@@ -94,7 +94,7 @@ const Index = () => {
                         интересующие вас вопросы можно найти по этой ссылке:
                         <Link
                           href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline"
+                          className="hover:underline text-[#5D87FF]"
                         >
                           'https://iq-math.uz/about-olympics'
                         </Link>{" "}

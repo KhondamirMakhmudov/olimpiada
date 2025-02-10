@@ -274,7 +274,7 @@ const Index = () => {
 
   return (
     <Dashboard>
-      {isError ? (
+      {error ? (
         <div>
           <div
             className={` p-[30px] bg-[#EBF3FE] dark:bg-[#26334AFF]  my-[30px] rounded-[12px]   relative h-[125px] `}

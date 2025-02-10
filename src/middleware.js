@@ -5,7 +5,7 @@ export function middleware(req) {
     req.cookies.get("next-auth.session-token")?.value ||
     req.cookies.get("__Secure-next-auth.session-token")?.value;
 
-  console.log("Requested Path:", req.nextUrl.pathname); // Debug uchun qo'shildi
+  console.log("Requested Path:", req.nextUrl.pathname);
 
   const protectedRoutes = ["/dashboard", "/olimpiada", "/results"]; // Himoyalanadigan sahifalar
 
