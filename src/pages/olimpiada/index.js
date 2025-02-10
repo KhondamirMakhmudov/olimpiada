@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import ContentLoader from "@/components/loader/content-loader";
 const Index = () => {
   const { t, i18n } = useTranslation();
 
@@ -17,6 +18,14 @@ const Index = () => {
     key: KEYS.olimpiadaQuizList,
     url: URLS.olimpiadaQuizList,
   });
+
+  if (isLoading || isFetching) {
+    return (
+      <Dashboard>
+        <ContentLoader />
+      </Dashboard>
+    );
+  }
 
   return (
     <Dashboard>

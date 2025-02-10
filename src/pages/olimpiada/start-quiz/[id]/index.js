@@ -15,6 +15,7 @@ import { UserProfileContext } from "@/context/responseProvider";
 import Link from "next/link";
 import dayjs from "dayjs";
 import Image from "next/image";
+import ContentLoader from "@/components/loader/content-loader";
 const Index = () => {
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
@@ -272,6 +273,14 @@ const Index = () => {
       });
     }
   };
+
+  if (isLoading || isFetching) {
+    return (
+      <Dashboard>
+        <ContentLoader />
+      </Dashboard>
+    );
+  }
 
   const percentage = (timeLeft / 3600) * 100;
 
