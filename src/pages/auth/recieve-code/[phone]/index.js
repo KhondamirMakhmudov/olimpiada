@@ -127,9 +127,15 @@ const Index = () => {
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && code[index] === "") {
-      // Focus the previous input
-      if (index > 0) {
+    if (e.key === "Backspace") {
+      const newCode = [...code];
+
+      if (code[index] !== "") {
+        // Remove the digit from the current input
+        newCode[index] = "";
+        setCode(newCode);
+      } else if (index > 0) {
+        // Move focus to the previous input
         document.getElementById(`input-${index - 1}`).focus();
       }
     }

@@ -9,6 +9,8 @@ import { URLS } from "@/constants/url";
 import { useForm } from "react-hook-form";
 import { regionsUz } from "@/data/region";
 import { regionsRu } from "@/data/regions_ru";
+import { academicLyseums } from "@/data/litsey";
+import { academicLyseumsRu } from "@/data/litsey_ru";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "@/components/language";
 import { motion } from "framer-motion";
@@ -23,6 +25,9 @@ const Register = () => {
   const [date, setDate] = useState("");
   const router = useRouter();
   const [tab, setTab] = useState("register");
+  const [selectedAcademicLyseums, setSelectedAcademicLyseums] = useState(null);
+  const [openAcademicLyseums, setOpenAcademicLyseums] = useState(false);
+  const [academic, setAcademic] = useState(false);
   // const regions = regionsUz.regions;
   // const districts = regionsUz.districts;
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(null);
@@ -125,6 +130,14 @@ const Register = () => {
       setDistricts(regionsRu.district);
     } else {
       setDistricts(regionsUz.districts);
+    }
+  }, [i18n.language]);
+
+  useEffect(() => {
+    if (i18n.language === "uz") {
+      setAcademic(academicLyseums.litseyi);
+    } else {
+      setAcademic(academicLyseumsRu.litseyi);
     }
   }, [i18n.language]);
 
@@ -232,7 +245,7 @@ const Register = () => {
           </p>
         )}
 
-        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto bg-white  mx-auto md:my-0 my- rounded-[8px] p-6 md:p-8  ">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto bg-white  mx-auto md:my-[30px] my-[50px] rounded-[8px] p-6 md:p-8  ">
           {/* <div className="mb-[30px]  text-center">
             <Brand />
           </div> */}
@@ -255,7 +268,7 @@ const Register = () => {
             <button
               onClick={() => {
                 handleTab("register");
-                router.push("/auth/register");
+                router.push("/register");
               }}
               className={`py-[8px] px-[16px]  w-2/3  ${
                 tab === "register"
@@ -599,13 +612,59 @@ const Register = () => {
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                     />
                   ) : selectedOption === `${t("litsey")}` ? (
-                    <textarea
-                      placeholder={`${t("litseyName")}`}
-                      {...register("academy_or_school_name", {
-                        required: true,
-                      })}
-                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                    ></textarea>
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        value={selectedAcademicLyseums || ""}
+                        {...register("academy_or_school_name", {
+                          required: true,
+                        })}
+                        className="hidden"
+                      />
+                      <div
+                        className="border border-[#EAEFF4] bg-white text-[#2A3547] flex justify-between items-center rounded-[8px] cursor-pointer w-full px-[15px] py-[8px]"
+                        onClick={() =>
+                          setOpenAcademicLyseums(!openAcademicLyseums)
+                        }
+                      >
+                        <span>
+                          {selectedAcademicLyseums || `${t("litseyName")}`}
+                        </span>
+                        <svg
+                          className={`w-5 h-5 transform ${
+                            dropdownOpen ? "rotate-180" : ""
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                      {openAcademicLyseums && (
+                        <div className="absolute mt-1 w-full bg-white border shadow-md max-h-60 overflow-y-auto rounded-md z-50">
+                          {academic.map((lyceum, index) => (
+                            <div
+                              key={index}
+                              className="p-2 hover:bg-gray-200 cursor-pointer"
+                              onClick={() => {
+                                setSelectedAcademicLyseums(lyceum);
+                                setOpenAcademicLyseums(false);
+                                setValue("academy_or_school_name", lyceum);
+                              }}
+                            >
+                              {lyceum}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     ""
                   )}
