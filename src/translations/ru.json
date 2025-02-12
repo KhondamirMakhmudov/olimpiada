@@ -141,5 +141,7 @@
   "resendSMSCode": "Повторно отправить SMS-код",
   "doNotTestYet": "Вы еще не прошли тест.",
   "LangOfEducation": "Язык обучения",
-  "courses": "Курсы"
+  "courses": "Курсы",
+  "schoolNumber": "Введите номер вашей школы",
+  "litseyName": "Напишите название вашей средней школы."
 }

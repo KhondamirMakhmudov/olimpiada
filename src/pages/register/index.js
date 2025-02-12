@@ -144,7 +144,7 @@ const Register = () => {
     email,
     phone,
     address,
-
+    academy_or_school_name,
     documentPrefix,
     documentNumber,
   }) => {
@@ -163,6 +163,7 @@ const Register = () => {
     formData.append("document_type", selectedDocument),
       formData.append("type_of_education", selectedTypeOfEducation),
       formData.append("document", fullDocument),
+      formData.append("academy_or_school_name", academy_or_school_name),
       registerRequest(
         {
           url: URLS.register,
@@ -194,8 +195,6 @@ const Register = () => {
         }
       );
   };
-
-  console.log(date, "birthday");
 
   const {
     data: registerDate,
@@ -586,6 +585,29 @@ const Register = () => {
                         </li>
                       ))}
                     </ul>
+                  )}
+                </div>
+
+                <div>
+                  {selectedOption === `${t("school")}` ? (
+                    <input
+                      type="number"
+                      placeholder={`${t("schoolNumber")}`}
+                      {...register("academy_or_school_name", {
+                        required: true,
+                      })}
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                    />
+                  ) : selectedOption === `${t("litsey")}` ? (
+                    <textarea
+                      placeholder={`${t("litseyName")}`}
+                      {...register("academy_or_school_name", {
+                        required: true,
+                      })}
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                    ></textarea>
+                  ) : (
+                    ""
                   )}
                 </div>
 

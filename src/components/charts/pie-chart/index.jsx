@@ -178,7 +178,7 @@ const PieChartComponent = () => {
     <div>
       {isNil(get(quizResult, "data.score")) ? (
         <div>
-          <div className="w-full max-w-md mx-auto">
+          <div className="w-full max-w-md mx-auto !text-black dark:text-white">
             <Chart
               options={chartDataDefault.options}
               series={chartDataDefault.series}

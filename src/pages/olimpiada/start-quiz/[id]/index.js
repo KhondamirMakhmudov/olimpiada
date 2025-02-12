@@ -69,7 +69,6 @@ const Index = () => {
   });
 
   const errorMessage = error?.response?.data?.message;
-  console.log(errorMessage);
 
   const totalQuizzes = get(data, "data", []).length;
 
@@ -164,8 +163,6 @@ const Index = () => {
       }
     );
   };
-
-  console.log(error);
 
   useEffect(() => {
     if (

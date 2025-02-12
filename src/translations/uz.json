@@ -142,5 +142,7 @@
   "resendSMSCode": "Sms kodni qayta yuborish",
   "doNotTestYet": "Siz hali test topshirmadingiz",
   "LangOfEducation": "Ta'lim tili",
-  "courses": "Kurslar"
+  "courses": "Kurslar",
+  "schoolNumber": "Maktabingiz raqamini kiriting",
+  "litseyName": "Litseyingiz nomini yozing"
 }
