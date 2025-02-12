@@ -670,7 +670,7 @@ const Register = () => {
                   )}
                 </div>
 
-                {selectedOption === null ? (
+                {selectedAcademicLyseums === null ? (
                   ""
                 ) : (
                   <motion.div
