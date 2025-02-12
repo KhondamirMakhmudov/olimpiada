@@ -24,19 +24,36 @@ const Header = ({ color = "white" }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-4 items-center">
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
-                router.pathname === href
-                  ? "bg-[#3965c6] text-white"
-                  : "text-black "
-              }`}
-            >
-              {t(label)}
-            </Link>
-          ))}
+          {navLinks.map(({ href, label }) =>
+            href.startsWith("http") ? (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
+                  router.pathname === href
+                    ? "bg-[#3965c6] text-white"
+                    : "text-black "
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {t(label)}
+              </a>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
+                  router.pathname === href
+                    ? "bg-[#3965c6] text-white"
+                    : "text-black "
+                }`}
+              >
+                {t(label)}
+              </Link>
+            )
+          )}
         </nav>
 
         {/* Language & Mobile Menu */}
