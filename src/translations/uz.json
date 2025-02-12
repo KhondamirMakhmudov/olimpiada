@@ -141,5 +141,6 @@
   "finish": "Yakunlash",
   "resendSMSCode": "Sms kodni qayta yuborish",
   "doNotTestYet": "Siz hali test topshirmadingiz",
-  "LangOfEducation": "Ta'lim tili"
+  "LangOfEducation": "Ta'lim tili",
+  "courses": "Kurslar"
 }

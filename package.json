@@ -34,6 +34,7 @@
     "react-international-phone": "^4.5.0",
     "react-phone-input-2": "^2.15.1",
     "recharts": "^2.15.0",
+    "ua-parser-js": "^2.0.2",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

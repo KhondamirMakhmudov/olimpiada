@@ -125,11 +125,11 @@ const Index = () => {
             {/* Image moves to top on smaller screens */}
             <div className="flex justify-center">
               <Image
-                src="/images/prices.png"
+                src="/images/olimpiada-banner.jpg"
                 alt="prices"
                 width={568}
                 height={651}
-                className="w-full max-w-[500px] h-auto"
+                className="w-full max-w-[500px] h-auto rounded-md"
               />
             </div>
 

@@ -332,7 +332,7 @@ const Register = () => {
                     dateFormat="dd.MM.yyyy"
                     placeholderText={`${t("birthday")}`}
                     className="border p-2 rounded w-full"
-                    minDate={new Date(2005, 11, 31)}
+                    minDate={new Date(2004, 12, 1)}
                     maxDate={new Date(2010, 11, 31)}
                     showYearDropdown
                     scrollableYearDropdown

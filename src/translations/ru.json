@@ -140,5 +140,6 @@
   "finish": "Заканчивать",
   "resendSMSCode": "Повторно отправить SMS-код",
   "doNotTestYet": "Вы еще не прошли тест.",
-  "LangOfEducation": "Язык обучения"
+  "LangOfEducation": "Язык обучения",
+  "courses": "Курсы"
 }
