@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "../language";
 import Brand from "../brand";
+import { TelegramIcon } from "../icons/social-media/telegram";
+import { InstagramIcon } from "../icons/social-media/instagram";
+import PhoneIcon from "../icons/social-media/phone";
 
 const navLinks = [
   { href: "/about-us", label: "aboutus" },
@@ -18,7 +21,7 @@ const Header = ({ color = "white" }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative z-20 py-3 bg-white ">
+    <header className="relative z-20 py-3 bg-white">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Brand />
 
@@ -34,7 +37,7 @@ const Header = ({ color = "white" }) => {
                 className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
                   router.pathname === href
                     ? "bg-[#3965c6] text-white"
-                    : "text-black "
+                    : "text-black"
                 }`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -47,7 +50,7 @@ const Header = ({ color = "white" }) => {
                 className={`py-2 px-3 rounded-md hover:text-[#5d87ff] font-medium uppercase text-sm transition ${
                   router.pathname === href
                     ? "bg-[#3965c6] text-white"
-                    : "text-black "
+                    : "text-black"
                 }`}
               >
                 {t(label)}
@@ -58,6 +61,19 @@ const Header = ({ color = "white" }) => {
 
         {/* Language & Mobile Menu */}
         <div className="flex items-center">
+          <div className="hidden lg:flex gap-x-[10px] items-center">
+            <a href="tel: +998 78 888 08 00" className="text-sm">
+              <PhoneIcon color={"black"} />
+            </a>
+            <a href="https://t.me/iqmath2025" target="_blank">
+              <TelegramIcon color="black" />
+            </a>
+            <a href="https://www.instagram.com/iq_mathuz/" target="_blank">
+              <InstagramIcon color="black" />
+            </a>
+          </div>
+
+          <div className="w-[1px] h-[30px] bg-[#E6E5ED] hidden lg:block mx-[10px]"></div>
           <LanguageDropdown />
 
           {/* Burger Menu Button */}
@@ -66,7 +82,6 @@ const Header = ({ color = "white" }) => {
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? (
-              // Close (X) Icon
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -82,7 +97,6 @@ const Header = ({ color = "white" }) => {
                 />
               </svg>
             ) : (
-              // Burger Icon
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -118,7 +132,6 @@ const Header = ({ color = "white" }) => {
         <div className="flex justify-between items-center p-4 border-b">
           <Brand />
           <button onClick={() => setMenuOpen(false)}>
-            {/* Close (X) Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -152,6 +165,19 @@ const Header = ({ color = "white" }) => {
             </Link>
           ))}
         </nav>
+
+        {/* Social Media Icons in Mobile Menu */}
+        <div className="absolute bottom-4 left-0 w-full flex justify-center gap-4 border-t pt-4">
+          <a href="tel: +998 78 888 08 00" className="text-sm">
+            <PhoneIcon color="black" />
+          </a>
+          <a href="https://t.me/iqmath2025" target="_blank">
+            <TelegramIcon color="black" />
+          </a>
+          <a href="https://www.instagram.com/iq_mathuz/" target="_blank">
+            <InstagramIcon color="black" />
+          </a>
+        </div>
       </aside>
     </header>
   );

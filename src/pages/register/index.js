@@ -152,6 +152,24 @@ const Register = () => {
     listKeyId: KEYS.register,
   });
 
+  const watchedValues = watch([
+    "full_name",
+    "email",
+    "phone",
+    "address",
+    "academy_or_school_name",
+    "documentPrefix",
+    "documentNumber",
+  ]);
+
+  const isFormValid =
+    watchedValues.every((value) => value?.trim() !== "") &&
+    selectedRegionName &&
+    selectedDistrictName &&
+    selectedTypeOfEducation &&
+    selectedOption &&
+    selectedOptionCourse;
+
   const onSubmit = ({
     full_name,
     email,
@@ -323,9 +341,18 @@ const Register = () => {
                     <input
                       type="tel"
                       maxLength="9"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       {...register("phone", {
                         required: "Phone number is required",
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "Only numbers are allowed",
+                        },
                       })}
+                      onInput={(e) =>
+                        (e.target.value = e.target.value.replace(/\D/g, ""))
+                      }
                       className="w-full text-sm bg-white text-[#2A3547] py-[9px] pl-[5px]"
                       placeholder="---------"
                     />
@@ -408,19 +435,20 @@ const Register = () => {
                     <div className="flex gap-x-[5px]">
                       <input
                         type="text"
+                        maxLength={2}
                         {...register("documentPrefix", {
                           required: "To'ldirilishi shart",
                           pattern: {
                             value: /^[A-Z]{2}$/,
                             message: "Ikkita katta harf bo'lishi kerak",
                           },
-                          onChange: (e) => {
-                            const uppercasedValue =
-                              e.target.value.toUpperCase();
-                            setValue("documentPrefix", uppercasedValue); // Qiymatni katta harfga o‘girib qayta o‘rnatish
-                          },
                         })}
-                        maxLength={2}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .toUpperCase()
+                            .replace(/[^A-Z]/g, ""); // Convert to uppercase & remove non-letters
+                          setValue("documentPrefix", value); // Update field value
+                        }}
                         className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-16 px-3 py-2 text-center"
                         placeholder="AB"
                       />
@@ -428,19 +456,23 @@ const Register = () => {
                       {/* Number (5462312) Input */}
                       <input
                         type="text"
+                        maxLength={7}
                         {...register("documentNumber", {
                           required: "To'ldirilishi shart",
                           pattern: {
                             value: /^[0-9]{7}$/,
                             message: "7 ta raqam bo'lishi kerak",
                           },
-                          onChange: (e) =>
-                            setValue(
-                              "document",
-                              watch("documentPrefix") + e.target.value || ""
-                            ),
                         })}
-                        maxLength={7}
+                        onInput={(e) => {
+                          e.target.value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                        }}
+                        onChange={(e) =>
+                          setValue(
+                            "document",
+                            (watch("documentPrefix") || "") + e.target.value
+                          )
+                        }
                         className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-3 py-2"
                         placeholder="1234567"
                       />
@@ -770,7 +802,13 @@ const Register = () => {
 
                 <UserAgreement />
 
-                <button className="bg-[#5D87FF] hover:bg-[#4570EA] transition-all duration-300 text-white py-[8px] px-[16px] w-full rounded-[4px]">
+                <button
+                  className={` ${
+                    isFormValid
+                      ? "bg-[#5D87FF] hover:bg-[#4570EA] text-white"
+                      : "bg-gray-400 cursor-not-allowed text-white"
+                  } transition-all duration-300  py-[8px] px-[16px] w-full rounded-[4px]`}
+                >
                   {t("enter")}
                 </button>
               </form>
