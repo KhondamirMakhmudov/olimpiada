@@ -702,7 +702,8 @@ const Register = () => {
                   )}
                 </div>
 
-                {selectedAcademicLyseums === null ? (
+                {selectedAcademicLyseums === null &&
+                watch("academy_or_school_name")?.trim() === "" ? (
                   ""
                 ) : (
                   <motion.div
