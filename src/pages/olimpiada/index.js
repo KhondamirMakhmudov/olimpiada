@@ -68,9 +68,11 @@ const Index = () => {
             {[
               "first_reminder",
               "second_reminder",
+              "third_reminder",
               "fourth_reminder",
               "fifth_reminder",
               "sixth_reminder",
+              "seventh_reminder",
             ].map((reminder, index) => (
               <li
                 key={index}
@@ -83,19 +85,46 @@ const Index = () => {
                   height={24}
                   className="w-6 h-6 sm:w-5 sm:h-5"
                 />
-                {reminder === "fifth_reminder" ? (
+
+                {reminder === "seventh_reminder" ? (
                   <div>
                     {i18n.language === "uz" ? (
                       <div className="text-sm text-[#5A6A85] dark:text-white ">
                         Ikkinchi bosqich haqida va boshqa qiziqtirgan
-                        savollaringizga bu havola orqali{" "}
+                        savollaringizga{" "}
                         <Link
                           href={"https://iq-math.uz/about-olympics"}
                           className="hover:underline text-[#5D87FF]"
                         >
                           'https://iq-math.uz/about-olympics'
                         </Link>{" "}
-                        javob olishingiz mumkin.
+                        havolasi orqali to‘liq ma’lumot olishingiz mumkin.
+                      </div>
+                    ) : (
+                      <div className="text-sm text-[#5A6A85] dark:text-white ">
+                        Более подробную информацию о втором этапе и ответы на
+                        интересующие вас вопросы можно найти по ссылке:
+                        <Link
+                          href={"https://iq-math.uz/about-olympics"}
+                          className="hover:underline text-[#5D87FF]"
+                        >
+                          'https://iq-math.uz/about-olympics'
+                        </Link>{" "}
+                      </div>
+                    )}
+                  </div>
+                ) : reminder === "second_reminder" ? (
+                  <div>
+                    {i18n.language === "uz" ? (
+                      <div className="text-sm text-[#5A6A85] dark:text-white ">
+                        Birinchi bosqich Olimpiadaning rasmiy{" "}
+                        <Link
+                          href={"https://iq-math.uz/about-olympics"}
+                          className="hover:underline text-[#5D87FF]"
+                        >
+                          'https://www.iq-math.uz/'
+                        </Link>{" "}
+                        veb-saytida o‘tkaziladi.
                       </div>
                     ) : (
                       <div className="text-sm text-[#5A6A85] dark:text-white ">
