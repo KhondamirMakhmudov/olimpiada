@@ -76,7 +76,7 @@ const Index = () => {
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
     resendSMSCodeForget(
       {
-        url: URLS.recieveCode,
+        url: URLS.resendSMSCodeForget,
         attributes: {
           phone: parseInt(`998${phone.replace(/[^0-9]/g, "")}`),
           sms_code: code.join(""),
