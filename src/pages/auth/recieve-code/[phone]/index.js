@@ -151,7 +151,7 @@ const Index = () => {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat px-4"
+      className="flex items-center justify-center min-h-screen bg-center bg-cover bg-no-repeat "
       style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
     >
       <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white mx-auto rounded-lg p-6 sm:p-8">
