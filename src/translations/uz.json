@@ -145,5 +145,7 @@
   "LangOfEducation": "Ta'lim tili",
   "courses": "Kurslar",
   "schoolNumber": "Maktabingiz raqamini kiriting",
-  "litseyName": "Ro'yxatdan litsey nomini tanlang"
+  "litseyName": "Ro'yxatdan litsey nomini tanlang",
+  "cancel": "Bekor qilish",
+  "contract": "Foydalanuvchi shartnomasi va maxfiylik siyosati"
 }
