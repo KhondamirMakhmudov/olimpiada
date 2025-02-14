@@ -38,7 +38,7 @@ const Index = () => {
           </p>
 
           <div className="flex gap-x-[12px] items-center z-30">
-            <Link href={"/"} className="text-[#5A6A85BF]">
+            <Link href={"/"} className="text-[#5A6A85BF] dark:text-gray-200">
               {t("homePage")}
             </Link>
             <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
@@ -160,14 +160,16 @@ const Index = () => {
                         style={{ backgroundColor: color }}
                       ></div>
                       <div>
-                        <h3 className="text-[#868EAB] text-sm sm:text-xs">
+                        <h3 className="text-[#868EAB] dark:text-gray-200 text-sm sm:text-xs">
                           {t(label)}
                         </h3>
                         <div className="flex gap-x-[5px] items-center">
-                          <p className="font-semibold text-lg dark:text-white text-black text-sm md:text-base sm:text-sm">
+                          <p className="font-semibold text-lg dark:text-white text-black md:text-base sm:text-sm">
                             {value}
                           </p>
-                          <p className="font-semibold !text-sm  dark:text-white !text-gray-400 text-sm md:text-base sm:text-sm">
+                          <p
+                            className={`font-semibold !text-sm  dark:text-white !text-gray-300  md:text-base sm:text-sm`}
+                          >
                             {time}
                           </p>{" "}
                         </div>

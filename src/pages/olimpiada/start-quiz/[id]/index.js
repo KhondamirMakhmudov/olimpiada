@@ -298,7 +298,10 @@ const Index = () => {
               </p>
 
               <div className="flex gap-x-[12px] items-center">
-                <Link href={"/"} className="text-[#5A6A85BF]">
+                <Link
+                  href={"/"}
+                  className="text-[#5A6A85BF] dark:text-gray-200"
+                >
                   {t("homePage")}
                 </Link>
                 <div className="bg-black w-[6px] h-[6px] rounded-full  dark:bg-white"></div>
