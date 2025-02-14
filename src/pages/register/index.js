@@ -122,7 +122,9 @@ const Register = () => {
   };
   useEffect(() => {
     if (i18n.language === "ru") {
-      setRegions(regionsRu.regions);
+      setRegions(
+        regionsRu.regions.sort((a, b) => a.name.localeCompare(b.name))
+      );
     } else {
       setRegions(
         regionsUz.regions.sort((a, b) => a.name.localeCompare(b.name))
