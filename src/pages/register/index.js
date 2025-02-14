@@ -370,7 +370,7 @@ const Register = () => {
                     onChange={(date) => setDate(date)}
                     dateFormat="dd.MM.yyyy"
                     placeholderText={`${t("birthday")}`}
-                    className="border p-2 rounded w-full"
+                    className="border p-2 rounded w-full !bg-white"
                     minDate={new Date(2004, 12, 1)}
                     maxDate={new Date(2010, 11, 31)}
                     showYearDropdown
