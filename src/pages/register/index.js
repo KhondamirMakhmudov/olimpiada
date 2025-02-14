@@ -91,7 +91,10 @@ const Register = () => {
     const filterDistricts = districts.filter(
       (district) => district.region_id === regionId
     );
-    setFilteredDistricts(filterDistricts);
+    const sortedDistricts = filterDistricts.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setFilteredDistricts(sortedDistricts);
     setRegionDropdownOpen(false);
   };
   // hududni tanlash
@@ -121,7 +124,9 @@ const Register = () => {
     if (i18n.language === "ru") {
       setRegions(regionsRu.regions);
     } else {
-      setRegions(regionsUz.regions);
+      setRegions(
+        regionsUz.regions.sort((a, b) => a.name.localeCompare(b.name))
+      );
     }
   }, [i18n.language]);
 
