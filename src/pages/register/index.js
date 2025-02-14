@@ -702,10 +702,10 @@ const Register = () => {
                   )}
                 </div>
 
-                {selectedAcademicLyseums === null &&
-                watch("academy_or_school_name")?.trim() === "" ? (
-                  ""
-                ) : (
+                {(selectedOption === `${t("litsey")}` &&
+                  selectedAcademicLyseums) ||
+                (selectedOption === `${t("school")}` &&
+                  watch("academy_or_school_name")?.trim() !== "") ? (
                   <motion.div
                     initial={{ opacity: 0, translateY: "30px" }}
                     animate={{ opacity: 1, translateY: "0px" }}
@@ -752,7 +752,7 @@ const Register = () => {
                       </ul>
                     )}
                   </motion.div>
-                )}
+                ) : null}
 
                 {/* Ta'lim turi */}
 
