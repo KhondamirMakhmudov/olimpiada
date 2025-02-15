@@ -14,7 +14,7 @@ const Index = () => {
 
       <div className="h-full  mx-auto">
         <iframe
-          src="/files/oferta.pdf#toolbar=0&navpanes=0&scrollbar=0"
+          src="/files/about-olympics.pdf#toolbar=0&navpanes=0&scrollbar=0"
           type="application/pdf"
           className="w-full h-full bg-white"
         />
