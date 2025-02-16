@@ -820,7 +820,8 @@ const Register = () => {
                 </button>
               </form>
             ) : (
-              "Ro'yxatdan o'ta olmaysiz"
+              isLoading ||
+              (isFetchingRegisterDate && "Ro'yxatdan o'ta olmaysiz")
             )}
           </div>
         </div>

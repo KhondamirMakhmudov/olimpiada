@@ -359,7 +359,7 @@ const Index = () => {
                           {currentQuizIndex + 1} - {t("question")} :
                         </p>
                         {i18n.language === "uz" ? (
-                          <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black">
+                          <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
                               get(data, "data", [])[currentQuizIndex]
                                 ?.question_uz,
@@ -367,7 +367,7 @@ const Index = () => {
                             ) || ""}
                           </div>
                         ) : (
-                          <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black">
+                          <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
                               get(data, "data", [])[currentQuizIndex]
                                 ?.question_ru,
