@@ -375,6 +375,7 @@ const Index = () => {
                             ) || ""}
                           </div>
                         )}
+
                         {/* Quizzes */}
                         {i18n.language === "uz" ? (
                           <ul className="mt-[20px] space-y-[10px]">
