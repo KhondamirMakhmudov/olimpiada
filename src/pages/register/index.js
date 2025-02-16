@@ -711,7 +711,7 @@ const Register = () => {
                 {(selectedOption === `${t("litsey")}` &&
                   selectedAcademicLyseums) ||
                 (selectedOption === `${t("school")}` &&
-                  watch("academy_or_school_name")?.trim() !== "") ? (
+                  !!watch("academy_or_school_name")) ? (
                   <motion.div
                     initial={{ opacity: 0, translateY: "30px" }}
                     animate={{ opacity: 1, translateY: "0px" }}
