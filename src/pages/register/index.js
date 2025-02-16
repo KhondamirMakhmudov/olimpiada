@@ -28,8 +28,6 @@ const Register = () => {
   const [selectedAcademicLyseums, setSelectedAcademicLyseums] = useState(null);
   const [openAcademicLyseums, setOpenAcademicLyseums] = useState(false);
   const [academic, setAcademic] = useState(false);
-  // const regions = regionsUz.regions;
-  // const districts = regionsUz.districts;
   const [selectedTypeOfEducation, setSelectedTypeOfEducation] = useState(null);
   const [openTypeOfEducation, setOpenTypeOfEducation] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -175,7 +173,8 @@ const Register = () => {
     selectedDistrictName &&
     selectedTypeOfEducation &&
     selectedOption &&
-    selectedOptionCourse;
+    selectedOptionCourse &&
+    date;
 
   const onSubmit = ({
     full_name,
