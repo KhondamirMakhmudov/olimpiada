@@ -40,7 +40,7 @@ const Index = () => {
             {/* Image */}
             <div className="flex justify-center md:justify-end">
               <Image
-                src={"/images/main-img-about.jpg"}
+                src={"/images/main-img-about.png"}
                 alt="about-us-img"
                 width={554}
                 height={414}
