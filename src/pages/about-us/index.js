@@ -103,9 +103,9 @@ const Index = () => {
               <Image
                 src="/images/about-us-img1.jpg"
                 alt="about-us-img"
-                width={611}
+                width={508}
                 height={382}
-                className="max-w-full h-auto shadow-lg"
+                className="max-w-full h-auto p-3 bg-white border shadow-md"
               />
             </div>
           </div>
