@@ -42,7 +42,7 @@ const Index = () => {
               <Image
                 src={"/images/main-img-about.png"}
                 alt="about-us-img"
-                width={508}
+                width={580}
                 height={347}
                 className="max-w-full h-auto bg-white p-3 border shadow-md"
               />
@@ -103,7 +103,7 @@ const Index = () => {
               <Image
                 src="/images/about-us-img1.jpg"
                 alt="about-us-img"
-                width={508}
+                width={580}
                 height={347}
                 className="max-w-full h-auto p-3 bg-white border shadow-md"
               />
@@ -118,7 +118,7 @@ const Index = () => {
               <Image
                 src="/images/about-us-img2.jpg"
                 alt="about-us-img"
-                width={508}
+                width={580}
                 height={347}
                 className="max-w-full h-auto p-3 bg-white border shadow-md"
               />
