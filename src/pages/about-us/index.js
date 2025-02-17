@@ -44,6 +44,7 @@ const Index = () => {
                 alt="about-us-img"
                 width={544}
                 height={314}
+                unoptimized
                 className="max-w-full h-auto bg-white p-3 border shadow-md"
               />
             </div>
