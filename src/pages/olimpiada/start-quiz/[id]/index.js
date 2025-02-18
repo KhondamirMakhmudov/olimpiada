@@ -29,14 +29,11 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [openProfile, setOpenProfile] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
+  const [nextRoute, setNextRoute] = useState(null);
+  const [preventNavigation, setPreventNavigation] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isExiting, setIsExiting] = useState(false);
-
-  const handleProfile = () => {
-    setOpenProfile(!openProfile);
-  };
 
   const handleLogoutClick = () => {
     setIsModalOpen(true);
@@ -163,11 +160,41 @@ const Index = () => {
       }
     );
   };
+  ///////////////////////////////////////////////////////////////////
+  /////// sitedagi boshqa urllarga o'tmasligi uchun yozilgan ////////
+  ///////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    if (!preventNavigation) return;
+    if (
+      get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
+    )
+      return;
+    if (error) return;
+
+    const handleRouteChange = (url) => {
+      setNextRoute(url);
+      setShowModal(true);
+      throw "Route change prevented";
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router, preventNavigation]);
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////// submit bo'lganidan keyin timer 0 bo'ladi ////////////
+  ////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     if (
       get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
     ) {
+      setTimeLeft(0);
+    }
+    if (error) {
       setTimeLeft(0);
     }
   }, [data]);
@@ -207,16 +234,6 @@ const Index = () => {
     window.addEventListener("beforeunload", handleUnload);
     return () => window.removeEventListener("beforeunload", handleUnload);
   }, [timeLeft]);
-
-  // Vaqtni "MM:SS" formatiga aylantirish
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
-      2,
-      "0"
-    )}`;
-  };
 
   // LocalStorage'dan javoblarni o'qish
   useEffect(() => {
@@ -280,6 +297,18 @@ const Index = () => {
   }
 
   const percentage = (timeLeft / 3600) * 100;
+
+  const confirmLeave = () => {
+    if (nextRoute) {
+      onSubmit();
+      router.push(nextRoute);
+    }
+  };
+
+  const cancelLeave = () => {
+    setNextRoute(null);
+    setShowModal(false);
+  };
 
   return (
     <Dashboard>
@@ -644,6 +673,31 @@ const Index = () => {
                 </div>
               </div>
             </>
+          )}
+
+          {showModal && (
+            <div className="fixed inset-0 flex z-50 items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                <p className="text-lg">
+                  Haqiqatan ham chiqib ketmoqchimisiz? Bu sahifani tark
+                  etsangiz, testni yakunlagan bo'lasiz!!!
+                </p>
+                <div className="mt-4 flex justify-center space-x-4">
+                  <button
+                    onClick={confirmLeave}
+                    className="px-4 py-2 bg-red-500 text-white rounded"
+                  >
+                    Ha, testni yakunlamoqchiman
+                  </button>
+                  <button
+                    onClick={cancelLeave}
+                    className="px-4 py-2 bg-gray-300 rounded"
+                  >
+                    {t("no")}
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       )}
