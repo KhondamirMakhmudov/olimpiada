@@ -20,6 +20,7 @@ import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 const Register = () => {
   const { t, i18n } = useTranslation();
   const [date, setDate] = useState("");
@@ -253,6 +254,17 @@ const Register = () => {
       setShowPage(false);
     }
   }, [registerDate]);
+
+  if (isLoadingRegisterDate || isFetchingRegisterDate) {
+    return (
+      <div
+        className="bg-no-repeat bg-center bg-cover min-h-screen flex flex-col"
+        style={{ backgroundImage: `url(/images/main-bg.jpg)` }}
+      >
+        <Header />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -820,8 +832,30 @@ const Register = () => {
                 </button>
               </form>
             ) : (
-              isLoading ||
-              (isFetchingRegisterDate && "Ro'yxatdan o'ta olmaysiz")
+              <div className="text-center space-y-[20px]">
+                <p className="text-center text-red-500">
+                  Ro&apos;yxatdan o&apos;ta olmaysiz!!!
+                </p>
+                <div className="flex text-gray-600 text-[15px]">
+                  <p>
+                    Siz{" "}
+                    <span className="font-semibold">
+                      {" "}
+                      {dayjs(get(registerDate, "data[0].start_date")).format(
+                        "DD.MM.YYYY"
+                      )}
+                    </span>{" "}
+                    dan{" "}
+                    <span className="font-semibold">
+                      {" "}
+                      {dayjs(get(registerDate, "data[0].end_date")).format(
+                        "DD.MM.YYYY"
+                      )}
+                    </span>{" "}
+                    gacha ro&apos;yxatdan o&apos;tishingiz mumkin
+                  </p>
+                </div>{" "}
+              </div>
             )}
           </div>
         </div>
