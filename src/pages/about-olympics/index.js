@@ -7,18 +7,28 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 const Index = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="h-screen">
       <Header />
 
-      <div className="h-full  mx-auto">
-        <iframe
-          src="/files/nizom.pdf#toolbar=0&navpanes=0&scrollbar=0"
-          type="application/pdf"
-          className="w-full h-full bg-white"
-        />
-      </div>
+      {i18n.language === "uz" ? (
+        <div className="h-full  mx-auto">
+          <iframe
+            src="/files/nizom_uz.pdf#toolbar=0&navpanes=0&scrollbar=0"
+            type="application/pdf"
+            className="w-full h-full bg-white"
+          />
+        </div>
+      ) : (
+        <div className="h-full  mx-auto">
+          <iframe
+            src="/files/nizom_rus.pdf#toolbar=0&navpanes=0&scrollbar=0"
+            type="application/pdf"
+            className="w-full h-full bg-white"
+          />
+        </div>
+      )}
       {/* <main>
         <section>
           <div className="container mt-[50px] ">

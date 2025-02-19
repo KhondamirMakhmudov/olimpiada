@@ -57,7 +57,7 @@ export default function UserAgreement() {
               {i18n.language === "uz" ? (
                 <iframe
                   ref={iframeRef}
-                  src="/files/oferta.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                  src="/files/oferta_uz.pdf#toolbar=0&navpanes=0&scrollbar=0"
                   type="application/pdf"
                   className="w-full h-full"
                 />
