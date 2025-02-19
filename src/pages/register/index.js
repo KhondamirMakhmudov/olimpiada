@@ -40,6 +40,7 @@ const Register = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [showPage, setShowPage] = useState(false);
+  const [isExpired, setIsExpired] = useState(false);
   const [regions, setRegions] = useState(regionsUz.regions);
   const [districts, setDistricts] = useState(regionsUz.districts);
 
@@ -244,14 +245,21 @@ const Register = () => {
   });
 
   useEffect(() => {
+    if (!registerDate) return;
+
     const now = new Date();
     const startDate = new Date(get(registerDate, "data[0].start_date"));
     const endDate = new Date(get(registerDate, "data[0].end_date"));
 
-    if (now >= startDate && now <= endDate) {
-      setShowPage(true);
+    if (now < startDate) {
+      setShowPage(false); // Registration hasn't started yet
+      setIsExpired(false);
+    } else if (now >= startDate && now <= endDate) {
+      setShowPage(true); // Registration is active
+      setIsExpired(false);
     } else {
       setShowPage(false);
+      setIsExpired(true); // Registration expired
     }
   }, [registerDate]);
 
@@ -831,6 +839,12 @@ const Register = () => {
                   {t("enter")}
                 </button>
               </form>
+            ) : isExpired ? (
+              <div className="text-center">
+                <h1 className="text-red-500">
+                  Ro&apos;yxatdan o&apos;tish yakunlangan!
+                </h1>
+              </div>
             ) : (
               <div className="text-center space-y-[20px]">
                 <p className="text-center text-red-500">
