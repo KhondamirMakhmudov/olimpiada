@@ -63,13 +63,13 @@ const Header = ({ color = "white" }) => {
         <div className="flex items-center">
           <div className="hidden lg:flex gap-x-[10px] items-center">
             <a href="tel: +998 78 888 08 00" className="text-sm">
-              <PhoneIcon className="text-black hover:text-blue-500" />
+              <PhoneIcon className="text-black hover:text-[#5d87ff]" />
             </a>
             <a href="https://t.me/iqmath2025" target="_blank">
-              <TelegramIcon className="text-black hover:text-blue-500" />
+              <TelegramIcon className="text-black hover:text-[#5d87ff]" />
             </a>
             <a href="https://www.instagram.com/iq_mathuz/" target="_blank">
-              <InstagramIcon className="text-black hover:text-blue-500" />
+              <InstagramIcon className="text-black hover:text-[#5d87ff]" />
             </a>
           </div>
 
