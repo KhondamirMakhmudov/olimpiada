@@ -37,29 +37,35 @@ const Index = () => {
     <div className="h-screen">
       <Header />
 
-      {/* <div className="">
+      <div className="h-full mx-auto">
         {get(documents, "data", []).map((document, index) => (
           <div key={index} className="h-full  mx-auto">
             {i18n.language === "uz" ? (
               <div key={index} className="h-full  mx-auto">
                 <iframe
-                  src={`${get(document, "pdf_uz")}`}
+                  src={`${get(
+                    document,
+                    "pdf_uz"
+                  )}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full bg-white"
                 />
               </div>
             ) : (
               <iframe
-                src={`${get(document, "pdf_ru")}`}
+                src={`${get(
+                  document,
+                  "pdf_ru"
+                )}#toolbar=0&navpanes=0&scrollbar=0`}
                 type="application/pdf"
                 className="w-full h-full bg-white"
               />
             )}
           </div>
         ))}
-      </div> */}
+      </div>
 
-      {i18n.language === "uz" ? (
+      {/* {i18n.language === "uz" ? (
         <div className="h-full  mx-auto">
           <iframe
             src="/files/nizom_uz.pdf#toolbar=0&navpanes=0&scrollbar=0"
@@ -75,7 +81,7 @@ const Index = () => {
             className="w-full h-full bg-white"
           />
         </div>
-      )}
+      )} */}
       {/* <main>
         <section>
           <div className="container mt-[50px] ">
