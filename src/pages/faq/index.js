@@ -6,6 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import ContentLoader from "@/components/loader/content-loader";
+import { get } from "lodash";
 
 const faqs = [
   {
@@ -92,11 +97,32 @@ const faq_ru = [
 const Index = () => {
   const { t, i18n } = useTranslation();
 
+  const {
+    data: faqsData,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.faqs,
+    url: URLS.faqs,
+  });
+
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  if (isLoading || isFetching) {
+    return (
+      <>
+        <Header />
+
+        <div className="container">
+          <ContentLoader />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <Header />
@@ -104,67 +130,41 @@ const Index = () => {
         <NavbarTitle />
       </div>
 
-      {i18n.language === "uz" ? (
-        <div className="container  mt-10">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border-b border-gray-300">
-              <button
-                className="w-full flex justify-between items-center p-4 text-left text-lg font-semibold hover:bg-gray-100"
-                onClick={() => toggleAccordion(index)}
+      <div className="container  mt-10">
+        {get(faqsData, "data").map((faq, index) => (
+          <div key={index} className="border-b border-gray-300">
+            <button
+              className="w-full flex justify-between items-center p-4 text-left text-lg font-semibold hover:bg-gray-100"
+              onClick={() => toggleAccordion(index)}
+            >
+              {i18n.language === "uz"
+                ? get(faq, "question_uz")
+                : get(faq, "question_ru")}
+              <svg
+                className={`w-5 h-5 transition-transform duration-300 ${
+                  openIndex === index ? "rotate-180" : ""
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                {faq.question}
-                <svg
-                  className={`w-5 h-5 transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-              {openIndex === index && (
-                <div className="p-4 bg-gray-50 text-gray-700">{faq.answer}</div>
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="container mx-auto mt-10">
-          {faq_ru.map((faq, index) => (
-            <div key={index} className="border-b border-gray-300">
-              <button
-                className="w-full flex justify-between items-center p-4 text-left text-lg font-semibold hover:bg-gray-100"
-                onClick={() => toggleAccordion(index)}
-              >
-                {faq.question}
-                <svg
-                  className={`w-5 h-5 transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-              {openIndex === index && (
-                <div className="p-4 bg-gray-50 text-gray-700">{faq.answer}</div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            {openIndex === index && (
+              <div className="p-4 bg-gray-50 text-gray-700">
+                {i18n.language === "uz"
+                  ? get(faq, "answer_uz")
+                  : get(faq, "answer_ru")}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </>
   );
 };

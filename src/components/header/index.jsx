@@ -7,6 +7,10 @@ import Brand from "../brand";
 import { TelegramIcon } from "../icons/social-media/telegram";
 import { InstagramIcon } from "../icons/social-media/instagram";
 import PhoneIcon from "../icons/social-media/phone";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { get, isEmpty } from "lodash";
 
 const navLinks = [
   { href: "/about-us", label: "aboutus" },
@@ -19,6 +23,17 @@ const Header = ({ color = "white" }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const {
+    data: networkings,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.networkings,
+    url: URLS.networkings,
+  });
+
+  console.log(get(networkings, "data", []));
 
   return (
     <header className="relative z-20 py-3 bg-white">
@@ -60,8 +75,30 @@ const Header = ({ color = "white" }) => {
         </nav>
 
         {/* Language & Mobile Menu */}
-        <div className="flex items-center">
-          <div className="hidden lg:flex gap-x-[10px] items-center">
+        <div className=" flex items-center ">
+          <div className="hidden lg:flex items-center gap-x-[10px]">
+            {isEmpty(get(networkings, "data", []))
+              ? ""
+              : get(networkings, "data", []).map((networking, index) => (
+                  <a
+                    key={get(networking, "id") || index}
+                    href={get(networking, "link")}
+                    target="_blank"
+                  >
+                    {get(networking, "name") === "telegram" ? (
+                      <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                    ) : get(networking, "name") === "instagram" ? (
+                      <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                    ) : (
+                      <a href="tel: +998 78 888 08 00" className="text-sm">
+                        {" "}
+                        <PhoneIcon className="text-black hover:text-[#5d87ff]" />{" "}
+                      </a>
+                    )}
+                  </a>
+                ))}
+          </div>
+          {/* <div className="hidden lg:flex gap-x-[10px] items-center">
             <a href="tel: +998 78 888 08 00" className="text-sm">
               <PhoneIcon className="text-black hover:text-[#5d87ff]" />
             </a>
@@ -71,7 +108,7 @@ const Header = ({ color = "white" }) => {
             <a href="https://www.instagram.com/iq_mathuz/" target="_blank">
               <InstagramIcon className="text-black hover:text-[#5d87ff]" />
             </a>
-          </div>
+          </div> */}
 
           <div className="w-[1px] h-[30px] bg-[#E6E5ED] hidden lg:block mx-[10px]"></div>
           <LanguageDropdown />
@@ -167,16 +204,28 @@ const Header = ({ color = "white" }) => {
         </nav>
 
         {/* Social Media Icons in Mobile Menu */}
+
         <div className="absolute bottom-4 left-0 w-full flex justify-center gap-4 border-t pt-4">
-          <a href="tel: +998 78 888 08 00" className="text-sm">
-            <PhoneIcon color="black" />
-          </a>
-          <a href="https://t.me/iqmath2025" target="_blank">
-            <TelegramIcon color="black" />
-          </a>
-          <a href="https://www.instagram.com/iq_mathuz/" target="_blank">
-            <InstagramIcon color="black" />
-          </a>
+          {isEmpty(get(networkings, "data", []))
+            ? ""
+            : get(networkings, "data", []).map((networking, index) => (
+                <a
+                  key={get(networking, "id") || index}
+                  href={get(networking, "link")}
+                  target="_blank"
+                >
+                  {get(networking, "name") === "telegram" ? (
+                    <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                  ) : get(networking, "name") === "instagram" ? (
+                    <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                  ) : (
+                    <a href="tel: +998 78 888 08 00" className="text-sm">
+                      {" "}
+                      <PhoneIcon className="text-black hover:text-[#5d87ff]" />{" "}
+                    </a>
+                  )}
+                </a>
+              ))}
         </div>
       </aside>
     </header>
