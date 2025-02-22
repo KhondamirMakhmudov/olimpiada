@@ -14,4 +14,5 @@ export const KEYS = {
   faqs: "faqs",
   networkings: "networkings",
   documents: "documents",
+  ofertas: "ofertas",
 };

@@ -15,4 +15,5 @@ export const URLS = {
   faqs: "/faqs/",
   networkings: "/networking/",
   documents: "/olimpiada-about/",
+  ofertas: "/nizom/",
 };

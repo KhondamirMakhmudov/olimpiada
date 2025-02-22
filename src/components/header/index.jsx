@@ -33,8 +33,6 @@ const Header = ({ color = "white" }) => {
     url: URLS.networkings,
   });
 
-  console.log(get(networkings, "data", []));
-
   return (
     <header className="relative z-20 py-3 bg-white">
       <div className="container mx-auto flex justify-between items-center px-4">
@@ -80,22 +78,22 @@ const Header = ({ color = "white" }) => {
             {isEmpty(get(networkings, "data", []))
               ? ""
               : get(networkings, "data", []).map((networking, index) => (
-                  <a
-                    key={get(networking, "id") || index}
-                    href={get(networking, "link")}
-                    target="_blank"
-                  >
+                  <div key={get(networking, "id") || index}>
                     {get(networking, "name") === "telegram" ? (
-                      <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                      <a href={get(networking, "link")} target="_blank">
+                        <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                      </a>
                     ) : get(networking, "name") === "instagram" ? (
-                      <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                      <a href={get(networking, "link")} target="_blank">
+                        <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                      </a>
                     ) : (
                       <a href="tel: +998 78 888 08 00" className="text-sm">
                         {" "}
                         <PhoneIcon className="text-black hover:text-[#5d87ff]" />{" "}
                       </a>
                     )}
-                  </a>
+                  </div>
                 ))}
           </div>
           {/* <div className="hidden lg:flex gap-x-[10px] items-center">
@@ -209,22 +207,22 @@ const Header = ({ color = "white" }) => {
           {isEmpty(get(networkings, "data", []))
             ? ""
             : get(networkings, "data", []).map((networking, index) => (
-                <a
-                  key={get(networking, "id") || index}
-                  href={get(networking, "link")}
-                  target="_blank"
-                >
+                <div key={get(networking, "id") || index}>
                   {get(networking, "name") === "telegram" ? (
-                    <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                    <a href={get(networking, "link")} target="_blank">
+                      <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                    </a>
                   ) : get(networking, "name") === "instagram" ? (
-                    <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                    <a href={get(networking, "link")} target="_blank">
+                      <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                    </a>
                   ) : (
                     <a href="tel: +998 78 888 08 00" className="text-sm">
                       {" "}
                       <PhoneIcon className="text-black hover:text-[#5d87ff]" />{" "}
                     </a>
                   )}
-                </a>
+                </div>
               ))}
         </div>
       </aside>

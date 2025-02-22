@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import { get } from "lodash";
 
 export default function UserAgreement() {
   const { t, i18n } = useTranslation();
@@ -24,6 +28,15 @@ export default function UserAgreement() {
       };
     }
   }, []);
+
+  const {
+    data: ofertas,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.ofertas,
+    url: URLS.ofertas,
+  });
 
   const handleAgree = () => {
     setIsChecked(true);
@@ -57,14 +70,20 @@ export default function UserAgreement() {
               {i18n.language === "uz" ? (
                 <iframe
                   ref={iframeRef}
-                  src="/files/oferta_uz.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                  src={`${get(
+                    ofertas,
+                    "data[0].pdf_uz"
+                  )}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
               ) : (
                 <iframe
                   ref={iframeRef}
-                  src="/files/oferta_ru.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                  src={`${get(
+                    ofertas,
+                    "data[0].pdf_ru"
+                  )}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
