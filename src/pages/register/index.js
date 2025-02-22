@@ -662,7 +662,7 @@ const Register = () => {
                 <div>
                   {selectedOption === `${t("school")}` ? (
                     <input
-                      type="number"
+                      type="text"
                       placeholder={`${t("schoolNumber")}`}
                       {...register("academy_or_school_name", {
                         required: true,
