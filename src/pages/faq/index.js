@@ -11,6 +11,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import ContentLoader from "@/components/loader/content-loader";
 import { get } from "lodash";
+import parse from "html-react-parser";
 
 const faqs = [
   {
@@ -157,9 +158,11 @@ const Index = () => {
             </button>
             {openIndex === index && (
               <div className="p-4 bg-gray-50 text-gray-700">
-                {i18n.language === "uz"
-                  ? get(faq, "answer_uz")
-                  : get(faq, "answer_ru")}
+                {i18n.language === "uz" ? (
+                  <div>{parse(get(faq, "answer_uz") || "")}</div>
+                ) : (
+                  <div>{parse(get(faq, "answer_ru") || "")}</div>
+                )}
               </div>
             )}
           </div>
