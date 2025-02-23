@@ -159,9 +159,13 @@ const Index = () => {
             {openIndex === index && (
               <div className="p-4 bg-gray-50 text-gray-700">
                 {i18n.language === "uz" ? (
-                  <div>{parse(get(faq, "answer_uz") || "")}</div>
+                  <div className="faq">
+                    {parse(get(faq, "answer_uz") || "")}
+                  </div>
                 ) : (
-                  <div>{parse(get(faq, "answer_ru") || "")}</div>
+                  <div className="faq">
+                    {parse(get(faq, "answer_ru") || "")}
+                  </div>
                 )}
               </div>
             )}

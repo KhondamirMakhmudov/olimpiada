@@ -22,6 +22,14 @@ body {
   color: #fff;
 }
 
+.faq {
+  padding: 16px;
+}
+
+.faq a {
+  color: #5d87ff;
+}
+
 .custom-phone-input {
   border: 2px solid #5d87ff; /* Example border */
   border-radius: 8px; /* Rounded corners */
