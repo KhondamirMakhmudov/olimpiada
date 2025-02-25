@@ -41,7 +41,7 @@ const Modal = () => {
       {/* Modal (normal cursor inside) */}
       <div
         ref={modalRef}
-        className="bg-white p-5 rounded-lg relative text-center max-w-lg w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl cursor-auto z-10"
+        className="bg-white p-5 rounded-lg relative text-center max-w-lg w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl cursor-auto z-10"
       >
         <button
           onClick={closeModal}
@@ -52,7 +52,7 @@ const Modal = () => {
         <Image
           src="/images/banner-img.png"
           alt="Example Image"
-          width={700}
+          width={800}
           height={700}
           className="w-full h-auto rounded-lg"
         />
