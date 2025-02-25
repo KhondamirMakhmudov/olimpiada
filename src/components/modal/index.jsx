@@ -45,12 +45,12 @@ const Modal = () => {
       >
         <button
           onClick={closeModal}
-          className="absolute top-3 right-3 text-3xl text-gray-700 hover:text-gray-900"
+          className="absolute -top-2 right-2 text-3xl text-gray-700 hover:text-gray-900"
         >
           ×
         </button>
         <Image
-          src="/images/olimpiada-banner.jpg"
+          src="/images/banner-img.png"
           alt="Example Image"
           width={700}
           height={700}
