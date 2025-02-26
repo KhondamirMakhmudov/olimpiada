@@ -15,4 +15,5 @@ export const KEYS = {
   networkings: "networkings",
   documents: "documents",
   ofertas: "ofertas",
+  banner: "banner",
 };

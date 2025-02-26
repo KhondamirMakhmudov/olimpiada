@@ -1,7 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { get } from "lodash";
 
 const Modal = () => {
+  const { data: banner } = useGetQuery({
+    key: KEYS.banner,
+    url: URLS.banner,
+  });
+
+  console.log(banner);
+
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
 
@@ -50,7 +61,8 @@ const Modal = () => {
           ×
         </button>
         <Image
-          src="/images/banner-img.png"
+          src={get(banner, "data[0].image", "/images/banner-img.jpg")}
+          loader={() => get(banner, "data[0].image", "/images/banner-img.jpg")}
           alt="Example Image"
           width={800}
           height={700}
