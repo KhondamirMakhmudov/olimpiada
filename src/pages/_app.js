@@ -9,6 +9,7 @@ import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { UserProfileProvider } from "@/context/responseProvider";
 import { useTranslation } from "react-i18next";
+import Script from "next/script";
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -42,6 +43,12 @@ export default function App({
           <Toaster />
         </Hydrate>
       </QueryClientProvider>
+
+      <Script
+        src="https://embed.tawk.to/67c180dad29dc8190da4dc1e/1il5tulsp"
+        strategy="afterInteractive"
+        onLoad={() => console.log("Tawk.to loaded")}
+      />
     </SessionProvider>
   );
 }
