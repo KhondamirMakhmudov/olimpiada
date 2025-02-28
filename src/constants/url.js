@@ -16,4 +16,5 @@ export const URLS = {
   networkings: "/networking/",
   documents: "/olimpiada-about/",
   ofertas: "/nizom/",
+  banner: "/banner/",
 };
