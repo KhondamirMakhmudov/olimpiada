@@ -14,7 +14,7 @@ import { get, isEmpty } from "lodash";
 
 const navLinks = [
   { href: "/about-us", label: "aboutus" },
-  { href: "https://iqmath.uz/", label: "courses" },
+  // { href: "https://iqmath.uz/", label: "courses" },
   { href: "/faq", label: "faq" },
   { href: "/about-olympics", label: "aboutOlympics" },
 ];
