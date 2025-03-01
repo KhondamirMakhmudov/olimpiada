@@ -12,9 +12,12 @@ export default function UserAgreement() {
   const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
   const iframeRef = useRef(null);
 
+  // Qurilma turini aniqlash (mobil yoki desktop)
+  const isMobile = window.innerWidth <= 768;
+
   useEffect(() => {
     const iframe = iframeRef.current;
-    if (iframe) {
+    if (iframe && !isMobile) {
       iframe.onload = () => {
         const iframeDocument =
           iframe.contentDocument || iframe.contentWindow.document;
@@ -27,7 +30,7 @@ export default function UserAgreement() {
         };
       };
     }
-  }, []);
+  }, [isMobile]);
 
   const {
     data: ofertas,
@@ -42,6 +45,12 @@ export default function UserAgreement() {
     setIsChecked(true);
     setIsModalOpen(false);
   };
+
+  // PDF manzilini olish
+  const pdfUrl =
+    i18n.language === "uz"
+      ? get(ofertas, "data[0].pdf_uz")
+      : get(ofertas, "data[0].pdf_ru");
 
   return (
     <div className="flex items-center space-x-2">
@@ -63,27 +72,20 @@ export default function UserAgreement() {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center w-full justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg max-w-2xl shadow-lg w-[1200px]">
-            {/* <h2 className="text-lg font-semibold mb-4">{t("contract")}</h2> */}
-
             {/* Scrollable PDF */}
             <div className="h-[500px] overflow-y-auto border relative">
-              {i18n.language === "uz" ? (
-                <iframe
-                  ref={iframeRef}
-                  src={`${get(
-                    ofertas,
-                    "data[0].pdf_uz"
-                  )}#toolbar=0&navpanes=0&scrollbar=0`}
+              {isMobile ? (
+                // Mobil qurilmalarda <embed> orqali PDFni ko'rsatish
+                <embed
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
               ) : (
+                // Desktop qurilmalarda iframe orqali PDFni ko'rsatish
                 <iframe
                   ref={iframeRef}
-                  src={`${get(
-                    ofertas,
-                    "data[0].pdf_ru"
-                  )}#toolbar=0&navpanes=0&scrollbar=0`}
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
