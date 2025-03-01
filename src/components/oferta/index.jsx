@@ -61,13 +61,15 @@ export default function UserAgreement() {
 
       {/* Custom Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center w-full justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center w-full justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg max-w-2xl shadow-lg w-[1200px]">
             {/* <h2 className="text-lg font-semibold mb-4">{t("contract")}</h2> */}
 
+            {/* Scrollable PDF */}
             <div className="h-[500px] overflow-y-auto border relative">
               {i18n.language === "uz" ? (
-                <embed
+                <iframe
+                  ref={iframeRef}
                   src={`${get(
                     ofertas,
                     "data[0].pdf_uz"
@@ -76,7 +78,8 @@ export default function UserAgreement() {
                   className="w-full h-full"
                 />
               ) : (
-                <embed
+                <iframe
+                  ref={iframeRef}
                   src={`${get(
                     ofertas,
                     "data[0].pdf_ru"
@@ -87,6 +90,7 @@ export default function UserAgreement() {
               )}
             </div>
 
+            {/* Buttons */}
             <div className="mt-4 flex justify-end space-x-2">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -96,7 +100,7 @@ export default function UserAgreement() {
               </button>
               <button
                 onClick={handleAgree}
-                className={`px-4 py-2 bg-blue-500 text-white rounded`}
+                className={`px-4 py-2 bg-blue-500 text-white rounded `}
               >
                 {t("submit")}
               </button>

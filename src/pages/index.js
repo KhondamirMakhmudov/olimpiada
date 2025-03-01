@@ -14,7 +14,7 @@ import Header from "@/components/header";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -61,6 +61,15 @@ const Home = () => {
     localStorage.clear();
     sessionStorage.clear();
   };
+
+  const {
+    data: banner,
+    isLoading,
+    isFetching,
+  } = useGetQuery({
+    key: KEYS.banner,
+    url: URLS.banner,
+  });
 
   return (
     <div
@@ -191,7 +200,7 @@ const Home = () => {
                   </button>
                 </form>
               </div>
-              <Modal />
+              {isEmpty(get(banner, "data", [])) ? "" : <Modal />}
             </div>
           ) : (
             <div className="text-center">
