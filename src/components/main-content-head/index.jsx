@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { TelegramIcon } from "../icons/social-media/telegram";
 import { InstagramIcon } from "../icons/social-media/instagram";
 import PhoneIcon from "../icons/social-media/phone";
+import { useTheme } from "next-themes";
 
 const MainContentHead = ({ toggleSidebar }) => {
   const { data: session } = useSession();
@@ -21,6 +22,7 @@ const MainContentHead = ({ toggleSidebar }) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const { theme } = useTheme();
   const profileRef = useRef(null);
   const { t } = useTranslation();
 
@@ -154,16 +156,16 @@ const MainContentHead = ({ toggleSidebar }) => {
                 <div key={get(networking, "id") || index}>
                   {get(networking, "name") === "telegram" ? (
                     <a href={get(networking, "link")} target="_blank">
-                      <TelegramIcon className="text-black hover:text-[#5d87ff]" />
+                      <TelegramIcon className="text-black dark:text-white hover:text-[#5d87ff]" />
                     </a>
                   ) : get(networking, "name") === "instagram" ? (
                     <a href={get(networking, "link")} target="_blank">
-                      <InstagramIcon className="text-black hover:text-[#5d87ff]" />
+                      <InstagramIcon className="text-black dark:text-white hover:text-[#5d87ff]" />
                     </a>
                   ) : (
                     <a href="tel: +998 78 888 08 00" className="text-sm">
                       {" "}
-                      <PhoneIcon className="text-black hover:text-[#5d87ff]" />{" "}
+                      <PhoneIcon className="text-black dark:text-white hover:text-[#5d87ff]" />{" "}
                     </a>
                   )}
                 </div>
