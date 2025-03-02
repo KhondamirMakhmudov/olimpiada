@@ -6,7 +6,7 @@ import { URLS } from "@/constants/url";
 
 import { get, isEmpty, isNil } from "lodash";
 import Link from "next/link";
-
+import parse from "html-react-parser";
 import { useState, useEffect, useContext } from "react";
 import GridIcon from "@/components/icons/grid";
 import AnswerIcon from "@/components/icons/answer";
@@ -17,7 +17,7 @@ import { useTheme } from "next-themes";
 const Index = () => {
   const { theme } = useTheme();
   const { data: session } = useSession();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [tab, setTab] = useState("results");
   const { result } = useContext(UserProfileContext);
 
@@ -35,6 +35,15 @@ const Index = () => {
       Authorization: `Bearer ${session?.accessToken}`,
     },
     enabled: !!session?.accessToken,
+  });
+
+  const {
+    data: afterReminder,
+    isLoading: isLoadingAfterReminder,
+    isFetching: isFetchingAfterReminder,
+  } = useGetQuery({
+    key: KEYS.afterReminder,
+    url: URLS.afterReminder,
   });
 
   const scores2_1 = get(quizResult, "data.answer_more", []).filter(
@@ -137,9 +146,21 @@ const Index = () => {
               </div>
             </div>
 
-            <p className="px-[30px] text-sm mt-[30px] text-[#2A3547] dark:text-white">
-              {t("resultsDesc")}
-            </p>
+            {isEmpty(get(afterReminder, "data", [])) ? (
+              <p className="px-[30px] text-sm mt-[30px] text-[#2A3547] dark:text-white">
+                {t("resultsDesc")}
+              </p>
+            ) : (
+              <div>
+                {get(afterReminder, "data", []).map((item, index) => (
+                  <div className="px-[30px] text-sm mt-[30px] text-[#2A3547] dark:text-white">
+                    {i18n.language === "uz"
+                      ? parse(get(item, "text_uz") || "")
+                      : parse(get(item, "text_ru") || "")}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

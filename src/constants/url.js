@@ -17,4 +17,6 @@ export const URLS = {
   documents: "/olimpiada-about/",
   ofertas: "/nizom/",
   banner: "/banner/",
+  beforeReminder: "/before_test_reminder/",
+  afterReminder: "/after_test_reminder/",
 };

@@ -3,13 +3,15 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import Image from "next/image";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import ContentLoader from "@/components/loader/content-loader";
+import parse from "html-react-parser";
+
 const Index = () => {
   const { t, i18n } = useTranslation();
 
@@ -19,6 +21,15 @@ const Index = () => {
     url: URLS.olimpiadaQuizList,
   });
 
+  const {
+    data: beforeReminder,
+    isLoading: isLoadingBeforeReminder,
+    isFetching: isFetchingBeforeReminder,
+  } = useGetQuery({
+    key: KEYS.beforeReminder,
+    url: URLS.beforeReminder,
+  });
+
   if (isLoading || isFetching) {
     return (
       <Dashboard>
@@ -26,6 +37,8 @@ const Index = () => {
       </Dashboard>
     );
   }
+
+  console.log(beforeReminder, "beforeReminder");
 
   return (
     <Dashboard>
@@ -64,89 +77,118 @@ const Index = () => {
             </h3>
           </div>
           <div className="w-full h-[1px] bg-[#EAEFF4] dark:bg-[#2A3447FF]"></div>
-          <ul className="space-y-4 p-6 md:p-4 sm:p-3">
-            {[
-              "first_reminder",
-              "second_reminder",
-              "third_reminder",
-              "fourth_reminder",
-              "fifth_reminder",
-              "sixth_reminder",
-              "seventh_reminder",
-            ].map((reminder, index) => (
-              <li
-                key={index}
-                className="flex items-start gap-x-4 md:gap-x-3 sm:gap-x-2"
-              >
-                <Image
-                  src={"/icons/remind.svg"}
-                  alt={"remind"}
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 sm:w-5 sm:h-5"
-                />
+          {isEmpty(get(beforeReminder, "data")) ? (
+            <ul className="space-y-4 p-6 md:p-4 sm:p-3">
+              {[
+                "first_reminder",
+                "second_reminder",
+                "third_reminder",
+                "fourth_reminder",
+                "fifth_reminder",
+                "sixth_reminder",
+                "seventh_reminder",
+              ].map((reminder, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-x-4 md:gap-x-3 sm:gap-x-2"
+                >
+                  <Image
+                    src={"/icons/remind.svg"}
+                    alt={"remind"}
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 sm:w-5 sm:h-5"
+                  />
 
-                {reminder === "seventh_reminder" ? (
-                  <div>
-                    {i18n.language === "uz" ? (
-                      <div className="text-sm text-[#5A6A85] dark:text-white ">
-                        Ikkinchi bosqich haqida va boshqa qiziqtirgan
-                        savollaringizga{" "}
-                        <Link
-                          href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline text-[#5D87FF]"
-                        >
-                          'https://iq-math.uz/about-olympics'
-                        </Link>{" "}
-                        havolasi orqali to‘liq ma’lumot olishingiz mumkin.
-                      </div>
-                    ) : (
-                      <div className="text-sm text-[#5A6A85] dark:text-white ">
-                        Более подробную информацию о втором этапе и ответы на
-                        интересующие вас вопросы можно найти по ссылке:
-                        <Link
-                          href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline text-[#5D87FF]"
-                        >
-                          'https://iq-math.uz/about-olympics'
-                        </Link>{" "}
-                      </div>
-                    )}
-                  </div>
-                ) : reminder === "second_reminder" ? (
-                  <div>
-                    {i18n.language === "uz" ? (
-                      <div className="text-sm text-[#5A6A85] dark:text-white ">
-                        Birinchi bosqich Olimpiadaning rasmiy{" "}
-                        <Link
-                          href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline text-[#5D87FF]"
-                        >
-                          'https://www.iq-math.uz/'
-                        </Link>{" "}
-                        veb-saytida o‘tkaziladi.
-                      </div>
-                    ) : (
-                      <div className="text-sm text-[#5A6A85] dark:text-white ">
-                        Информацию о втором этапе и ответы на другие
-                        интересующие вас вопросы можно найти по этой ссылке:
-                        <Link
-                          href={"https://iq-math.uz/about-olympics"}
-                          className="hover:underline text-[#5D87FF]"
-                        >
-                          'https://iq-math.uz/about-olympics'
-                        </Link>{" "}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-sm text-[#5A6A85] dark:text-white">
-                    {t(reminder)}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
+                  {reminder === "seventh_reminder" ? (
+                    <div>
+                      {i18n.language === "uz" ? (
+                        <div className="text-sm text-[#5A6A85] dark:text-white ">
+                          Ikkinchi bosqich haqida va boshqa qiziqtirgan
+                          savollaringizga{" "}
+                          <Link
+                            href={"https://iq-math.uz/about-olympics"}
+                            className="hover:underline text-[#5D87FF]"
+                          >
+                            'https://iq-math.uz/about-olympics'
+                          </Link>{" "}
+                          havolasi orqali to‘liq ma’lumot olishingiz mumkin.
+                        </div>
+                      ) : (
+                        <div className="text-sm text-[#5A6A85] dark:text-white ">
+                          Более подробную информацию о втором этапе и ответы на
+                          интересующие вас вопросы можно найти по ссылке:
+                          <Link
+                            href={"https://iq-math.uz/about-olympics"}
+                            className="hover:underline text-[#5D87FF]"
+                          >
+                            'https://iq-math.uz/about-olympics'
+                          </Link>{" "}
+                        </div>
+                      )}
+                    </div>
+                  ) : reminder === "second_reminder" ? (
+                    <div>
+                      {i18n.language === "uz" ? (
+                        <div className="text-sm text-[#5A6A85] dark:text-white ">
+                          Birinchi bosqich Olimpiadaning rasmiy{" "}
+                          <Link
+                            href={"https://iq-math.uz/about-olympics"}
+                            className="hover:underline text-[#5D87FF]"
+                          >
+                            'https://www.iq-math.uz/'
+                          </Link>{" "}
+                          veb-saytida o‘tkaziladi.
+                        </div>
+                      ) : (
+                        <div className="text-sm text-[#5A6A85] dark:text-white ">
+                          Информацию о втором этапе и ответы на другие
+                          интересующие вас вопросы можно найти по этой ссылке:
+                          <Link
+                            href={"https://iq-math.uz/about-olympics"}
+                            className="hover:underline text-[#5D87FF]"
+                          >
+                            'https://iq-math.uz/about-olympics'
+                          </Link>{" "}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-[#5A6A85] dark:text-white">
+                      {t(reminder)}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="space-y-4 p-6 md:p-4 sm:p-3">
+              {get(beforeReminder, "data", []).map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-x-4 md:gap-x-3 sm:gap-x-2"
+                >
+                  <Image
+                    src={"/icons/remind.svg"}
+                    alt={"remind"}
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 sm:w-5 sm:h-5"
+                  />
+
+                  {i18n.language === "uz" ? (
+                    <div className="text-sm text-[#5A6A85] dark:text-white">
+                      {parse(get(item, "text_uz") || "")}
+                    </div>
+                  ) : (
+                    <div className="text-sm text-[#5A6A85] dark:text-white">
+                      {parse(get(item, "text_ru") || "")}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
 
           {get(data, "data", []).map((item) => (
             <div

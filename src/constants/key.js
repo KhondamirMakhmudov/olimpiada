@@ -16,4 +16,6 @@ export const KEYS = {
   documents: "documents",
   ofertas: "ofertas",
   banner: "banner",
+  beforeReminder: "beforeReminder",
+  afterReminder: "afterReminder",
 };
