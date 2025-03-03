@@ -35,6 +35,7 @@ export const academicLyseums = {
     "Samarqand davlat universiteti akademik litseyi",
     "Samarqand iqtisodiyot va servis instituti akademik litseyi",
     "Samarqand veterinariya meditsina instituti akademik litseyi",
+    "Shahrisabz davlat pedagogika instituti huzuridagi akademik litsey",
     "Termiz davlat universiteti akademik litseyi",
     "TIQXMMI 'International House - Tashkent' akademik litseyi",
     "Toshkent axborot texnologiyalari universiteti akademik litseyi",
