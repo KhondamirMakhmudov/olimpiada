@@ -51,6 +51,7 @@ export const academicLyseums = {
     "Toshkent davlat pedagogika universiteti akademik litseyi",
     "Toshkent davlat pedagogika universitetining Shahrisabz filiali akademik litseyi",
     "Toshkent davlat stomatologiya instituti akademik litseyi",
+    "Toshkent davlat sharqshunoslik universiteti akademik litseyi",
     "Toshkent davlat texnika universiteti akademik litseyi",
     "Toshkent davlat texnika universitetining Termiz filiali akademik litseyi",
     "Toshkent davlat texnika universiteti Olmaliq filiali akademik litseyi",
