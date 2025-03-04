@@ -71,29 +71,22 @@ export default function UserAgreement() {
       {/* Custom Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center w-full justify-center bg-black bg-opacity-50">
+          <h1>Hello</h1>
           <div className="bg-white p-6 rounded-lg max-w-2xl shadow-lg w-[1200px]">
             {/* Scrollable PDF */}
             <div className="h-[500px] overflow-y-auto border relative">
-              {isMobile ? (
-                // Mobil qurilmalarda <embed> orqali PDFni ko'rsatish
-                <embed
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
-                  type="application/pdf"
-                  className="w-full h-full"
-                />
-              ) : (
-                // Desktop qurilmalarda iframe orqali PDFni ko'rsatish
-                <object
-                  data={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
-                  type="application/pdf"
-                  className="w-full h-full"
-                >
-                  <iframe
-                    src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
-                    className="w-full h-full"
-                  />
-                </object>
-              )}
+              {/* <object
+                data={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
+                type="application/pdf"
+                className="w-full h-full"
+              ></object> */}
+
+              <embed
+                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
+                type="application/pdf"
+                width="100%"
+                height="100%"
+              />
             </div>
 
             {/* Buttons */}
