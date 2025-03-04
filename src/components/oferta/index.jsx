@@ -77,7 +77,7 @@ export default function UserAgreement() {
               {isMobile ? (
                 // Mobil qurilmalarda <embed> orqali PDFni ko'rsatish
                 <embed
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
@@ -85,7 +85,7 @@ export default function UserAgreement() {
                 // Desktop qurilmalarda iframe orqali PDFni ko'rsatish
                 <iframe
                   ref={iframeRef}
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
                   type="application/pdf"
                   className="w-full h-full"
                 />
