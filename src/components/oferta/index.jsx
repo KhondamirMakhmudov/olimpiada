@@ -71,7 +71,6 @@ export default function UserAgreement() {
       {/* Custom Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center w-full justify-center bg-black bg-opacity-50">
-          <h1>Hello</h1>
           <div className="bg-white p-6 rounded-lg max-w-2xl shadow-lg w-[1200px]">
             {/* Scrollable PDF */}
             <div className="h-[500px] overflow-y-auto border relative">
