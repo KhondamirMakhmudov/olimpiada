@@ -83,12 +83,16 @@ export default function UserAgreement() {
                 />
               ) : (
                 // Desktop qurilmalarda iframe orqali PDFni ko'rsatish
-                <iframe
-                  ref={iframeRef}
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
+                <object
+                  data={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
                   type="application/pdf"
                   className="w-full h-full"
-                />
+                >
+                  <iframe
+                    src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&embedded=true`}
+                    className="w-full h-full"
+                  />
+                </object>
               )}
             </div>
 
