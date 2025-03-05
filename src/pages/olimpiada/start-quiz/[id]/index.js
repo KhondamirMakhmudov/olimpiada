@@ -510,10 +510,11 @@ const Index = () => {
 
                     {/* Quiz Number Buttons */}
                     <div className="flex-wrap flex gap-3">
-                      {get(data, "data", []).map((item, index) => (
-                        <div
-                          key={index}
-                          className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer text-sm font-medium
+                      {Array.isArray(get(data, "data", [])) &&
+                        get(data, "data", []).map((item, index) => (
+                          <div
+                            key={index}
+                            className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer text-sm font-medium
                               ${
                                 currentQuizIndex === index
                                   ? "bg-green-500 text-white border-green-500"
@@ -521,11 +522,11 @@ const Index = () => {
                                   ? "bg-blue-500 text-white border-blue-500"
                                   : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300"
                               }`}
-                          onClick={() => setCurrentQuizIndex(index)}
-                        >
-                          {index + 1}
-                        </div>
-                      ))}
+                            onClick={() => setCurrentQuizIndex(index)}
+                          >
+                            {index + 1}
+                          </div>
+                        ))}
                     </div>
 
                     {/* Finish Button */}

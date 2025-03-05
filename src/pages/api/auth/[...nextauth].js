@@ -74,7 +74,7 @@ export default NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return baseUrl; // Ensures redirection to NEXTAUTH_URL
+      return process.env.NEXTAUTH_URL || baseUrl;
     },
   },
   secret:
