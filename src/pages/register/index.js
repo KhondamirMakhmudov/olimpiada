@@ -176,6 +176,7 @@ const Register = () => {
     selectedTypeOfEducation &&
     selectedOption &&
     selectedOptionCourse &&
+    selectedAcademicLyseums &&
     date;
 
   const onSubmit = ({
@@ -830,6 +831,7 @@ const Register = () => {
                 <UserAgreement />
 
                 <button
+                  disabled={!isFormValid}
                   className={` ${
                     isFormValid
                       ? "bg-[#5D87FF] hover:bg-[#4570EA] text-white"
