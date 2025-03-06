@@ -181,7 +181,7 @@ const MainContentHead = ({ toggleSidebar }) => {
         {openProfile && (
           <div
             ref={profileRef}
-            className="absolute bg-white dark:bg-[#26334A] border rounded-md  min-w-[300px] -bottom-[300px] shadow-lg -left-[130px] p-[30px] z-50"
+            className="absolute bg-white dark:bg-[#26334A] border rounded-md  min-w-[300px] -bottom-[300px] shadow-lg  p-[30px] z-50"
           >
             <div className="flex gap-x-[12px]">
               <Image
