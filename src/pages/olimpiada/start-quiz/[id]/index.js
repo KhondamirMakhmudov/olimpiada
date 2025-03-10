@@ -17,13 +17,15 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import ContentLoader from "@/components/loader/content-loader";
 const Index = () => {
+  const initialTimeLeft = 3599;
+  const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
   const { data: session } = useSession();
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = router.query;
-  const [timeLeft, setTimeLeft] = useState(3600);
+  const [questions, setQuestions] = useState([]);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +35,8 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isExiting, setIsExiting] = useState(false);
+
+  const [remainingTime, setRemainingTime] = useState(null);
 
   const handleProfile = () => {
     setOpenProfile(!openProfile);
@@ -68,9 +72,29 @@ const Index = () => {
     enabled: !!id && !!session?.accessToken,
   });
 
+  useEffect(() => {
+    if (get(data, "data.remaining_time")) {
+      setRemainingTime(get(data, "data.remaining_time"));
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (!remainingTime) return;
+
+    const remainingTimestamp = new Date(remainingTime).getTime();
+    const currentTimestamp = Date.now();
+
+    const elapsedSeconds = Math.floor(
+      (currentTimestamp - remainingTimestamp) / 1000
+    );
+    const adjustedTimeLeft = Math.max(initialTimeLeft - elapsedSeconds, 0);
+
+    setTimeLeft(adjustedTimeLeft);
+  }, [remainingTime]);
+
   const errorMessage = error?.response?.data?.message;
 
-  const totalQuizzes = get(data, "data", []).length;
+  const totalQuizzes = get(data, "data.questions", []).length;
 
   const handleNext = () => {
     setCurrentQuizIndex((prevIndex) =>
@@ -103,6 +127,21 @@ const Index = () => {
     };
   }, [currentQuizIndex, totalQuizzes]);
 
+  useEffect(() => {
+    const storedQuestions = localStorage.getItem("quizQuestions");
+    if (storedQuestions) {
+      setQuestions(JSON.parse(storedQuestions));
+    } else {
+      const fetchedQuestions = get(data, "data.questions", []);
+      if (fetchedQuestions.length > 0) {
+        localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
+        setQuestions(fetchedQuestions);
+      }
+    }
+  }, [data]);
+
+  console.log(selectedAnswers);
+
   const { mutate: submitAnswers } = usePostQuery({
     listKeyId: KEYS.submitAnswers,
   });
@@ -113,17 +152,19 @@ const Index = () => {
       return;
     }
 
-    const answers = Object.entries(selectedAnswers)
-      .filter(([questionIndex, answer]) => {
-        const valid = questionIndex && !isNaN(parseInt(questionIndex));
-        if (!valid)
-          console.warn("Removing Invalid Answer:", questionIndex, answer);
-        return valid;
+    // `questions` tartibida `selectedAnswers`dan javoblarni olish
+    const answers = questions
+      .map(({ id }) => {
+        if (selectedAnswers[id]) {
+          const cleanedAnswer = selectedAnswers[id].split("_")[0];
+          return {
+            quiz_id: id,
+            answer: cleanedAnswer,
+          };
+        }
+        return null;
       })
-      .map(([questionIndex, answer]) => ({
-        quiz_id: parseInt(questionIndex, 10),
-        answer,
-      }));
+      .filter(Boolean); // `null` qiymatlarni olib tashlaydi
 
     const payload = {
       answers,
@@ -150,12 +191,11 @@ const Index = () => {
           localStorage.removeItem("timeLeft");
           localStorage.removeItem("selectedAnswers");
           localStorage.removeItem("answeredQuestions");
+          localStorage.removeItem("quizQuestions");
         },
         onError: (error) => {
           setIsSubmitting(false);
           console.error("Error submitting answers:", error);
-
-          // Log the full error response from the server
           if (error.response) {
             console.error("Server error response:", error.response.data);
           }
@@ -163,6 +203,20 @@ const Index = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onSubmit();
+    }
+  }, [timeLeft]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (
@@ -176,7 +230,7 @@ const Index = () => {
     if (typeof window !== "undefined") {
       const savedTime = localStorage.getItem("timeLeft");
       if (savedTime) {
-        setTimeLeft(parseInt(savedTime, 10)); // Brauzerdan qiymatni o'qib, holatni yangilash
+        setTimeLeft(parseInt(savedTime, 10));
       }
     }
   }, []);
@@ -188,7 +242,7 @@ const Index = () => {
       setTimeLeft((prev) => {
         const updatedTime = prev - 1;
         if (typeof window !== "undefined") {
-          localStorage.setItem("timeLeft", updatedTime); // Vaqtni localStorage'ga saqlash
+          localStorage.setItem("timeLeft", updatedTime);
         }
         return updatedTime;
       });
@@ -208,17 +262,6 @@ const Index = () => {
     return () => window.removeEventListener("beforeunload", handleUnload);
   }, [timeLeft]);
 
-  // Vaqtni "MM:SS" formatiga aylantirish
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
-      2,
-      "0"
-    )}`;
-  };
-
-  // LocalStorage'dan javoblarni o'qish
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedAnswers = localStorage.getItem("selectedAnswers");
@@ -232,7 +275,6 @@ const Index = () => {
     }
   }, []);
 
-  // Javob tanlanganda, uni localStorage'da saqlash
   const handleAnswer = (questionIndex, answer) => {
     if (
       !questionIndex ||
@@ -352,7 +394,7 @@ const Index = () => {
               <div className="grid sm:grid-cols-1 md:grid-cols-12 gap-x-[20px] gap-y-[20px]">
                 {/* Quiz Section */}
                 <div className="sm:col-span-12 md:col-span-8 space-y-[20px] order-2 md:order-none">
-                  {get(data, "data", []).length > 0 && (
+                  {questions?.length > 0 && (
                     <div className="border p-[20px] sm:p-[15px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF]">
                       <div className="text-lg sm:text-base mb-[8px]">
                         <p className="mb-[15px] dark:text-white text-black">
@@ -361,16 +403,14 @@ const Index = () => {
                         {i18n.language === "uz" ? (
                           <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
-                              get(data, "data", [])[currentQuizIndex]
-                                ?.question_uz,
+                              questions[currentQuizIndex]?.question_uz,
                               ""
                             ) || ""}
                           </div>
                         ) : (
                           <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
-                              get(data, "data", [])[currentQuizIndex]
-                                ?.question_ru,
+                              questions[currentQuizIndex]?.question_ru,
                               ""
                             ) || ""}
                           </div>
@@ -385,25 +425,23 @@ const Index = () => {
                                   key={index}
                                   className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
                                     selectedAnswers[
-                                      get(data, "data", [])[currentQuizIndex]
-                                        ?.id
+                                      questions[currentQuizIndex]?.id
                                     ] === option
                                       ? "bg-blue-500 text-white"
                                       : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                                   }`}
                                   onClick={() =>
                                     handleAnswer(
-                                      get(data, "data", [])[currentQuizIndex]
-                                        ?.id,
+                                      questions[currentQuizIndex]?.id,
                                       option
                                     )
                                   }
                                 >
                                   <div>
                                     {parse(
-                                      get(data, "data", [])[currentQuizIndex][
-                                        option
-                                      ],
+                                      get(data, "data.questions", [])[
+                                        currentQuizIndex
+                                      ][option],
                                       ""
                                     )}
                                   </div>
@@ -419,25 +457,23 @@ const Index = () => {
                                   key={index}
                                   className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
                                     selectedAnswers[
-                                      get(data, "data", [])[currentQuizIndex]
-                                        ?.id
+                                      questions[currentQuizIndex]?.id
                                     ] === option
                                       ? "bg-blue-500 text-white"
                                       : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                                   }`}
                                   onClick={() =>
                                     handleAnswer(
-                                      get(data, "data", [])[currentQuizIndex]
-                                        ?.id,
+                                      questions[currentQuizIndex]?.id,
                                       option
                                     )
                                   }
                                 >
-                                  <div>
+                                  <div className="answers">
                                     {parse(
-                                      get(data, "data", [])[currentQuizIndex][
-                                        option
-                                      ],
+                                      get(data, "data.questions", [])[
+                                        currentQuizIndex
+                                      ][option],
                                       ""
                                     )}
                                   </div>
@@ -510,8 +546,8 @@ const Index = () => {
 
                     {/* Quiz Number Buttons */}
                     <div className="flex-wrap flex gap-3">
-                      {Array.isArray(get(data, "data", [])) &&
-                        get(data, "data", []).map((item, index) => (
+                      {Array.isArray(questions) &&
+                        questions?.map((item, index) => (
                           <div
                             key={index}
                             className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer text-sm font-medium
