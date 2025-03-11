@@ -176,7 +176,6 @@ const Register = () => {
     selectedTypeOfEducation &&
     selectedOption &&
     selectedOptionCourse &&
-    selectedAcademicLyseums &&
     date;
 
   const onSubmit = ({
