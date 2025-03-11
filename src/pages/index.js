@@ -15,12 +15,14 @@ import useGetQuery from "@/hooks/api/useGetQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { get, isEmpty } from "lodash";
+import SimpleLoader from "@/components/loader/simple-loader";
 
 const Home = () => {
   const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter();
   const [tab, setTab] = useState("login");
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const {
@@ -30,6 +32,7 @@ const Home = () => {
   } = useForm();
 
   const onSubmit = async ({ phone, password }) => {
+    setIsLoadingButton(true);
     const formattedPhone = `998${phone.replace(/[^0-9]/g, "")}`;
     const result = await signIn("credentials", {
       phone: formattedPhone,
@@ -38,11 +41,13 @@ const Home = () => {
     });
 
     if (result?.error) {
-      toast.error("Invalid credentials");
+      toast.error("Login yoki parol xato kiritildi");
     } else {
-      toast.success("Logged in successfully");
+      toast.success("Xush kelibsiz");
       router.push("/dashboard");
     }
+
+    setIsLoadingButton(false);
   };
 
   const handleTab = (tab) => {
@@ -195,8 +200,15 @@ const Home = () => {
                     </Link>
                   </div>
 
-                  <button className="w-full bg-[#5D87FF] hover:bg-[#4570EA] text-white py-2 rounded-md transition-all duration-300">
-                    {t("login")}
+                  <button
+                    disabled={isLoading}
+                    className={`w-full ${
+                      isLoadingButton
+                        ? "bg-[#8D97B2]"
+                        : "bg-[#5D87FF] hover:bg-[#4570EA]"
+                    } text-white py-2 rounded-md transition-all duration-300`}
+                  >
+                    {isLoadingButton ? <SimpleLoader /> : t("login")}
                   </button>
                 </form>
               </div>
