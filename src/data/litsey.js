@@ -7,6 +7,7 @@ export const academicLyseums = {
     "Andijon qishloq xo‘jaligi va agrotexnologiyalar instituti qoshidagi akademik litseyi",
     "Buxoro davlat tibbiyot instituti akademik litseyi",
     "Buxoro davlat universiteti akademik litseyi",
+    "Buxoro davlat pedagogika universiteti akademik litseyi",
     "Buxoro muhandislik texnologiya instituti akademik litseyi",
     "Chirchiq davlat pedagogika instituti akademik litseyi",
     "Farg‘ona davlat universiteti akademik litseyi",
