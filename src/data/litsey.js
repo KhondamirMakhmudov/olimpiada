@@ -13,6 +13,7 @@ export const academicLyseums = {
     "Farg‘ona davlat universiteti akademik litseyi",
     "Farg‘ona politexnika instituti akademik litseyi",
     "Guliston davlat universiteti akademik litseyi",
+    "Guliston Davlat Pedagogika Instituti qoshidagi akademik litsey",
     "Islom Karimov nomidagi Toshkent davlat texnika universiteti akademik litseyi",
     "Jahon iqtisodiyoti va diplomatiya universiteti akademik litseyi",
     "Jizzax davlat pedagogika instituti akademik litseyi",
