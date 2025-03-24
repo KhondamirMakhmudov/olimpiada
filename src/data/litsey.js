@@ -72,5 +72,6 @@ export const academicLyseums = {
     "Toshkent tibbiyot akademiyasining Urganch filiali akademik litseyi",
     "Toshkent to‘qimachilik va yengil sanoat instituti akademik litseyi",
     "Urganch davlat universiteti akademik litseyi",
+    "Urganch davlat pedagogika institutining akademik litseyi",
   ],
 };
