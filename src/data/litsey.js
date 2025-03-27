@@ -21,6 +21,7 @@ export const academicLyseums = {
     "Namangan davlat universiteti akademik litseyi",
     "Namangan muhandislik qurilish instituti akademik litseyi",
     "Namangan muhandislik texnologiya instituti akademik litseyi",
+    "Namangan davlat pedagogik institut akademik liseyi",
     "Navoiy davlat konchilik instituti akademik litseyi",
     "Navoiy davlat pedagogika instituti akademik litseyi",
     "Nukus davlat pedagogika instituti akademik litseyi",
