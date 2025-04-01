@@ -127,24 +127,37 @@ const Index = () => {
     };
   }, [currentQuizIndex, totalQuizzes]);
 
-  useEffect(() => {
-    const storedQuestions = localStorage.getItem("quizQuestions");
-    if (storedQuestions) {
-      setQuestions(JSON.parse(storedQuestions));
-    } else {
-      const fetchedQuestions = get(data, "data.questions", []);
-      if (fetchedQuestions.length > 0) {
-        localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
-        setQuestions(fetchedQuestions);
-      }
-    }
-  }, [data]);
+  const [testData, setTestData] = useState();
 
-  console.log(selectedAnswers);
+  useEffect(() => {
+    setTestData(data?.data?.questions);
+    // const storedQuestions = localStorage.getItem("quizQuestions");
+    // if (storedQuestions) {
+    //   setQuestions(JSON.parse(storedQuestions));
+    // } else {
+    //   const fetchedQuestions = get(data, "data.questions", []);
+    //   if (fetchedQuestions.length > 0) {
+    //     localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
+    //     setQuestions(fetchedQuestions);
+    //   }
+    // }
+  }, [data]);
 
   const { mutate: submitAnswers } = usePostQuery({
     listKeyId: KEYS.submitAnswers,
   });
+
+  const timeStampsCalc = () => {
+    submitAnswers({
+      url: URLS.submitAnswers,
+      attributes: timeLeft,
+      config: {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      },
+    });
+  };
 
   const onSubmit = () => {
     if (!session?.accessToken) {
@@ -208,6 +221,7 @@ const Index = () => {
     if (timeLeft === 0) {
       onSubmit();
     }
+    // timeStampsCalc();
   }, [timeLeft]);
 
   useEffect(() => {
@@ -394,7 +408,7 @@ const Index = () => {
               <div className="grid sm:grid-cols-1 md:grid-cols-12 gap-x-[20px] gap-y-[20px]">
                 {/* Quiz Section */}
                 <div className="sm:col-span-12 md:col-span-8 space-y-[20px] order-2 md:order-none">
-                  {questions?.length > 0 && (
+                  {testData?.length > 0 && (
                     <div className="border p-[20px] sm:p-[15px] shadow-md rounded-[8px] bg-white border-[#EAEFF4] dark:bg-[#26334AFF] dark:border-[#2A3447FF]">
                       <div className="text-lg sm:text-base mb-[8px]">
                         <p className="mb-[15px] dark:text-white text-black">
@@ -403,14 +417,14 @@ const Index = () => {
                         {i18n.language === "uz" ? (
                           <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
-                              questions[currentQuizIndex]?.question_uz,
+                              testData[currentQuizIndex]?.question_uz,
                               ""
                             ) || ""}
                           </div>
                         ) : (
                           <div className="!text-lg sm:!text-base font-semibold mt-[20px] dark:text-white text-black dark:filter dark:brightness-0 dark:invert">
                             {parse(
-                              questions[currentQuizIndex]?.question_ru,
+                              testData[currentQuizIndex]?.question_ru,
                               ""
                             ) || ""}
                           </div>
@@ -457,14 +471,14 @@ const Index = () => {
                                   key={index}
                                   className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
                                     selectedAnswers[
-                                      questions[currentQuizIndex]?.id
+                                      testData[currentQuizIndex]?.id
                                     ] === option
                                       ? "bg-blue-500 text-white"
                                       : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                                   }`}
                                   onClick={() =>
                                     handleAnswer(
-                                      questions[currentQuizIndex]?.id,
+                                      testData[currentQuizIndex]?.id,
                                       option
                                     )
                                   }
@@ -485,7 +499,6 @@ const Index = () => {
                       </div>
                     </div>
                   )}
-
                   {/* Navigation Buttons */}
                   <div className="flex justify-between mt-[15px] sm:mt-[10px]">
                     <button
@@ -547,7 +560,7 @@ const Index = () => {
                     {/* Quiz Number Buttons */}
                     <div className="flex-wrap flex gap-3">
                       {Array.isArray(questions) &&
-                        questions?.map((item, index) => (
+                        testData?.map((item, index) => (
                           <div
                             key={index}
                             className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer text-sm font-medium
