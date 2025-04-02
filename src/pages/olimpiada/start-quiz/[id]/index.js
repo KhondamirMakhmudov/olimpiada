@@ -16,6 +16,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import Image from "next/image";
 import ContentLoader from "@/components/loader/content-loader";
+import { config } from "@/config";
 const Index = () => {
   const initialTimeLeft = 3599;
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
@@ -72,26 +73,6 @@ const Index = () => {
     enabled: !!id && !!session?.accessToken,
   });
 
-  useEffect(() => {
-    if (get(data, "data.remaining_time")) {
-      setRemainingTime(get(data, "data.remaining_time"));
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (!remainingTime) return;
-
-    const remainingTimestamp = new Date(remainingTime).getTime();
-    const currentTimestamp = Date.now();
-
-    const elapsedSeconds = Math.floor(
-      (currentTimestamp - remainingTimestamp) / 1000
-    );
-    const adjustedTimeLeft = Math.max(initialTimeLeft - elapsedSeconds, 0);
-
-    setTimeLeft(adjustedTimeLeft);
-  }, [remainingTime]);
-
   const errorMessage = error?.response?.data?.message;
 
   const totalQuizzes = get(data, "data.questions", []).length;
@@ -145,8 +126,6 @@ const Index = () => {
       setQuestions(get(data, "data.questions", []));
     }
   }, [data]);
-
-  console.log(selectedAnswers);
 
   const { mutate: submitAnswers } = usePostQuery({
     listKeyId: KEYS.submitAnswers,
@@ -216,13 +195,13 @@ const Index = () => {
     }
   }, [timeLeft]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft(get(remainingTestTime, "data.remaining_time", ""));
+  //   }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   useEffect(() => {
     if (
@@ -232,14 +211,14 @@ const Index = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTime = localStorage.getItem("timeLeft");
-      if (savedTime) {
-        setTimeLeft(parseInt(savedTime, 10));
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const savedTime = localStorage.getItem("timeLeft");
+  //     if (savedTime) {
+  //       setTimeLeft(parseInt(savedTime, 10));
+  //     }
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   if (timeLeft <= 0) return;
@@ -257,16 +236,16 @@ const Index = () => {
   //   return () => clearInterval(timer);
   // }, [timeLeft]);
 
-  useEffect(() => {
-    const handleUnload = () => {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("timeLeft", timeLeft);
-      }
-    };
+  // useEffect(() => {
+  //   const handleUnload = () => {
+  //     if (typeof window !== "undefined") {
+  //       localStorage.setItem("timeLeft", timeLeft);
+  //     }
+  //   };
 
-    window.addEventListener("beforeunload", handleUnload);
-    return () => window.removeEventListener("beforeunload", handleUnload);
-  }, [timeLeft]);
+  //   window.addEventListener("beforeunload", handleUnload);
+  //   return () => window.removeEventListener("beforeunload", handleUnload);
+  // }, [timeLeft]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -317,6 +296,55 @@ const Index = () => {
         return updatedQuestions;
       });
     }
+  };
+
+  useEffect(() => {
+    if (!session?.id || !session?.accessToken) return;
+
+    const fetchRemainingTime = async () => {
+      try {
+        // setIsLoading(true);
+        const response = await fetch(
+          `${config.API_URL}${URLS.remainingTestTime}${session?.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) throw new Error("API Error");
+
+        const data = await response.json();
+        console.log(data);
+
+        setTimeLeft(data.remaining_time || 0);
+      } catch (error) {
+        console.error("Error fetching remaining time:", error);
+      } finally {
+        // setIsLoadingTestTime(false);
+      }
+    };
+
+    // Dastlab bir marta chaqiramiz
+    fetchRemainingTime();
+
+    // Har soniyada API ga so‘rov jo‘natamiz
+    const interval = setInterval(() => {
+      fetchRemainingTime();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [session?.id, session?.accessToken]);
+
+  // Sekundni soat, daqiqa va sekundga aylantiramiz
+  const formatTime = (seconds) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, "0")}:${m
+      .toString()
+      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
   if (isLoading || isFetching) {
