@@ -15,7 +15,9 @@ const TestTimer = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `${config.API_URL}${URLS.remainingTestTime}${session?.id}`,
+          `${`http://95.46.96.179:8014`}${URLS.remainingTestTime}${
+            session?.id
+          }`,
           {
             headers: {
               Authorization: `Bearer ${session?.accessToken}`,

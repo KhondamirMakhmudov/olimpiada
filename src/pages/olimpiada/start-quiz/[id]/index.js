@@ -317,7 +317,9 @@ const Index = () => {
 
         const data = await response.json();
         console.log(data);
-
+        if (data.remaining_time === 0) {
+          onSubmit();
+        }
         setTimeLeft(data.remaining_time || 0);
       } catch (error) {
         console.error("Error fetching remaining time:", error);
