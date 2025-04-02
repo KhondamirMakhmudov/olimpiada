@@ -127,16 +127,22 @@ const Index = () => {
     };
   }, [currentQuizIndex, totalQuizzes]);
 
+  // useEffect(() => {
+  //   const storedQuestions = localStorage.getItem("quizQuestions");
+  //   if (storedQuestions) {
+  //     setQuestions(JSON.parse(storedQuestions));
+  //   } else {
+  //     const fetchedQuestions = get(data, "data.questions", []);
+  //     if (fetchedQuestions.length > 0) {
+  //       localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
+  //       setQuestions(fetchedQuestions);
+  //     }
+  //   }
+  // }, [data]);
+
   useEffect(() => {
-    const storedQuestions = localStorage.getItem("quizQuestions");
-    if (storedQuestions) {
-      setQuestions(JSON.parse(storedQuestions));
-    } else {
-      const fetchedQuestions = get(data, "data.questions", []);
-      if (fetchedQuestions.length > 0) {
-        localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
-        setQuestions(fetchedQuestions);
-      }
+    if (data) {
+      setQuestions(get(data, "data.questions", []));
     }
   }, [data]);
 

@@ -256,7 +256,7 @@ const Index = () => {
               </div>
             )}
 
-            {isEmpty(scores3_1) ? (
+            {isEmpty(scores5_1) ? (
               ""
             ) : (
               <div className="lg:col-span-4 md:col-span-6 col-span-12 space-y-[10px]">
