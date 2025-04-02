@@ -18,7 +18,7 @@ import Image from "next/image";
 import ContentLoader from "@/components/loader/content-loader";
 const Index = () => {
   const initialTimeLeft = 3599;
-  const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
+  const [timeLeft, setTimeLeft] = useState("");
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
   const { data: session } = useSession();
@@ -38,10 +38,6 @@ const Index = () => {
 
   const [remainingTime, setRemainingTime] = useState(null);
 
-  const handleProfile = () => {
-    setOpenProfile(!openProfile);
-  };
-
   const handleLogoutClick = () => {
     setIsModalOpen(true);
   };
@@ -54,6 +50,39 @@ const Index = () => {
     key: KEYS.olimpiadaQuizList,
     url: URLS.olimpiadaQuizList,
   });
+
+  const {
+    data: remainingTestTime,
+    isLoading: isLoadingRemainingTestTime,
+    isFetching: isFetchingRemainingTestTime,
+  } = useGetQuery({
+    key: KEYS.remainingTestTime,
+    url: `${URLS.remainingTestTime}${session?.id}`,
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    enabled: !!session?.id && !!session?.accessToken,
+  });
+
+  useEffect(() => {
+    setInterval(async () => {
+      try {
+        const response = await fetch(
+          `https://app.iq-math.uz/fastapi/check-test-time/${session?.id}`
+        ); // session?.id - student_id
+        const data = await response.json();
+
+        if (data.detail) {
+          console.log("Test vaqti tugadi!");
+          router.push("/results");
+        } else {
+          setTimeLeft(get(remainingTestTime, "data.remaining_time", ""));
+        }
+      } catch (error) {
+        console.error("Vaqtni tekshirishda xatolik:", error);
+      }
+    }, 5000);
+  }, [session?.id]);
 
   const closeModal = () => {
     setIsExiting(true);
@@ -131,26 +160,18 @@ const Index = () => {
 
   useEffect(() => {
     setTestData(data?.data?.questions);
-    // const storedQuestions = localStorage.getItem("quizQuestions");
-    // if (storedQuestions) {
-    //   setQuestions(JSON.parse(storedQuestions));
-    // } else {
-    //   const fetchedQuestions = get(data, "data.questions", []);
-    //   if (fetchedQuestions.length > 0) {
-    //     localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
-    //     setQuestions(fetchedQuestions);
-    //   }
-    // }
   }, [data]);
 
   const { mutate: submitAnswers } = usePostQuery({
-    listKeyId: KEYS.submitAnswers,
+    listKeyId: "check-time-test",
   });
 
   const timeStampsCalc = () => {
     submitAnswers({
-      url: URLS.submitAnswers,
-      attributes: timeLeft,
+      url: URLS.checkTestTime,
+      attributes: {
+        remaining_time: timeLeft,
+      },
       config: {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
@@ -166,8 +187,8 @@ const Index = () => {
     }
 
     // `questions` tartibida `selectedAnswers`dan javoblarni olish
-    const answers = questions
-      .map(({ id }) => {
+    const answers = testData
+      ?.map(({ id }) => {
         if (selectedAnswers[id]) {
           const cleanedAnswer = selectedAnswers[id].split("_")[0];
           return {
@@ -239,42 +260,6 @@ const Index = () => {
       setTimeLeft(0);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTime = localStorage.getItem("timeLeft");
-      if (savedTime) {
-        setTimeLeft(parseInt(savedTime, 10));
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        const updatedTime = prev - 1;
-        if (typeof window !== "undefined") {
-          localStorage.setItem("timeLeft", updatedTime);
-        }
-        return updatedTime;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
-  useEffect(() => {
-    const handleUnload = () => {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("timeLeft", timeLeft);
-      }
-    };
-
-    window.addEventListener("beforeunload", handleUnload);
-    return () => window.removeEventListener("beforeunload", handleUnload);
-  }, [timeLeft]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -439,14 +424,14 @@ const Index = () => {
                                   key={index}
                                   className={`border cursor-pointer transform duration-200 p-[14px] sm:p-[10px] rounded-md text-black dark:text-white ${
                                     selectedAnswers[
-                                      questions[currentQuizIndex]?.id
+                                      testData[currentQuizIndex]?.id
                                     ] === option
                                       ? "bg-blue-500 text-white"
                                       : "bg-transparent border-[#EAEFF4] hover:bg-[#f3f4f6] dark:border-transparent dark:bg-[#232f42] dark:hover:bg-[#20335DFF]"
                                   }`}
                                   onClick={() =>
                                     handleAnswer(
-                                      questions[currentQuizIndex]?.id,
+                                      testData[currentQuizIndex]?.id,
                                       option
                                     )
                                   }
@@ -559,7 +544,7 @@ const Index = () => {
 
                     {/* Quiz Number Buttons */}
                     <div className="flex-wrap flex gap-3">
-                      {Array.isArray(questions) &&
+                      {Array.isArray(testData) &&
                         testData?.map((item, index) => (
                           <div
                             key={index}

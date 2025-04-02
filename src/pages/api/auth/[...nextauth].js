@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export default NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 46800, // 2 soat (7200 sekund)
+    maxAge: 46800, // 13 soat
   },
   providers: [
     CredentialsProvider({
@@ -43,6 +43,7 @@ export default NextAuth({
           return {
             token: data.access_token,
             phone,
+            id: data.id,
             login: data.login || phone, // Assuming `login` exists in response
             password: data.password || password, // Assuming `password` exists in response
           };
@@ -60,6 +61,7 @@ export default NextAuth({
         token.phone = user.phone;
         token.login = user.login;
         token.password = user.password;
+        token.id = user.id;
       }
       return token;
     },
@@ -71,6 +73,7 @@ export default NextAuth({
       session.phone = token.phone;
       session.login = token.login;
       session.password = token.password;
+      session.id = token.id;
       return session;
     },
     async redirect({ url, baseUrl }) {

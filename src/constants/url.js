@@ -19,4 +19,6 @@ export const URLS = {
   banner: "/banner/",
   beforeReminder: "/before_test_reminder/",
   afterReminder: "/after_test_reminder/",
+  checkTestTime: "/fastapi/check-test-time/3183",
+  remainingTestTime: "/fastapi/check-test-time/",
 };
