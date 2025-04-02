@@ -18,8 +18,7 @@ import Image from "next/image";
 import ContentLoader from "@/components/loader/content-loader";
 import { config } from "@/config";
 const Index = () => {
-  const initialTimeLeft = 3599;
-  const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
+  const [timeLeft, setTimeLeft] = useState(1);
   const { t, i18n } = useTranslation();
   const { setResult } = useContext(UserProfileContext);
   const { data: session } = useSession();
@@ -108,23 +107,27 @@ const Index = () => {
     };
   }, [currentQuizIndex, totalQuizzes]);
 
-  // useEffect(() => {
-  //   const storedQuestions = localStorage.getItem("quizQuestions");
-  //   if (storedQuestions) {
-  //     setQuestions(JSON.parse(storedQuestions));
-  //   } else {
-  //     const fetchedQuestions = get(data, "data.questions", []);
-  //     if (fetchedQuestions.length > 0) {
-  //       localStorage.setItem("quizQuestions", JSON.stringify(fetchedQuestions));
-  //       setQuestions(fetchedQuestions);
-  //     }
-  //   }
-  // }, [data]);
-
   useEffect(() => {
-    if (data) {
+    if (get(data, "data.message", "")) {
+      setTimeLeft(0);
+      console.log("finished test");
+    } else {
+      console.log("inside test");
+
       setQuestions(get(data, "data.questions", []));
     }
+    // if (data) {
+    //   console.log("inside test");
+
+    //   setQuestions(get(data, "data.questions", []));
+    // } else if (
+    //   data?.questions?.length > 0 ||
+    //   get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
+    // ) {
+    //   console.log("finished test");
+
+    //   setTimeLeft(0);
+    // }
   }, [data]);
 
   const { mutate: submitAnswers } = usePostQuery({
@@ -138,6 +141,7 @@ const Index = () => {
     }
 
     // `questions` tartibida `selectedAnswers`dan javoblarni olish
+
     const answers = questions
       .map(({ id }) => {
         if (selectedAnswers[id]) {
@@ -157,95 +161,54 @@ const Index = () => {
     };
 
     setIsSubmitting(true);
-
-    submitAnswers(
-      {
-        url: URLS.submitAnswers,
-        attributes: payload,
-        config: {
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
+    if (timeLeft !== 0) {
+      submitAnswers(
+        {
+          url: URLS.submitAnswers,
+          attributes: payload,
+          config: {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
           },
         },
-      },
-      {
-        onSuccess: (data) => {
-          setIsSubmitting(false);
-          router.push("/results");
-          setResult(data);
-          localStorage.removeItem("timeLeft");
-          localStorage.removeItem("selectedAnswers");
-          localStorage.removeItem("answeredQuestions");
-          localStorage.removeItem("quizQuestions");
-        },
-        onError: (error) => {
-          setIsSubmitting(false);
-          console.error("Error submitting answers:", error);
-          if (error.response) {
-            console.error("Server error response:", error.response.data);
-          }
-        },
-      }
-    );
+        {
+          onSuccess: (data) => {
+            setIsSubmitting(false);
+            router.push("/results");
+            // setResult(data);
+            // localStorage.removeItem("timeLeft");
+            // localStorage.removeItem("selectedAnswers");
+            // localStorage.removeItem("answeredQuestions");
+            // localStorage.removeItem("quizQuestions");
+          },
+          onError: (error) => {
+            setIsSubmitting(false);
+            console.error("Error submitting answers:", error);
+            if (error.response) {
+              console.error("Server error response:", error.response.data);
+            }
+          },
+        }
+      );
+    } else {
+      router.push("/results");
+    }
   };
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      onSubmit();
-    }
-  }, [timeLeft]);
-
   // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeLeft(get(remainingTestTime, "data.remaining_time", ""));
-  //   }, 1000);
-
-  //   return () => clearInterval(timer);
-  // }, []);
-
-  useEffect(() => {
-    if (
-      get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
-    ) {
-      setTimeLeft(0);
-    }
-  }, [data]);
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const savedTime = localStorage.getItem("timeLeft");
-  //     if (savedTime) {
-  //       setTimeLeft(parseInt(savedTime, 10));
-  //     }
+  //   if (timeLeft === 0) {
+  //     onSubmit();
   //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (timeLeft <= 0) return;
-
-  //   const timer = setInterval(() => {
-  //     setTimeLeft((prev) => {
-  //       const updatedTime = prev - 1;
-  //       if (typeof window !== "undefined") {
-  //         localStorage.setItem("timeLeft", updatedTime);
-  //       }
-  //       return updatedTime;
-  //     });
-  //   }, 1000);
-
-  //   return () => clearInterval(timer);
   // }, [timeLeft]);
 
   // useEffect(() => {
-  //   const handleUnload = () => {
-  //     if (typeof window !== "undefined") {
-  //       localStorage.setItem("timeLeft", timeLeft);
-  //     }
-  //   };
-
-  //   window.addEventListener("beforeunload", handleUnload);
-  //   return () => window.removeEventListener("beforeunload", handleUnload);
-  // }, [timeLeft]);
+  //   if (
+  //     get(data, "data.message", "") === "Siz allaqachon test topshirgansiz !!!"
+  //   ) {
+  //     setTimeLeft(0);
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -287,12 +250,12 @@ const Index = () => {
         const updatedQuestions = [...prev, questionIndex];
 
         // Javob berilgan savollarni localStorage'ga saqlash
-        if (typeof window !== "undefined") {
-          localStorage.setItem(
-            "answeredQuestions",
-            JSON.stringify(updatedQuestions)
-          );
-        }
+        // if (typeof window !== "undefined") {
+        //   localStorage.setItem(
+        //     "answeredQuestions",
+        //     JSON.stringify(updatedQuestions)
+        //   );
+        // }
         return updatedQuestions;
       });
     }
@@ -314,9 +277,8 @@ const Index = () => {
         );
 
         if (!response.ok) throw new Error("API Error");
-
         const data = await response.json();
-        console.log(data);
+
         if (data.remaining_time === 0) {
           onSubmit();
         }
@@ -327,16 +289,18 @@ const Index = () => {
         // setIsLoadingTestTime(false);
       }
     };
-
     // Dastlab bir marta chaqiramiz
-    fetchRemainingTime();
+    // fetchRemainingTime();
 
     // Har soniyada API ga so‘rov jo‘natamiz
     const interval = setInterval(() => {
-      fetchRemainingTime();
+      if (timeLeft > 0) {
+        fetchRemainingTime();
+      }
     }, 1000);
 
     return () => clearInterval(interval);
+    // return timeLeft > 0 && fetchRemainingTime();
   }, [session?.id, session?.accessToken]);
 
   // Sekundni soat, daqiqa va sekundga aylantiramiz
