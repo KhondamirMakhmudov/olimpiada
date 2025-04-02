@@ -235,21 +235,21 @@ const Index = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (timeLeft <= 0) return;
+  // useEffect(() => {
+  //   if (timeLeft <= 0) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        const updatedTime = prev - 1;
-        if (typeof window !== "undefined") {
-          localStorage.setItem("timeLeft", updatedTime);
-        }
-        return updatedTime;
-      });
-    }, 1000);
+  //   const timer = setInterval(() => {
+  //     setTimeLeft((prev) => {
+  //       const updatedTime = prev - 1;
+  //       if (typeof window !== "undefined") {
+  //         localStorage.setItem("timeLeft", updatedTime);
+  //       }
+  //       return updatedTime;
+  //     });
+  //   }, 1000);
 
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+  //   return () => clearInterval(timer);
+  // }, [timeLeft]);
 
   useEffect(() => {
     const handleUnload = () => {
